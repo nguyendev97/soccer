@@ -25,7 +25,7 @@ export const additionalColors = {
 export const lightColors = {
   ...baseColors,
   ...additionalColors,
-  secondary: '#3C58DD',
+  secondary: '#36DBFF',
   secondary80: '#7645D980',
   background: '#FAF9FA',
   backgroundDisabled: '#E9EAEB',
@@ -45,7 +45,7 @@ export const lightColors = {
   textLink: '#3C58DD',
   text99: '#280D5F99',
   textDisabled: '#BDC2C4',
-  textSubtle: '#9B9BAE',
+  textSubtle: '#E5E5E5',
   textSubtle1: '#343a40',
   textCoppyright: '#9B9BAE',
   disabled: '#E9EAEB',
