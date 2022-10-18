@@ -5,7 +5,6 @@ import { useTranslation } from '@pancakeswap/localization'
 import SoccerBox from './SoccerBox'
 import Hero from './Hero'
 import Equipment from './Equipment'
-import Container from '../../components/Layout/Container'
 
 export enum MarketView {
   SOCCER_BOX,
@@ -14,10 +13,6 @@ export enum MarketView {
   WRONG_NETWORK,
 }
 
-const StyledMarketPage = styled.div`
-  width: 1148px;
-  padding: 16px;
-`
 const BannerSoccer = styled.div`
   height: 100vh;
 `
@@ -25,6 +20,12 @@ const Tabs = styled.div`
   background-color: ${({ theme }) => theme.colors.dropdown};
   border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
   padding: 16px 24px;
+  width: 1148px;
+  margin: auto;
+`
+const StyledTabContent = styled(Flex)<{ isSoccerPage: boolean }>`
+  width: ${({ isSoccerPage }) => (isSoccerPage ? '100%' : '1148px')};
+  margin: auto;
 `
 export default function Marketplace() {
   const initialView = MarketView.HERO
@@ -47,16 +48,12 @@ export default function Marketplace() {
 
   return (
     <BannerSoccer>
-      <Container>
-        <StyledMarketPage>
-          {view !== MarketView.WRONG_NETWORK && <TabsComponent />}
-          <Flex>
-            {view === MarketView.SOCCER_BOX && <SoccerBox />}
-            {view === MarketView.HERO && <Hero />}
-            {view === MarketView.EQUIPMENT && <Equipment />}
-          </Flex>
-        </StyledMarketPage>
-      </Container>
+      {view !== MarketView.WRONG_NETWORK && <TabsComponent />}
+      <StyledTabContent isSoccerPage={view === MarketView.SOCCER_BOX}>
+        {view === MarketView.SOCCER_BOX && <SoccerBox />}
+        {view === MarketView.HERO && <Hero />}
+        {view === MarketView.EQUIPMENT && <Equipment />}
+      </StyledTabContent>
     </BannerSoccer>
   )
 }
