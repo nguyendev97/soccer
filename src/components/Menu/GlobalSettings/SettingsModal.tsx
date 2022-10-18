@@ -95,14 +95,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
         {mode === SettingsMode.GLOBAL && (
           <>
             <Flex pb="24px" flexDirection="column">
-              <Text
-                fontWeight="500"
-                textTransform="uppercase"
-                fontSize="24px"
-                fontFamily="Rubik"
-                color="secondary"
-                mb="24px"
-              >
+              <Text fontWeight="500" textTransform="uppercase" fontSize="24px" color="secondary" mb="24px">
                 {t('Global')}
               </Text>
               {/* <Flex justifyContent="space-between" mb="24px">
@@ -136,14 +129,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
         {mode === SettingsMode.SWAP_LIQUIDITY && (
           <>
             <Flex pt="3px" flexDirection="column">
-              <Text
-                fontWeight="500"
-                textTransform="uppercase"
-                fontSize="24px"
-                fontFamily="Rubik"
-                color="secondary"
-                mb="24px"
-              >
+              <Text fontWeight="500" textTransform="uppercase" fontSize="24px" color="secondary" mb="24px">
                 {t('Swaps & Liquidity')}
               </Text>
               <Flex justifyContent="space-between" alignItems="center" mb="24px">

@@ -184,11 +184,11 @@ export default function CurrencyInputPanel({
                 <CurrencyLogo currency={currency} size="24px" style={{ marginRight: '8px' }} />
               ) : null}
               {pair ? (
-                <Text id="pair" fontFamily="Rubik" fontWeight="500" color="textSubtle1">
+                <Text id="pair" fontWeight="500" color="textSubtle1">
                   {pair?.token0.symbol}:{pair?.token1.symbol}
                 </Text>
               ) : (
-                <Text id="pair" fontFamily="Rubik" fontWeight="500" color="textSubtle1">
+                <Text id="pair" fontWeight="500" color="textSubtle1">
                   {(currency && currency.symbol && currency.symbol.length > 20
                     ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
                         currency.symbol.length - 5,

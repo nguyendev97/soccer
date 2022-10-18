@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { NextLinkFromReactRouter } from 'components/NextLink'
+import GradientButton from 'components/GradientButton'
 import { Menu as UikitMenu } from '@pancakeswap/uikit'
 import { useTranslation, languageList } from '@pancakeswap/localization'
 // import { NetworkSwitcher } from 'components/NetworkSwitcher'
@@ -8,10 +9,10 @@ import useTheme from 'hooks/useTheme'
 import { useCakeBusdPrice } from 'hooks/useBUSDPrice'
 import UserMenu from './UserMenu'
 import { useMenuItems } from './hooks/useMenuItems'
-import GlobalSettings from './GlobalSettings'
+// import GlobalSettings from './GlobalSettings'
 import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
 import { footerLinks } from './config/footerConfig'
-import { SettingsMode } from './GlobalSettings/types'
+// import { SettingsMode } from './GlobalSettings/types'
 
 const Menu = (props) => {
   const { isDark, setTheme } = useTheme()
@@ -39,9 +40,10 @@ const Menu = (props) => {
         }}
         rightSide={
           <>
-            <GlobalSettings mode={SettingsMode.GLOBAL} />
+            {/* <GlobalSettings mode={SettingsMode.GLOBAL} /> */}
             {/* <NetworkSwitcher /> */}
             <UserMenu />
+            <GradientButton style={{ fontSize: '16px', fontWeight: 700, marginLeft: '20px' }}>Play game</GradientButton>
           </>
         }
         isDark={isDark}

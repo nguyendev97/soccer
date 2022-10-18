@@ -8,7 +8,7 @@ declare module 'styled-components' {
 
 const GlobalStyle = createGlobalStyle`
   * {
-    font-family: 'Mulish', sans-serif;
+    font-family: 'Red Hat Display', sans-serif;
   }
   body {
 
