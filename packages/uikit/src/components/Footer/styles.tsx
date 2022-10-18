@@ -54,13 +54,39 @@ export const StyledSocialLinks = styled(SocialLinks)`
   margin-bottom: 0;
   margin-left: auto;
 `;
-
-export const StyledText = styled.span`
-  color: ${darkColors.text};
+export const Container = styled.div`
+  width: 1200px;
+  padding: 0 15px;
+  margin: 0 auto;
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 `;
-
-export const StyledTextCoppyRight = styled.span`
-  color: ${darkColors.textCoppyright};
-  font-size: 15px;
-  margin-left: auto;
+export const Row = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -12px;
+`;
+export const Col = styled.div`
+  padding: 0 15px;
+  &.col-12 {
+    width: 100%;
+  }
+  &.col-3 {
+    width: calc(100% / 3);
+  }
+  &.col-4 {
+    width: calc(100% / 4);
+    @media (max-width: 767px) {
+      width: 100%;
+    }
+    @media (min-width: 768px) and (max-width: 992px) {
+      width: 50%;
+    }
+  }
+`;
+export const TitleFooter = styled.h3`
+  font-weight: 600;
+  font-size: 20px;
+  color: #ffffff;
 `;
