@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { usePopper } from "react-popper";
 import styled from "styled-components";
 import { Box, Flex } from "../../../../components/Box";
-import { ChevronDownIcon } from "../../../../components/Svg";
+// import { ChevronDownIcon } from "../../../../components/Svg";
 import { UserMenuProps, variants } from "./types";
-import MenuIcon from "./MenuIcon";
+// import MenuIcon from "./MenuIcon";
 import { UserMenuItem } from "./styles";
 
 export const StyledUserMenu = styled(Flex)`
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.customTertiary};
+  background-color: transparent;
   border-radius: 4px;
   cursor: pointer;
   display: inline-flex;
-  height: 32px;
+  height: 44px;
   padding-left: 32px;
   padding-right: 8px;
   position: relative;
@@ -24,7 +24,7 @@ export const StyledUserMenu = styled(Flex)`
 `;
 
 export const LabelText = styled.div`
-  color: ${({ theme }) => theme.colors.textLink};
+  color: ${({ theme }) => theme.colors.invertedContrast};
   display: none;
   font-weight: 400;
 
@@ -111,9 +111,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
           setIsOpen((s) => !s);
         }}
       >
-        <MenuIcon avatarSrc={avatarSrc} variant={variant} />
+        {/* <MenuIcon avatarSrc={avatarSrc} variant={variant} /> */}
         <LabelText title={typeof text === "string" ? text || account : account}>{text || accountEllipsis}</LabelText>
-        {!disabled && <ChevronDownIcon color="text" width="24px" />}
+        {/* {!disabled && <ChevronDownIcon color="text" width="24px" />} */}
       </StyledUserMenu>
       {!disabled && (
         <Menu style={styles.popper} ref={setTooltipRef} {...attributes.popper} isOpen={isOpen}>

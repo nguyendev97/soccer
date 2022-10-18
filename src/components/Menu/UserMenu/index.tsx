@@ -110,7 +110,7 @@ const UserMenu = () => {
         borderRadius: '10px',
         boxShadow: 'none',
         border: '1px solid #36DBFF',
-        padding: '24px',
+        padding: '21px',
         color: 'white',
         fontSize: '16px',
         fontWeight: 700,
