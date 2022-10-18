@@ -1,11 +1,8 @@
-import { useEffect, useState, useCallback } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
-import { Text, BoxProps, Button, Checkbox, Heading, TextField, Flex } from '@pancakeswap/uikit'
+import { Text, BoxProps, Button, Heading, Flex } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import Select, { OptionProps } from 'components/Select/Select'
 import { powImage, shoImage, speImage, jmpImage, coinImage } from '../../images'
-// import FilterFooter from '../FilterFooter'
 
 const FlexRowItem = styled(Flex)`
   flex-direction: row;
@@ -40,8 +37,6 @@ interface ItemProps extends BoxProps {
 }
 
 const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
-  onApply,
-  onClear,
   code,
   ratity,
   level,
