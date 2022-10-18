@@ -102,11 +102,19 @@ const UserMenu = () => {
       </UIKitUserMenu>
     )
   }
-
   return (
     <ConnectWalletButton
       scale="sm"
-      style={{ backgroundColor: '#EDF1FD', boxShadow: 'none', color: '#3C58DD', fontSize: '15px', fontWeight: 400 }}
+      style={{
+        backgroundColor: 'transparent',
+        borderRadius: '10px',
+        boxShadow: 'none',
+        border: '1px solid #36DBFF',
+        padding: '24px',
+        color: 'white',
+        fontSize: '16px',
+        fontWeight: 700,
+      }}
     >
       <Box display={['none', , , 'block']}>
         <Trans>Connect Wallet</Trans>
