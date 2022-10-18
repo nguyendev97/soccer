@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import styled from 'styled-components'
-import { ButtonMenu, ButtonMenuItem, Flex } from '@pancakeswap/uikit'
+import { ButtonMenu, Button, Flex } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import SoccerBox from './SoccerBox'
 import Hero from './Hero'
 import Equipment from './Equipment'
+import { backgroundSoccerImage } from './images'
 
 export enum MarketView {
   SOCCER_BOX,
@@ -13,22 +14,42 @@ export enum MarketView {
   WRONG_NETWORK,
 }
 
-const BannerSoccer = styled.div`
-  height: 100vh;
+const BannerSoccer = styled.div<{ src: string; isSoccerTab: boolean }>`
+  padding-top: 30px;
+  padding-bottom: 90px;
+  background-image: url('${({ isSoccerTab, src }) => (isSoccerTab ? src : 'none')}');
+  background-color: ${({ theme }) => theme.colors.backgroundAlt3};
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
 `
 const Tabs = styled.div`
-  background-color: ${({ theme }) => theme.colors.dropdown};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
-  padding: 16px 24px;
+  background-color: ${({ theme }) => theme.colors.backgroundAlt3};
   width: 1148px;
   margin: auto;
+  padding: 0;
+  margin-bottom: 50px;
 `
 const StyledTabContent = styled(Flex)<{ isSoccerPage: boolean }>`
   width: ${({ isSoccerPage }) => (isSoccerPage ? '100%' : '1148px')};
   margin: auto;
 `
+const TabsWrapper = styled(ButtonMenu)`
+  display: block;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+`
+const TabsButton = styled(Button)<{ isActive: boolean }>`
+  background-color: ${({ theme, isActive }) =>
+    isActive ? theme.colors.buttonSecondaryActive : theme.colors.buttonSecondary};
+  border-radius: 10px;
+  padding: 10px 20px;
+  height: 48px;
+  width: 200px;
+`
 export default function Marketplace() {
-  const initialView = MarketView.HERO
+  const initialView = MarketView.SOCCER_BOX
   const [view, setView] = useState(initialView)
   const { t } = useTranslation()
 
@@ -38,16 +59,20 @@ export default function Marketplace() {
 
   const TabsComponent = () => (
     <Tabs>
-      <ButtonMenu scale="sm" variant="subtle" onItemClick={handleClick} activeIndex={view} fullWidth>
-        <ButtonMenuItem>{t('Soccer box')}</ButtonMenuItem>
-        <ButtonMenuItem>{t('Hero')}</ButtonMenuItem>
-        <ButtonMenuItem>{t('Equipment')}</ButtonMenuItem>
-      </ButtonMenu>
+      <TabsWrapper scale="sm" variant="subtle" onItemClick={handleClick} activeIndex={view} fullWidth>
+        <TabsButton isActive={view === MarketView.SOCCER_BOX} style={{ marginRight: '20px' }}>
+          {t('Soccer box')}
+        </TabsButton>
+        <TabsButton isActive={view === MarketView.HERO} style={{ marginRight: '20px' }}>
+          {t('Hero')}
+        </TabsButton>
+        <TabsButton isActive={view === MarketView.EQUIPMENT}>{t('Equipment')}</TabsButton>
+      </TabsWrapper>
     </Tabs>
   )
 
   return (
-    <BannerSoccer>
+    <BannerSoccer src={backgroundSoccerImage?.src} isSoccerTab={view === MarketView.SOCCER_BOX}>
       {view !== MarketView.WRONG_NETWORK && <TabsComponent />}
       <StyledTabContent isSoccerPage={view === MarketView.SOCCER_BOX}>
         {view === MarketView.SOCCER_BOX && <SoccerBox />}

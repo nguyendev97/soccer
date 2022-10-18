@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import GradientButton from 'components/GradientButton'
-import { Menu as UikitMenu } from '@pancakeswap/uikit'
+import { Menu as UikitMenu, useModal } from '@pancakeswap/uikit'
 import { useTranslation, languageList } from '@pancakeswap/localization'
 // import { NetworkSwitcher } from 'components/NetworkSwitcher'
 import useTheme from 'hooks/useTheme'
@@ -12,6 +12,7 @@ import { useMenuItems } from './hooks/useMenuItems'
 // import GlobalSettings from './GlobalSettings'
 import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
 import { footerLinks } from './config/footerConfig'
+import RegisterModal from './UserMenu/RegisterModal'
 // import { SettingsMode } from './GlobalSettings/types'
 
 const Menu = (props) => {
@@ -23,6 +24,7 @@ const Menu = (props) => {
   const menuItems = useMenuItems()
   const activeMenuItem = getActiveMenuItem({ menuConfig: menuItems, pathname })
   const activeSubMenuItem = getActiveSubMenuItem({ menuItem: activeMenuItem, pathname })
+  const [onPresentRegisterModal] = useModal(<RegisterModal />)
 
   const toggleTheme = useMemo(() => {
     return () => setTheme(isDark ? 'light' : 'dark')
@@ -43,7 +45,12 @@ const Menu = (props) => {
             {/* <GlobalSettings mode={SettingsMode.GLOBAL} /> */}
             {/* <NetworkSwitcher /> */}
             <UserMenu />
-            <GradientButton style={{ fontSize: '16px', fontWeight: 700, marginLeft: '20px' }}>Play game</GradientButton>
+            <GradientButton
+              style={{ fontSize: '16px', fontWeight: 700, marginLeft: '20px' }}
+              onClick={() => onPresentRegisterModal()}
+            >
+              Play game
+            </GradientButton>
           </>
         }
         isDark={isDark}

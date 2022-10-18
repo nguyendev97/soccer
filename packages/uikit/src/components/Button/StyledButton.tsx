@@ -51,7 +51,7 @@ const StyledButton = styled.button<BaseButtonProps>`
   cursor: pointer;
   display: inline-flex;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   justify-content: center;
   letter-spacing: 0.03em;

@@ -7,6 +7,7 @@ import avtImage from './avatar-demo.png'
 import backgroundSoccerImage from './background-soccer.png'
 import soccerBoxImage from './soccer-box.png'
 import borderImage from './border.png'
+import busdImage from './coin-busd.png'
 
 export {
   powImage,
@@ -18,4 +19,5 @@ export {
   backgroundSoccerImage,
   soccerBoxImage,
   borderImage,
+  busdImage,
 }
