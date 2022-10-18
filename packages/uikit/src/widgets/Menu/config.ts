@@ -76,7 +76,7 @@ export const userMenulinks: DropdownMenuItems[] = [
   },
 ];
 
-export const MENU_WIDTH = 1132;
+export const MENU_WIDTH = 1148;
 export const MENU_HEIGHT = 56;
 export const MENU_ENTRY_HEIGHT = 48;
 export const MOBILE_MENU_HEIGHT = 44;
