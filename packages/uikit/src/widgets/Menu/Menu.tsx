@@ -15,6 +15,7 @@ import { MENU_WIDTH, MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BAN
 import { NavProps } from "./types";
 // import LangSelector from "../../components/LangSelector/LangSelector";
 import { MenuContext } from "./context";
+import { Container } from "../../components/Footer/styles";
 
 const Wrapper = styled.div`
   position: relative;
@@ -38,12 +39,12 @@ const StyledNav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: ${MENU_WIDTH}px;
-  height: ${MENU_HEIGHT}px;
-  margin: auto;
-
-  padding-left: 16px;
-  padding-right: 16px;
+  // max-width: ${MENU_WIDTH}px;
+  // height: ${MENU_HEIGHT}px;
+  //margin: auto;
+  //
+  //padding-left: 16px;
+  //padding-right: 16px;
   background: transparent;
 `;
 
@@ -55,8 +56,13 @@ const FixedContainer = styled.div<{ showMenu: boolean; height: number; isTopPage
   height: ${({ height }) => `${height}px`};
   width: 100%;
   z-index: 20;
-  background: ${({ isTopPage }) => (isTopPage ? "transparent" : "#fff")};
+  background: ${({ isTopPage }) => (isTopPage ? "#130355" : "#130355")};
   box-shadow: ${({ isTopPage }) => (isTopPage ? "none" : "0px 0px 24px rgba(0, 0, 0, 0.1)")};
+  display: flex;
+  align-items: center;
+  @media (max-width: 992px) {
+    height: auto;
+  }
 `;
 
 const TopBannerContainer = styled.div<{ height: number }>`
@@ -145,22 +151,26 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   return (
     <MenuContext.Provider value={{ linkComponent }}>
       <Wrapper>
-        <FixedContainer showMenu={showMenu} height={totalTopMenuHeight} isTopPage={isTopPage}>
+        <FixedContainer showMenu={showMenu} height="120" isTopPage={isTopPage}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
-          <StyledNav>
-            <Flex>
-              <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
-              {!isMobile && <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />}
-            </Flex>
-            <Flex alignItems="center" height="100%">
-              {/* {!isMobile && !isMd && (
+          <Container>
+            <StyledNav>
+              <Flex>
+                <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
+                {!isMobile && (
+                  <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />
+                )}
+              </Flex>
+              <Flex alignItems="center" height="100%">
+                {/* {!isMobile && !isMd && (
                 <Box mr="12px">
                   <EthwPrice showSkeleton={false} ethwPriceUsd={cakePriceUsd} />
                 </Box>
               )} */}
-              {rightSide}
-            </Flex>
-          </StyledNav>
+                {rightSide}
+              </Flex>
+            </StyledNav>
+          </Container>
         </FixedContainer>
         {subLinks && (
           <Flex justifyContent="space-around">
