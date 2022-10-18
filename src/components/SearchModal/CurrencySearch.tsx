@@ -24,7 +24,6 @@ import { getSwapSound } from './swapSound'
 import ImportRow from './ImportRow'
 
 const InputSearch = styled(Input)`
-  font-family: 'Rubik';
   font-weight: 500;
   font-size: 16px;
   box-shadow: none;

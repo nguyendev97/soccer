@@ -4,6 +4,18 @@ import speImage from './spe.png'
 import jmpImage from './jmp.png'
 import coinImage from './coin.png'
 import avtImage from './avatar-demo.png'
-import ImageBackgroundSoccer from './background-soccer.png'
+import backgroundSoccerImage from './background-soccer.png'
+import soccerBoxImage from './soccer-box.png'
+import borderImage from './border.png'
 
-export { powImage, shoImage, speImage, jmpImage, coinImage, avtImage, ImageBackgroundSoccer }
+export {
+  powImage,
+  shoImage,
+  speImage,
+  jmpImage,
+  coinImage,
+  avtImage,
+  backgroundSoccerImage,
+  soccerBoxImage,
+  borderImage,
+}

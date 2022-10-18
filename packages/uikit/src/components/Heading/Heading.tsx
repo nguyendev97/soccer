@@ -22,7 +22,7 @@ const style = {
 };
 
 const Heading = styled(Text).attrs({ bold: true })<HeadingProps>`
-  font-family: "Rubik", sans-serif;
+  font-family: "Red Hat Display", sans-serif;
   font-size: ${({ scale }) => style[scale || scales.MD].fontSize};
   font-weight: 500;
   line-height: 1.1;

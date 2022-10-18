@@ -8,7 +8,7 @@ import { ErrorText } from './styleds'
  */
 export default function FormattedPriceImpact({ priceImpact }: { priceImpact?: Percent }) {
   return (
-    <ErrorText fontSize="16px" fontWeight="500" fontFamily="Rubik" severity={warningSeverity(priceImpact)}>
+    <ErrorText fontSize="16px" fontWeight="500" severity={warningSeverity(priceImpact)}>
       {priceImpact ? (priceImpact.lessThan(ONE_BIPS) ? '<0.01%' : `${priceImpact.toFixed(2)}%`) : '-'}
     </ErrorText>
   )

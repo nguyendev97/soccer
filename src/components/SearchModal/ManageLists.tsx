@@ -40,7 +40,6 @@ const RowWrapper = styled(Row)<{ active: boolean; hasActiveTokens: boolean }>`
 `
 
 const InputSearch = styled(Input)`
-  font-family: 'Rubik';
   font-weight: 500;
   font-size: 16px;
   box-shadow: none;
@@ -57,7 +56,6 @@ const InputSearch = styled(Input)`
 `
 
 const TextSymbol = styled(Text)`
-  font-family: 'Rubik';
   font-weight: 500;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.textSubtle1};

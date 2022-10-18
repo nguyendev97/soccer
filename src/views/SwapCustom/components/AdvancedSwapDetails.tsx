@@ -15,7 +15,6 @@ import SwapRoute from './SwapRoute'
 const TextRight = styled(Text)`
   font-weight: 500;
   font-size: 16px;
-  font-family: 'Rubik';
   text-align: right;
   color: ${({ theme }) => theme.colors.textSubtle1};
 `

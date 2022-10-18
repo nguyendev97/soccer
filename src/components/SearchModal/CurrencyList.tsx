@@ -29,7 +29,6 @@ const StyledBalanceText = styled(Text)`
   overflow: hidden;
   max-width: 5rem;
   text-overflow: ellipsis;
-  font-family: 'Rubik';
   font-weight: 500;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.textSubtle1};
@@ -44,7 +43,6 @@ const FixedContentRow = styled.div`
 `
 
 const TextSymbol = styled(Text)`
-  font-family: 'Rubik';
   font-weight: 500;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.textSubtle1};

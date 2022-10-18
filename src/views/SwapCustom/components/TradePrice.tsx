@@ -10,7 +10,6 @@ const TextTradePrice = styled(Text)`
   font-size: 16px;
   font-weight: 500;
   text-align: right;
-  font-family: 'Rubik';
   color: ${({ theme }) => theme.colors.textSubtle1};
 `
 

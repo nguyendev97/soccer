@@ -9,7 +9,7 @@ import MenuItems from "../../components/MenuItems/MenuItems";
 import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../contexts";
 // import CakePrice from "../../components/CakePrice/CakePrice";
-import EthwPrice from "../../components/EthwPrice/EthwPrice";
+// import EthwPrice from "../../components/EthwPrice/EthwPrice";
 import Logo from "./components/Logo";
 import { MENU_WIDTH, MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
@@ -96,7 +96,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   buyCakeLabel,
   children,
 }) => {
-  const { isMobile, isMd } = useMatchBreakpoints();
+  const { isMobile } = useMatchBreakpoints();
   const [showMenu, setShowMenu] = useState(true);
   const [isTopPage, setIsTopPage] = useState(true);
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
@@ -153,21 +153,11 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
               {!isMobile && <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />}
             </Flex>
             <Flex alignItems="center" height="100%">
-              {!isMobile && !isMd && (
+              {/* {!isMobile && !isMd && (
                 <Box mr="12px">
                   <EthwPrice showSkeleton={false} ethwPriceUsd={cakePriceUsd} />
                 </Box>
-              )}
-              {/* <Box mt="4px">
-                <LangSelector
-                  currentLang={currentLang}
-                  langs={langs}
-                  setLang={setLang}
-                  buttonScale="xs"
-                  color="textSubtle"
-                  hideLanguage
-                />
-              </Box> */}
+              )} */}
               {rightSide}
             </Flex>
           </StyledNav>

@@ -31,7 +31,6 @@ const Footer = styled.div`
 `
 
 const InputSearch = styled(Input)`
-  font-family: 'Rubik';
   font-weight: 500;
   font-size: 16px;
   box-shadow: none;
@@ -147,7 +146,7 @@ export default function ManageTokens({
         </AutoColumn>
         {tokenList}
         <Footer>
-          <Text fontFamily="Rubik" color="textSubtle1" fontWeight="500">
+          <Text color="textSubtle1" fontWeight="500">
             {userAddedTokens?.length} {userAddedTokens.length === 1 ? t('Custom Token') : t('Custom Tokens')}
           </Text>
           {userAddedTokens.length > 0 && (
