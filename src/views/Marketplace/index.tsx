@@ -26,7 +26,7 @@ const Tabs = styled.div`
 `
 
 export default function Marketplace() {
-  const initialView = MarketView.SOCCER_BOX
+  const initialView = MarketView.HERO
   const [view, setView] = useState(initialView)
   const { t } = useTranslation()
 

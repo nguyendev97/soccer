@@ -1,8 +1,13 @@
-import { useEffect, useState } from 'react'
-import { Box, BoxProps, Button, Grid, InlineMenu, TextField } from '@pancakeswap/uikit'
+import { useEffect, useState, useCallback } from 'react'
+import styled from 'styled-components'
+import { Text, BoxProps, Button, Grid, Heading, TextField, Flex } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
+import Select, { OptionProps } from 'components/Select/Select'
 // import FilterFooter from '../FilterFooter'
 
+const RowOptions = styled(Flex)`
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gradientBubblegum};
+`
 interface OptionsFilterProps extends BoxProps {
   title?: string
   min?: number
@@ -22,6 +27,9 @@ export const OptionsFilter: React.FC<React.PropsWithChildren<OptionsFilterProps>
   const [currentMax, setCurrentMax] = useState(max)
   const [currentMin, setCurrentMin] = useState(min)
   const [isError, setIsError] = useState(min > max)
+  const [typeOption, setTypeOption] = useState('hot')
+
+  const handleTypeOptionChange = useCallback((option: OptionProps) => setTypeOption(option.value), [])
 
   const handleMinChange = (newMin: string) => {
     setCurrentMin(newMin ? parseFloat(newMin) : 0)
@@ -59,30 +67,38 @@ export const OptionsFilter: React.FC<React.PropsWithChildren<OptionsFilterProps>
   }, [currentMin, currentMax, setIsError])
 
   return (
-    <InlineMenu
-      component={
-        <Button variant="light" scale="sm">
-          {t('Price')}
-        </Button>
-      }
-      {...props}
-    >
-      <Box width="320px">
-        <Box px="24px" py="16px">
-          <Grid gridGap="16px" gridTemplateColumns="repeat(2, 1fr)">
-            <TextField label={t('Min')} value={currentMin} onUserInput={handleMinChange} isWarning={isError} />
-            <TextField label={t('Max')} value={currentMax} onUserInput={handleMaxChange} isWarning={isError} />
-          </Grid>
-        </Box>
-        {/* <FilterFooter>
-          <Button variant="secondary" onClick={handleClear}>
-            {t('Clear')}
-          </Button>
-          <Button onClick={handleApply} disabled={isError}>
-            {t('Apply')}
-          </Button>
-        </FilterFooter> */}
-      </Box>
-    </InlineMenu>
+    <Flex {...props}>
+      <RowOptions>
+        <Text>{t('Filter')}</Text>
+        <Button>{t('Clear Filter')}</Button>
+      </RowOptions>
+      <RowOptions>
+        <Heading>{t('Type')}</Heading>
+        <Select
+          options={[
+            {
+              label: t('All'),
+              value: 'all',
+            },
+            {
+              label: t('Type 1'),
+              value: 'type1',
+            },
+            {
+              label: t('Type 2'),
+              value: 'type2',
+            },
+            {
+              label: t('Type 3'),
+              value: 'type3',
+            },
+          ]}
+          onOptionChange={handleTypeOptionChange}
+        />
+      </RowOptions>
+      <RowOptions>
+        <Heading>{t('Type')}</Heading>
+      </RowOptions>
+    </Flex>
   )
 }
