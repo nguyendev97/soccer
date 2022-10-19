@@ -127,12 +127,12 @@ const SpecialBox = () => {
             </TextInfo>
           </Flex>
           <GradientButton disabled={isApproving || isConfirming} onClick={isApproved ? handleConfirm : handleApprove} fontSize="16px" fontWeight='700'>
-            {/* isApproving => show text Approving */}
-            {/* isConfirming => show text Confirming */}
+            {/* todo: isApproving => show text 'Approving' */}
+            {/* todo: isConfirming => show text 'Confirming' */}
             <Flex style={{ alignItems: 'center' }}>
               <Image src={busdImage} width="26px" />
               <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-                {priceOfBoxes ? priceOfBoxes : 'loading...'} BUSD
+                {priceOfBoxes || 'loading...'} BUSD
               </Text>
             </Flex>
           </GradientButton>
