@@ -2,7 +2,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import { ButtonMenu, Button, Flex } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import SoccerBox from './SoccerBox'
+import SpecialBox from './SpecialBox'
 import Hero from './Hero'
 import Equipment from './Equipment'
 import { backgroundSoccerImage } from './images'
@@ -75,7 +75,7 @@ export default function Marketplace() {
     <BannerSoccer src={backgroundSoccerImage?.src} isSoccerTab={view === MarketView.SOCCER_BOX}>
       {view !== MarketView.WRONG_NETWORK && <TabsComponent />}
       <StyledTabContent isSoccerPage={view === MarketView.SOCCER_BOX}>
-        {view === MarketView.SOCCER_BOX && <SoccerBox />}
+        {view === MarketView.SOCCER_BOX && <SpecialBox />}
         {view === MarketView.HERO && <Hero />}
         {view === MarketView.EQUIPMENT && <Equipment />}
       </StyledTabContent>
