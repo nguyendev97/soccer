@@ -41,6 +41,7 @@ import {
   getPredictionsV1Address,
   getBCakeFarmBoosterAddress,
   getBCakeFarmBoosterProxyFactoryAddress,
+  getBoxSaleAddress,
 } from 'utils/addressHelpers'
 
 // ABI
@@ -92,6 +93,7 @@ import cakePredictionsAbi from 'config/abi/cakePredictions.json'
 import bCakeFarmBoosterAbi from 'config/abi/bCakeFarmBooster.json'
 import bCakeFarmBoosterProxyFactoryAbi from 'config/abi/bCakeFarmBoosterProxyFactory.json'
 import bCakeProxyAbi from 'config/abi/bCakeProxy.json'
+import boxSaleAbi from 'config/abi/boxSale.json'
 
 // Types
 import type {
@@ -361,4 +363,8 @@ export const getBCakeFarmBoosterProxyFactoryContract = (signer?: Signer | Provid
 
 export const getBCakeProxyContract = (proxyContractAddress: string, signer?: Signer | Provider) => {
   return getContract({ abi: bCakeProxyAbi, address: proxyContractAddress, signer }) as BCakeProxy
+}
+
+export const getBoxSaleContract = (signer?: Signer | Provider) => {
+  return getContract({ abi: boxSaleAbi, address: getBoxSaleAddress(), signer })
 }
