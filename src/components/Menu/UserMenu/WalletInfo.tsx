@@ -37,7 +37,6 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
     onDismiss?.()
     logout()
   }
-
   return (
     <>
       <Text color="secondary" fontSize="12px" textTransform="uppercase" fontWeight="bold" mb="8px">

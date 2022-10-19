@@ -39,12 +39,8 @@ const StyledNav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // max-width: ${MENU_WIDTH}px;
-  // height: ${MENU_HEIGHT}px;
-  //margin: auto;
-  //
-  //padding-left: 16px;
-  //padding-right: 16px;
+  border-bottom: 1px solid #1d018d;
+  padding-bottom: 10px;
   background: transparent;
 `;
 

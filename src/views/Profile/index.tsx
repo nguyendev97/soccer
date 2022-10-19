@@ -1,27 +1,37 @@
-import { FC, useCallback } from 'react'
+import { FC } from 'react'
 import { useRouter } from 'next/router'
 import { isAddress } from 'utils'
-import { useAchievementsForAddress, useProfileForAddress } from 'state/profile/hooks'
-import { Box, Flex, Text } from '@pancakeswap/uikit'
+import { Flex, Text } from '@pancakeswap/uikit'
 import Page from 'components/Layout/Page'
 import { useTranslation } from '@pancakeswap/localization'
 import styled from 'styled-components'
-import MarketPageHeader from '../Nft/market/components/MarketPageHeader'
-import ProfileHeader from './components/ProfileHeader'
+import ProfileSidebar from './components/ProfileSidebar'
 import NoNftsImage from '../Nft/market/components/Activity/NoNftsImage'
-import TabMenu from './components/TabMenu'
-import { useNftsForAddress } from '../Nft/market/hooks/useNftsForAddress'
 
-const TabMenuWrapper = styled(Box)`
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0%);
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    left: auto;
-    transform: none;
+const WrapperProfile = styled(Flex)`
+  margin-top: 30px;
+  padding-top: 35px;
+  padding-bottom: 90px;
+  background-color: ${({ theme }) => theme.colors.backgroundAlt3};
+`
+export const Container = styled.div`
+  width: 1200px;
+  padding: 0 15px;
+  margin: 0 auto;
+  @media (max-width: 992px) {
+    width: 100%;
   }
+`
+export const Row = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -12px;
+`
+export const SideBar = styled.div`
+  width: calc(100% / 4);
+`
+export const Content = styled.div`
+  width: calc(100% - 100% / 4);
 `
 
 const NftProfile: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
@@ -30,42 +40,9 @@ const NftProfile: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
 
   const invalidAddress = !accountAddress || isAddress(accountAddress) === false
 
-  const {
-    profile,
-    isValidating: isProfileValidating,
-    isFetching: isProfileFetching,
-    refresh: refreshProfile,
-  } = useProfileForAddress(accountAddress, {
-    revalidateIfStale: true,
-    revalidateOnFocus: true,
-    revalidateOnReconnect: true,
-  })
-  const { achievements, isFetching: isAchievementsFetching } = useAchievementsForAddress(accountAddress)
-  const {
-    nfts: userNfts,
-    isLoading: isNftLoading,
-    refresh: refreshUserNfts,
-  } = useNftsForAddress(accountAddress, profile, isProfileValidating)
-
-  const onSuccess = useCallback(async () => {
-    await refreshProfile()
-    refreshUserNfts()
-  }, [refreshProfile, refreshUserNfts])
-
   if (invalidAddress) {
     return (
       <>
-        <MarketPageHeader position="relative">
-          <ProfileHeader
-            accountPath={accountAddress}
-            profile={null}
-            achievements={null}
-            nftCollected={null}
-            isAchievementsLoading={false}
-            isNftLoading={false}
-            isProfileLoading={false}
-          />
-        </MarketPageHeader>
         <Page style={{ minHeight: 'auto' }}>
           <Flex p="24px" flexDirection="column" alignItems="center">
             <NoNftsImage />
@@ -79,24 +56,18 @@ const NftProfile: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
   }
 
   return (
-    <>
-      <MarketPageHeader position="relative">
-        <ProfileHeader
-          accountPath={accountAddress}
-          profile={profile}
-          achievements={achievements}
-          nftCollected={userNfts.length}
-          isProfileLoading={isProfileFetching}
-          isNftLoading={isNftLoading}
-          isAchievementsLoading={isAchievementsFetching}
-          onSuccess={onSuccess}
-        />
-        <TabMenuWrapper>
-          <TabMenu />
-        </TabMenuWrapper>
-      </MarketPageHeader>
-      <Page style={{ minHeight: 'auto' }}>{children}</Page>
-    </>
+    <WrapperProfile>
+      <Container>
+        <Row>
+          <SideBar>
+            <ProfileSidebar accountAddress={accountAddress} />
+          </SideBar>
+          <Content>
+            <Page style={{ minHeight: 'auto' }}>{children}</Page>
+          </Content>
+        </Row>
+      </Container>
+    </WrapperProfile>
   )
 }
 
