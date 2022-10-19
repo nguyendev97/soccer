@@ -3,7 +3,7 @@ import { Flex, Heading, Text } from '@pancakeswap/uikit'
 import GradientButton from 'components/GradientButton'
 import CountDown from 'components/CountDown'
 import Image from 'next/image'
-import { soccerBoxImage, borderImage, busdImage } from '../images'
+import { specialSellBoxImage, borderImage, busdImage } from '../images'
 
 const StyledFlexWrapper = styled.div`
   width: 100%;
@@ -61,7 +61,7 @@ const SpecialBox = () => {
         <StyledSoccerBox>
           <HeadingBorder src={borderImage?.src}>Special box</HeadingBorder>
           <CountDown date="2022/11/30" />
-          <Image src={soccerBoxImage} alt="Box" className="box-image" />
+          <Image src={specialSellBoxImage} alt="Box" className="box-image" />
           <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
             <TextInfo style={{ marginRight: '20px' }}>
               Amount: <TextCount>1000</TextCount>

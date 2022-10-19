@@ -26,7 +26,7 @@ interface ItemProps extends BoxProps {
   code?: string
   ratity?: string
   level?: string
-  avatar?: string
+  avatar?: any
   price?: string
   pow?: string
   sho?: string

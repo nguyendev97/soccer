@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { ButtonMenu, Button, Flex } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import { NftProfileLayout } from 'views/Profile'
-import SpecialBox from 'views/Marketplace/SpecialBox'
+import SoccerBox from 'views/Marketplace/SoccerBox'
 import Hero from 'views/Marketplace/Hero'
 import Equipment from 'views/Marketplace/Equipment'
 
@@ -15,16 +15,14 @@ export enum MarketView {
 }
 
 const BannerSoccer = styled.div`
-  padding-top: 30px;
   padding-bottom: 90px;
   background-color: ${({ theme }) => theme.colors.backgroundAlt3};
 `
 const Tabs = styled.div`
   background-color: ${({ theme }) => theme.colors.backgroundAlt3};
-  width: 1148px;
-  margin: auto;
+  width: 100%;
   padding: 0;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 `
 const StyledTabContent = styled(Flex)<{ isSoccerPage: boolean }>`
   width: ${({ isSoccerPage }) => (isSoccerPage ? '100%' : '1148px')};
@@ -43,6 +41,7 @@ const TabsButton = styled(Button)<{ isActive: boolean }>`
   padding: 10px 20px;
   height: 48px;
   width: 200px;
+  font-size: 16px;
 `
 
 const NftProfileInventory = () => {
@@ -72,7 +71,7 @@ const NftProfileInventory = () => {
     <BannerSoccer>
       {view !== MarketView.WRONG_NETWORK && <TabsComponent />}
       <StyledTabContent isSoccerPage={view === MarketView.SOCCER_BOX}>
-        {view === MarketView.SOCCER_BOX && <SpecialBox />}
+        {view === MarketView.SOCCER_BOX && <SoccerBox />}
         {view === MarketView.HERO && <Hero />}
         {view === MarketView.EQUIPMENT && <Equipment />}
       </StyledTabContent>

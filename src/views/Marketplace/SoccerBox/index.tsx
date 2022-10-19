@@ -1,84 +1,96 @@
 import styled from 'styled-components'
-import { Flex, Heading, Text } from '@pancakeswap/uikit'
-import GradientButton from 'components/GradientButton'
-import CountDown from 'components/CountDown'
-import Image from 'next/image'
-import { soccerBoxImage, borderImage, busdImage } from '../images'
+import { Flex, useModal } from '@pancakeswap/uikit'
+import { useTranslation } from '@pancakeswap/localization'
+import SearchInput from 'components/SearchInput'
+import Select, { OptionProps } from 'components/Select/Select'
+import BoxItem from '../components/BoxItem'
+import BoxModal from '../components/BoxModal'
+import SuccessModal from '../components/SuccessModal'
+import { specialBoxImage, goldBoxImage, silverBoxImage, commonBoxImage } from '../images'
 
 const StyledFlexWrapper = styled.div`
   width: 100%;
 `
-
-const StyledSoccerBox = styled(Flex)`
+const StyledFillter = styled(Flex)`
   flex-direction: column;
   align-items: center;
-  padding: 30px;
-  background: linear-gradient(164.38deg, rgb(29 1 141 / 70%) 10.92%, rgba(29, 9, 107, 0) 134.72%);
-  border-radius: 10px;
-  max-width: 900px;
-  margin: auto;
-  margin-top: 30px;
+  flex-direction: revert;
+  justify-content: flex-end;
+  margin-bottom: 20px;
 `
 
-const HeadingBorder = styled(Heading)<{ src: string }>`
-  font-weight: 700;
-  font-size: 36px;
-  color: #fff;
-  text-transform: uppercase;
-  display: inline-block;
-  padding-left: 150px;
-  padding-right: 150px;
-  padding-bottom: 30px;
-  background-image: url('${({ src }) => src}');
-  background-position: center bottom;
-  background-repeat: no-repeat;
+export const Container = styled.div`
+  margin: 0 auto;
 `
-
-const TextInfo = styled(Text)`
-  border: 1.5px solid #0a4db6;
-  border-radius: 6px;
-  font-size: 16px;
-  padding: 10px;
-  font-weight: 600;
+export const Row = styled.div`
   display: flex;
-  align-items: baseline;
-  color: #ccd3ff;
+  flex-wrap: wrap;
+  margin: 0 -12px;
 `
-const TextCount = styled(Text)`
-  font-size: 18px;
-  font-weight: 700;
-  color: #ccd3ff;
-  margin-left: 10px;
+export const Col4 = styled.div`
+  width: calc(100% / 4);
+  padding: 0 12px;
 `
 
 const SoccerBox = () => {
+  const { t } = useTranslation()
+  const [onPresentBoxModal] = useModal(<BoxModal />)
+  const [onPresentSuccessModal] = useModal(<SuccessModal />)
+  const handleChangeQuery = () => {
+    console.log('change search')
+  }
+  const handleTypeOptionChange = (option: OptionProps): void => {
+    console.log('change select')
+  }
+
   return (
     <>
       <StyledFlexWrapper>
-        <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: '26px' }}>
-          Soccer box contains various Heroes with certain drop rates.
-        </Heading>
-        <StyledSoccerBox>
-          <HeadingBorder src={borderImage?.src}>Special box</HeadingBorder>
-          <CountDown date="2022/11/30" />
-          <Image src={soccerBoxImage} alt="Box" className="box-image" />
-          <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
-            <TextInfo style={{ marginRight: '20px' }}>
-              Amount: <TextCount>1000</TextCount>
-            </TextInfo>
-            <TextInfo>
-              Remain: <TextCount>596</TextCount>
-            </TextInfo>
-          </Flex>
-          <GradientButton style={{ fontSize: '16px', fontWeight: 700 }}>
-            <Flex style={{ alignItems: 'center' }}>
-              <Image src={busdImage} width="26px" />
-              <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-                500 BUSD
-              </Text>
-            </Flex>
-          </GradientButton>
-        </StyledSoccerBox>
+        <StyledFillter>
+          <SearchInput onChange={handleChangeQuery} placeholder="Search" />
+          <Select
+            style={{ width: '188px', marginLeft: '30px' }}
+            options={[
+              {
+                label: t('All types'),
+                value: 'all',
+              },
+              {
+                label: t('Special box'),
+                value: 'special',
+              },
+              {
+                label: t('Gold box'),
+                value: 'gold',
+              },
+              {
+                label: t('Silver box'),
+                value: 'silver',
+              },
+              {
+                label: t('Common box'),
+                value: 'common',
+              },
+            ]}
+            onOptionChange={handleTypeOptionChange}
+          />
+        </StyledFillter>
+        <Container>
+          <Row>
+            <Col4>
+              <BoxItem avatar={specialBoxImage} boxName="Special box" onClick={onPresentBoxModal} />
+            </Col4>
+            <Col4>
+              <BoxItem avatar={goldBoxImage} boxName="Gold box" />
+            </Col4>
+            <Col4>
+              <BoxItem avatar={silverBoxImage} boxName="Silver box" />
+            </Col4>
+            <Col4>
+              <BoxItem avatar={commonBoxImage} boxName="Common box" />
+            </Col4>
+          </Row>
+        </Container>
       </StyledFlexWrapper>
     </>
   )

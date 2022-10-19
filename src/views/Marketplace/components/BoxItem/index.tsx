@@ -1,26 +1,56 @@
 import styled from 'styled-components'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
+import { isAddress } from 'utils'
 import { Text, BoxProps, Heading, Flex } from '@pancakeswap/uikit'
-import { useTranslation } from '@pancakeswap/localization'
 import GradientButton from 'components/GradientButton'
 import { busdImage } from '../../images'
 
 const FlexRowItem = styled(Flex)`
-  flex-direction: row;
-  margin-bottom: 16px;
-  justify-content: space-between;
+  flex-direction: column;
+  background: linear-gradient(3.19deg, #1d018d 2.64%, #1d018d 97.36%);
+  padding: 16px;
+  border-radius: 10px;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    background: #0a4db6;
+  }
 `
 const Avatar = styled.div`
   position: relative;
+  border-radius: 10px;
+  overflow: hidden;
 `
 const TextCountDown = styled(Text)`
-  background: #1d018d;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  background: rgb(29 1 141 / 60%);
   color: #fff;
   font-size: 18px;
   font-weight: 600;
 `
 const ItemInfo = styled(Flex)`
-  padding: 0px;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0px;
+`
+const HeadingName = styled(Heading)`
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+`
+const TextCount = styled(Text)`
+  font-weight: 500;
+  font-size: 12px;
+  color: #ccd3ff;
+  margin-left: auto;
 `
 
 interface ItemProps extends BoxProps {
@@ -29,8 +59,8 @@ interface ItemProps extends BoxProps {
   totalBox?: string
   sellBox?: string
   price?: string
-  avatar?: string
-  onApply?: (min: number, max: number) => void
+  avatar?: any
+  onClick?: () => void
   onClear?: () => void
 }
 
@@ -41,29 +71,41 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   sellBox,
   price,
   avatar,
+  onClick,
   ...props
 }) => {
-  const { t } = useTranslation()
-
+  const accountAddress = useRouter().query.accountAddress as string
+  const invalidAddress = !accountAddress || isAddress(accountAddress) === false
+  const handleOpenModal = () => {
+    onClick()
+  }
   return (
     <FlexRowItem {...props}>
       <Avatar>
-        <TextCountDown>23 : 43 : 07</TextCountDown>
+        {invalidAddress && <TextCountDown>23 : 43 : 07</TextCountDown>}
         <Image src={avatar} alt={boxName} className="avatar-img" />
       </Avatar>
       <ItemInfo>
-        <Heading>{boxName}</Heading>
-        <Text>
-          {sellBox}/{totalBox}
-        </Text>
+        <HeadingName>{boxName}</HeadingName>
+        {invalidAddress && (
+          <TextCount>
+            {sellBox}/{totalBox}
+          </TextCount>
+        )}
       </ItemInfo>
-      <GradientButton style={{ fontSize: '16px', fontWeight: 700 }}>
-        <Flex style={{ alignItems: 'center' }}>
-          <Image src={busdImage} width="26px" />
-          <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-            500
+      <GradientButton style={{ fontSize: '16px', fontWeight: 700, padding: '0px 20px' }} onClick={handleOpenModal}>
+        {invalidAddress ? (
+          <Flex style={{ alignItems: 'center' }}>
+            <Image src={busdImage} width="26px" />
+            <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
+              500
+            </Text>
+          </Flex>
+        ) : (
+          <Text bold fontSize="16px" color="#fff">
+            Open
           </Text>
-        </Flex>
+        )}
       </GradientButton>
     </FlexRowItem>
   )

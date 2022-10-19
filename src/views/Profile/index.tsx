@@ -63,7 +63,7 @@ const NftProfile: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
             <ProfileSidebar accountAddress={accountAddress} />
           </SideBar>
           <Content>
-            <Page style={{ minHeight: 'auto' }}>{children}</Page>
+            <Page style={{ minHeight: 'auto', padding: '0px 15px' }}>{children}</Page>
           </Content>
         </Row>
       </Container>
