@@ -124,3 +124,7 @@ export const getBCakeFarmBoosterProxyFactoryAddress = () => {
 export const getBoxSaleAddress = () => {
   return getAddress(addresses.boxSale)
 }
+
+export const getBoxesAddress = () => {
+  return getAddress(addresses.boxes)
+}

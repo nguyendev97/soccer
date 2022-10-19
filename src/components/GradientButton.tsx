@@ -9,16 +9,16 @@ const StyledGradientButton = styled(Button)`
   height: 44px;
 `
 
-interface StyledGradientButtonProps extends ButtonProps {
-  onClick?: () => void
-}
+// interface StyledGradientButtonProps extends ButtonProps {
+//   onClick?: () => void
+// }
 
-const GradientButton: React.FC<React.PropsWithChildren<StyledGradientButtonProps>> = ({ onClick, ...props }) => {
-  const handleClick = () => {
-    onClick()
-  }
+// const GradientButton: React.FC<React.PropsWithChildren<StyledGradientButtonProps>> = ({ onClick, ...props }) => {
+//   const handleClick = () => {
+//     onClick()
+//   }
 
-  return <StyledGradientButton {...props} onClick={handleClick} />
-}
+//   return <StyledGradientButton {...props} onClick={handleClick} />
+// }
 
-export default GradientButton
+export default StyledGradientButton

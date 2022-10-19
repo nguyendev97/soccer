@@ -151,5 +151,9 @@ export default {
   boxSale: {
     56: '0xC6B5FcD0A698fB33BD572072Ef6999Eb77632333',
     97: '0xC6B5FcD0A698fB33BD572072Ef6999Eb77632333'
+  },
+  boxes: {
+    56: '0x1c529e1910adc5a397e59ceb3f55ce85f81c9885',
+    97: '0x1c529e1910adc5a397e59ceb3f55ce85f81c9885'
   }
 }
