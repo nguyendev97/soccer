@@ -57,6 +57,7 @@ import {
   getTradingCompetitionContractFanToken,
   getTradingCompetitionContractMobox,
   getTradingCompetitionContractMoD,
+  getBoxSaleContract,
 } from 'utils/contractHelpers'
 import { useSigner } from 'wagmi'
 
@@ -363,4 +364,9 @@ export function useBCakeProxyContract(proxyContractAddress: string, withSignerIf
     () => proxyContractAddress && getBCakeProxyContract(proxyContractAddress, providerOrSigner),
     [providerOrSigner, proxyContractAddress],
   )
+}
+
+export const useBoxSaleContract = (withSignerIfPossible = true) => {
+  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
+  return useMemo(() => getBoxSaleContract(providerOrSigner), [providerOrSigner])
 }
