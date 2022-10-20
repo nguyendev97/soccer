@@ -33,6 +33,30 @@ const ButtonAction = styled(Button)<{ status: string }>`
 const ItemLendege = styled.div`
   margin: 0 12px;
 `
+const LegendTextRaty = styled(Text)`
+  color: #36dbff;
+  font-weight: 400;
+  font-size: 14px;
+`
+const LegendTextCode = styled(Heading)`
+  font-weight: 600;
+  font-size: 20px;
+  margin: 8px 0;
+  color: #ffffff;
+`
+const LegendTextLevel = styled(Text)`
+  font-weight: 400;
+  font-size: 14px;
+  color: #ffffff;
+`
+const ItemLendegeText = styled(Text)`
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 14px;
+`
+const FlexLegendItem = styled(Flex)`
+  margin-top: 10px;
+`
 interface ItemProps extends BoxProps {
   code?: string
   ratity?: string
@@ -70,39 +94,39 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
           <Image src={avatar} alt={code} className="avatar-img" />
         </Avatar>
         <ItemInfo>
-          <Text>{ratity}</Text>
-          <Heading>{code}</Heading>
-          <Text>{level}</Text>
+          <LegendTextRaty>{ratity}</LegendTextRaty>
+          <LegendTextCode>{code}</LegendTextCode>
+          <LegendTextLevel>{level}</LegendTextLevel>
         </ItemInfo>
       </Flex>
       <ItemProperties>
         <ItemLendege>
-          <Text>{t('POW')}</Text>
-          <Flex>
+          <ItemLendegeText>{t('POW')}</ItemLendegeText>
+          <FlexLegendItem>
             <Image src={powImage} width="20px" alt="Ethw" className="properties-icon" />
-            <Text ml="8px">{pow}</Text>
-          </Flex>
+            <ItemLendegeText ml="8px">{pow}</ItemLendegeText>
+          </FlexLegendItem>
         </ItemLendege>
         <ItemLendege>
-          <Text>{t('SHO')}</Text>
-          <Flex>
+          <ItemLendegeText>{t('SHO')}</ItemLendegeText>
+          <FlexLegendItem>
             <Image src={shoImage} width="20px" alt="Ethw" className="properties-icon" />
-            <Text ml="8px">{sho}</Text>
-          </Flex>
+            <ItemLendegeText ml="8px">{sho}</ItemLendegeText>
+          </FlexLegendItem>
         </ItemLendege>
         <ItemLendege>
-          <Text>{t('SPE')}</Text>
-          <Flex>
+          <ItemLendegeText>{t('SPE')}</ItemLendegeText>
+          <FlexLegendItem>
             <Image src={speImage} width="20px" alt="Ethw" className="properties-icon" />
-            <Text ml="8px">{spe}</Text>
-          </Flex>
+            <ItemLendegeText ml="8px">{spe}</ItemLendegeText>
+          </FlexLegendItem>
         </ItemLendege>
         <ItemLendege>
-          <Text>{t('JMP')}</Text>
-          <Flex>
+          <ItemLendegeText>{t('JMP')}</ItemLendegeText>
+          <FlexLegendItem>
             <Image src={jmpImage} width="20px" alt="Ethw" className="properties-icon" />
-            <Text ml="8px">{jmp}</Text>
-          </Flex>
+            <ItemLendegeText ml="8px">{jmp}</ItemLendegeText>
+          </FlexLegendItem>
         </ItemLendege>
       </ItemProperties>
       <ItemPrice>
