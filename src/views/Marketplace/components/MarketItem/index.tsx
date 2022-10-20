@@ -8,23 +8,31 @@ const FlexRowItem = styled(Flex)`
   flex-direction: row;
   margin-bottom: 16px;
   justify-content: space-between;
+  align-items: center;
+  background: #1d018d;
 `
 const Avatar = styled.div`
   margin-right: 20px;
 `
 const ItemInfo = styled.div`
   padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #ffffff;
 `
 const ItemProperties = styled(Flex)`
   flex-direction: row;
 `
 const ItemPrice = styled.div`
-  padding: 0px;
+  padding-right: 50px;
 `
 const ButtonAction = styled(Button)<{ status: string }>`
   padding: 0px;
 `
-
+const ItemLendege = styled.div`
+  margin: 0 12px;
+`
 interface ItemProps extends BoxProps {
   code?: string
   ratity?: string
@@ -68,41 +76,41 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
         </ItemInfo>
       </Flex>
       <ItemProperties>
-        <div>
+        <ItemLendege>
           <Text>{t('POW')}</Text>
           <Flex>
             <Image src={powImage} width="20px" alt="Ethw" className="properties-icon" />
             <Text ml="8px">{pow}</Text>
           </Flex>
-        </div>
-        <div>
+        </ItemLendege>
+        <ItemLendege>
           <Text>{t('SHO')}</Text>
           <Flex>
             <Image src={shoImage} width="20px" alt="Ethw" className="properties-icon" />
-            <Text>{sho}</Text>
+            <Text ml="8px">{sho}</Text>
           </Flex>
-        </div>
-        <div>
+        </ItemLendege>
+        <ItemLendege>
           <Text>{t('SPE')}</Text>
           <Flex>
             <Image src={speImage} width="20px" alt="Ethw" className="properties-icon" />
-            <Text>{spe}</Text>
+            <Text ml="8px">{spe}</Text>
           </Flex>
-        </div>
-        <div>
+        </ItemLendege>
+        <ItemLendege>
           <Text>{t('JMP')}</Text>
           <Flex>
             <Image src={jmpImage} width="20px" alt="Ethw" className="properties-icon" />
-            <Text>{jmp}</Text>
+            <Text ml="8px">{jmp}</Text>
           </Flex>
-        </div>
+        </ItemLendege>
       </ItemProperties>
       <ItemPrice>
         {/* <Flex>
           <Image src={coinImage} width="20px" alt="Ethw" className="properties-icon" />
           <Text>{price}</Text>
         </Flex> */}
-        <ButtonAction status={statusName}>{statusName}</ButtonAction>
+        <ButtonAction status={statusName}>{statusName ?? 'Selling'}</ButtonAction>
       </ItemPrice>
     </FlexRowItem>
   )
