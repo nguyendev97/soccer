@@ -42,8 +42,37 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
           <link rel="shortcut icon" href="/favicon.ico" />
-          <link rel="apple-touch-icon" href="/logo.png" />
+          <link rel="apple-touch-icon" href="https://soccercrypto.io/logo.png" />
+          <link rel="image_src" type="image/jpeg" href="https://soccercrypto.io/logo.png" />
           <link rel="manifest" href="/manifest.json" />
+          <meta
+            name="description"
+            content="Soccer Crypto - Football Game NFT World Cup 2022 Qatar a Free to Play & Free to Earn crypto soccer that allows players to immerse in the world of football build with BNB Chain "
+          />
+          <meta
+            name="keywords"
+            content="soccer crypto, crypto soccer, football world cup, football nft games, soccer crypto game, play to earn, crypto soccer token, soccer coin"
+          />
+          <meta name="Author" content="Soccer Crypto ~ Football World Cup Games 2022" />
+          <meta name="copyright" content="SoccerCrypto" />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:title"
+            content="[HOT]Crypto Soccer - The first game football NFT games free to play on BNB Chain"
+          />
+          <meta
+            name="twitter:title"
+            content="[HOT]Soccer Crypto - The first game football NFT games free to play on BNB Chain"
+          />
+          <meta
+            name="twitter:description"
+            content="The era of blockchain technology applied to the NFT football game, the 2022 world cup event, Soccer Crypto - Free-to-play Free-to-earn for everyone"
+          />
+          <meta property="og:url" content="https://soccercrypto.io/" />
+          <meta property="og:image" content="https://soccercrypto.io/logo.png" />
+          <meta name="twitter:image" content="https://soccercrypto.io/" />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:site" content="@SoccerCryptoP2E" />
         </Head>
         <body>
           <noscript>
