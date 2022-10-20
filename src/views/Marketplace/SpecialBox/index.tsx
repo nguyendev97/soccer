@@ -10,11 +10,11 @@ import BigNumber from 'bignumber.js'
 import { BUSD } from '@pancakeswap/tokens'
 import { ChainId } from '@pancakeswap/sdk'
 import { ethers } from 'ethers'
-import { formatNumber, getBalanceAmount } from 'utils/formatBalance'
+import ConnectWalletButton from 'components/ConnectWalletButton'
+import { getBalanceAmount } from 'utils/formatBalance'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { useBoxSaleContract, useERC20 } from 'hooks/useContract'
-import { getBoxesAddress } from 'utils/addressHelpers'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { specialSellBoxImage, borderImage, busdImage } from '../images'
@@ -83,11 +83,13 @@ const InputAmout = styled(Input)`
     box-shadow: none;
   }
 `
+const SPECIAL_TYPE = 1
 
 const SpecialBox = () => {
   const { account, chainId } = useWeb3React()
-  const [amount, setAmount] = useState(1) // todo: Amount Input
-  const [priceOfBoxes, setPriceOfBoxes] = useState<string | undefined>()
+  const [amount, setAmount] = useState(1)
+  const [remain, setRemain] = useState(0)
+  const [priceOfBox, setPriceOfBox] = useState<number>(0)
   const { balance, fetchStatus } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, true) // todo: Show out user's balance
   const boxSaleContract = useBoxSaleContract()
   const { callWithGasPrice } = useCallWithGasPrice()
@@ -95,10 +97,11 @@ const SpecialBox = () => {
   const busdContract = useERC20(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address)
 
   useEffect(() => {
-    boxSaleContract.prices(amount).then((price) => {
+    boxSaleContract.prices(SPECIAL_TYPE).then((price) => {
       const busdBalance = getBalanceAmount(new BigNumber(price._hex))
-      setPriceOfBoxes(formatNumber(busdBalance.toNumber(), 0, 2))
+      setPriceOfBox(busdBalance.toNumber())
     })
+    boxSaleContract.remains(SPECIAL_TYPE).then((res) => setRemain(res.toNumber()))
   }, [amount, boxSaleContract])
 
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
@@ -115,7 +118,7 @@ const SpecialBox = () => {
       )
     },
     onConfirm: () => {
-      return callWithGasPrice(boxSaleContract, 'buy', [1, amount])
+      return callWithGasPrice(boxSaleContract, 'buy', [SPECIAL_TYPE, amount])
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
@@ -136,27 +139,31 @@ const SpecialBox = () => {
           <Image src={specialSellBoxImage} alt="Box" className="box-image" />
           <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
             <TextInfo style={{ marginRight: '20px' }}>
-              Amount: <InputAmout value={amount} />
+              Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
             </TextInfo>
             <TextInfo>
-              Remain: <TextCount>596</TextCount>
+              Remain: <TextCount>{remain}</TextCount>
             </TextInfo>
           </Flex>
-          <GradientButton
-            disabled={isApproving || isConfirming}
-            onClick={isApproved ? handleConfirm : handleApprove}
-            fontSize="16px"
-            fontWeight="700"
-          >
-            {/* todo: isApproving => show text 'Approving' */}
-            {/* todo: isConfirming => show text 'Confirming' */}
-            <Flex style={{ alignItems: 'center' }}>
-              <Image src={busdImage} width="26px" />
-              <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-                {priceOfBoxes || 'loading...'} BUSD
-              </Text>
-            </Flex>
-          </GradientButton>
+          {account ? (
+            <GradientButton
+              disabled={isApproving || isConfirming}
+              onClick={isApproved ? handleConfirm : handleApprove}
+              fontSize="16px"
+              fontWeight="700"
+            >
+              <Flex style={{ alignItems: 'center' }}>
+                <Image src={busdImage} width="26px" />
+                <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
+                  {isApproving && 'Approving ...'}
+                  {isConfirming && 'Confirming ...'}
+                  {!isApproving && !isConfirming && (`${priceOfBox * amount} BUSD` || 'loading...')}
+                </Text>
+              </Flex>
+            </GradientButton>
+          ) : (
+            <ConnectWalletButton />
+          )}
         </StyledSoccerBox>
       </StyledFlexWrapper>
     </>

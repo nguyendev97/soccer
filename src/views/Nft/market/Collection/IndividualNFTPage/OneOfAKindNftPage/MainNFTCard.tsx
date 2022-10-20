@@ -6,7 +6,6 @@ import { NftToken } from 'state/nftMarket/types'
 import { multiplyPriceByAmount } from 'utils/prices'
 import { formatNumber } from 'utils/formatBalance'
 import NFTMedia from 'views/Nft/market/components/NFTMedia'
-import EditProfileModal from 'views/Profile/components/EditProfileModal'
 import BuyModal from '../../../components/BuySellModals/BuyModal'
 import SellModal from '../../../components/BuySellModals/SellModal'
 import { nftsBaseUrl } from '../../../constants'
@@ -34,7 +33,6 @@ const MainNFTCard: React.FC<React.PropsWithChildren<MainNFTCardProps>> = ({
   const [onPresentSellModal] = useModal(
     <SellModal variant={nft.marketData?.isTradable ? 'edit' : 'sell'} nftToSell={nft} onSuccessSale={onSuccess} />,
   )
-  const [onEditProfileModal] = useModal(<EditProfileModal />, false)
 
   const ownerButtons = (
     <Flex flexDirection={['column', 'column', 'row']}>
@@ -48,17 +46,6 @@ const MainNFTCard: React.FC<React.PropsWithChildren<MainNFTCardProps>> = ({
       >
         {nft.marketData?.isTradable ? t('Adjust price') : t('List for sale')}
       </Button>
-      {!nft.marketData?.isTradable && (
-        <Button
-          minWidth="168px"
-          variant="secondary"
-          width={['100%', null, 'max-content']}
-          mt="24px"
-          onClick={onEditProfileModal}
-        >
-          {nftIsProfilePic ? t('Change Profile Pic') : t('Set as Profile Pic')}
-        </Button>
-      )}
     </Flex>
   )
 

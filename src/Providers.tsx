@@ -1,4 +1,5 @@
 import { ModalProvider, light, dark, UIKitProvider } from '@pancakeswap/uikit'
+import { useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { SWRConfig } from 'swr'
 import { LanguageProvider } from '@pancakeswap/localization'
@@ -10,9 +11,16 @@ import { client } from 'utils/wagmi'
 import { HistoryManagerProvider } from 'contexts/HistoryContext'
 
 const StyledUIKitProvider: React.FC<React.PropsWithChildren> = ({ children, ...props }) => {
-  const { resolvedTheme } = useNextTheme()
+  const { resolvedTheme, setTheme } = useNextTheme()
+
+  useEffect(() => {
+    if (resolvedTheme === 'dark') {
+      setTheme('light')
+    }
+  }, [resolvedTheme, setTheme])
+
   return (
-    <UIKitProvider theme={resolvedTheme === 'dark' ? dark : light} {...props}>
+    <UIKitProvider theme={light} {...props}>
       {children}
     </UIKitProvider>
   )

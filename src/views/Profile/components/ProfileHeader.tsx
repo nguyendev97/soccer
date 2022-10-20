@@ -1,5 +1,4 @@
-import { NextLinkFromReactRouter as ReactRouterLink } from 'components/NextLink'
-import { BscScanIcon, Flex, IconButton, Link, Button, useModal } from '@pancakeswap/uikit'
+import { BscScanIcon, Flex, IconButton, Link } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import { getBlockExploreLink } from 'utils'
 import { formatNumber } from 'utils/formatBalance'
@@ -7,12 +6,9 @@ import truncateHash from '@pancakeswap/utils/truncateHash'
 import { Achievement, Profile } from 'state/types'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { useMemo } from 'react'
-import EditProfileAvatar from './EditProfileAvatar'
 import BannerHeader from '../../Nft/market/components/BannerHeader'
 import StatBox, { StatBoxItem } from '../../Nft/market/components/StatBox'
 import MarketPageTitle from '../../Nft/market/components/MarketPageTitle'
-import EditProfileModal from './EditProfileModal'
-import AvatarImage from '../../Nft/market/components/BannerHeader/AvatarImage'
 
 interface HeaderProps {
   accountPath: string
@@ -34,18 +30,9 @@ const ProfileHeader: React.FC<React.PropsWithChildren<HeaderProps>> = ({
   isAchievementsLoading,
   isNftLoading,
   isProfileLoading,
-  onSuccess,
 }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const [onEditProfileModal] = useModal(
-    <EditProfileModal
-      onSuccess={() => {
-        onSuccess?.()
-      }}
-    />,
-    false,
-  )
 
   const isConnectedAccount = account?.toLowerCase() === accountPath?.toLowerCase()
   const numNftCollected = !isNftLoading ? (nftCollected ? formatNumber(nftCollected, 0, 0) : '-') : null
@@ -56,10 +43,8 @@ const ProfileHeader: React.FC<React.PropsWithChildren<HeaderProps>> = ({
       : '-'
     : null
 
-  const avatarImage = profile?.nft?.image?.thumbnail || '/images/nfts/no-profile-md.png'
   const profileTeamId = profile?.teamId
   const profileUsername = profile?.username
-  const hasProfile = !!profile
 
   const bannerImage = useMemo(() => {
     const imagePath = '/images/teams'
@@ -99,30 +84,8 @@ const ProfileHeader: React.FC<React.PropsWithChildren<HeaderProps>> = ({
       )
     }
 
-    const getImage = () => {
-      return (
-        <>
-          {hasProfile && accountPath && isConnectedAccount ? (
-            <EditProfileAvatar
-              src={avatarImage}
-              alt={t('User profile picture')}
-              onSuccess={() => {
-                onSuccess?.()
-              }}
-            />
-          ) : (
-            <AvatarImage src={avatarImage} alt={t('User profile picture')} />
-          )}
-        </>
-      )
-    }
-    return (
-      <>
-        {getImage()}
-        {getIconButtons()}
-      </>
-    )
-  }, [accountPath, avatarImage, isConnectedAccount, onSuccess, hasProfile, t])
+    return <>{getIconButtons()}</>
+  }, [accountPath, t])
 
   const title = useMemo(() => {
     if (profileUsername) {
@@ -137,21 +100,6 @@ const ProfileHeader: React.FC<React.PropsWithChildren<HeaderProps>> = ({
   }, [profileUsername, accountPath])
 
   const description = useMemo(() => {
-    const getActivateButton = () => {
-      if (!profile) {
-        return (
-          <ReactRouterLink to="/create-profile">
-            <Button mt="16px">{t('Activate Profile')}</Button>
-          </ReactRouterLink>
-        )
-      }
-      return (
-        <Button width="fit-content" mt="16px" onClick={onEditProfileModal}>
-          {t('Reactivate Profile')}
-        </Button>
-      )
-    }
-
     return (
       <Flex flexDirection="column" mb={[16, null, 0]} mr={[0, null, 16]}>
         {accountPath && profile?.username && (
@@ -159,10 +107,10 @@ const ProfileHeader: React.FC<React.PropsWithChildren<HeaderProps>> = ({
             {truncateHash(accountPath)}
           </Link>
         )}
-        {accountPath && isConnectedAccount && (!profile || !profile?.nft) && getActivateButton()}
+        {accountPath && isConnectedAccount && (!profile || !profile?.nft)}
       </Flex>
     )
-  }, [accountPath, isConnectedAccount, onEditProfileModal, profile, t])
+  }, [accountPath, isConnectedAccount, profile])
 
   return (
     <>

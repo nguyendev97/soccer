@@ -1,7 +1,6 @@
 import { ResetCSS, ToastListener } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
 import GlobalCheckClaimStatus from 'components/GlobalCheckClaimStatus'
-// import { NetworkModal } from 'components/NetworkModal'
 import { FixedSubgraphHealthIndicator } from 'components/SubgraphHealthIndicator/FixedSubgraphHealthIndicator'
 import { useAccountEventListener } from 'hooks/useAccountEventListener'
 import useEagerConnect from 'hooks/useEagerConnect'
@@ -18,7 +17,6 @@ import { Fragment } from 'react'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, useStore } from 'state'
 import { usePollBlockNumber } from 'state/block/hooks'
-import { usePollCoreFarmData } from 'state/farms/hooks'
 import { Blocklist, Updaters } from '..'
 import { SentryErrorBoundary } from '../components/ErrorBoundary'
 import Menu from '../components/Menu'
@@ -36,7 +34,6 @@ BigNumber.config({
 function GlobalHooks() {
   usePollBlockNumber()
   useEagerConnect()
-  usePollCoreFarmData()
   useUserAgent()
   useAccountEventListener()
   useSentryUser()
@@ -47,7 +44,6 @@ function GlobalHooks() {
 function MPGlobalHooks() {
   usePollBlockNumber()
   useEagerConnectMP()
-  usePollCoreFarmData()
   useUserAgent()
   useAccountEventListener()
   useSentryUser()
