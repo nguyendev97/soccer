@@ -25,7 +25,7 @@ const Tabs = styled.div`
   margin-bottom: 30px;
 `
 const StyledTabContent = styled(Flex)<{ isSoccerPage: boolean }>`
-  width: ${({ isSoccerPage }) => (isSoccerPage ? '100%' : '1148px')};
+  width: 100%;
   margin: auto;
 `
 const TabsWrapper = styled(ButtonMenu)`

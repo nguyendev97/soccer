@@ -1,12 +1,15 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Input } from '@pancakeswap/uikit'
+import { Input, Button } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import debounce from 'lodash/debounce'
 import { useTranslation } from '@pancakeswap/localization'
+import Image from 'next/image'
+import { iconImage } from './images'
 
 const StyledInput = styled(Input)`
   border-radius: 10px;
   margin-left: auto;
+  width: 264px;
   background-color: ${({ theme }) => theme.colors.input};
   border-color: ${({ theme }) => theme.colors.border}
   color: ${({ theme }) => theme.colors.border}
@@ -21,6 +24,16 @@ const InputWrapper = styled.div`
   ${({ theme }) => theme.mediaQueries.sm} {
     display: block;
   }
+`
+const ButtonSearch = styled(Button)`
+  position: absolute;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  padding-right: 10px;
 `
 
 interface Props {
@@ -55,6 +68,9 @@ const SearchInput: React.FC<React.PropsWithChildren<Props>> = ({
   return (
     <InputWrapper>
       <StyledInput value={searchText} onChange={onChange} placeholder={t(placeholder)} />
+      <ButtonSearch>
+        <Image src={iconImage} alt="search" className="search-img" />
+      </ButtonSearch>
     </InputWrapper>
   )
 }

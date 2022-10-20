@@ -21,6 +21,9 @@ const ItemProperties = styled(Flex)`
 const ItemPrice = styled.div`
   padding: 0px;
 `
+const ButtonAction = styled(Button)<{ status: string }>`
+  padding: 0px;
+`
 
 interface ItemProps extends BoxProps {
   code?: string
@@ -32,6 +35,7 @@ interface ItemProps extends BoxProps {
   sho?: string
   spe?: string
   jmp?: string
+  statusName?: string
   onApply?: (min: number, max: number) => void
   onClear?: () => void
 }
@@ -46,6 +50,7 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   sho,
   spe,
   jmp,
+  statusName,
   ...props
 }) => {
   const { t } = useTranslation()
@@ -73,31 +78,31 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
         <div>
           <Text>{t('SHO')}</Text>
           <Flex>
-            <Image src={shoImage} width="20px" mr="8px" alt="Ethw" className="properties-icon" />
+            <Image src={shoImage} width="20px" alt="Ethw" className="properties-icon" />
             <Text>{sho}</Text>
           </Flex>
         </div>
         <div>
           <Text>{t('SPE')}</Text>
           <Flex>
-            <Image src={speImage} width="20px" mr="8px" alt="Ethw" className="properties-icon" />
+            <Image src={speImage} width="20px" alt="Ethw" className="properties-icon" />
             <Text>{spe}</Text>
           </Flex>
         </div>
         <div>
           <Text>{t('JMP')}</Text>
           <Flex>
-            <Image src={jmpImage} width="20px" mr="8px" alt="Ethw" className="properties-icon" />
+            <Image src={jmpImage} width="20px" alt="Ethw" className="properties-icon" />
             <Text>{jmp}</Text>
           </Flex>
         </div>
       </ItemProperties>
       <ItemPrice>
-        <Flex>
-          <Image src={coinImage} width="20px" mr="8px" alt="Ethw" className="properties-icon" />
+        {/* <Flex>
+          <Image src={coinImage} width="20px" alt="Ethw" className="properties-icon" />
           <Text>{price}</Text>
-        </Flex>
-        <Button>{t('BUY')}</Button>
+        </Flex> */}
+        <ButtonAction status={statusName}>{statusName}</ButtonAction>
       </ItemPrice>
     </FlexRowItem>
   )
