@@ -2,7 +2,9 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import { Text, BoxProps, Button, Heading, Flex } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import { powImage, shoImage, speImage, jmpImage, coinImage } from '../../images'
+// import GradientButton from 'components/GradientButton'
+import { powImage, shoImage, speImage, jmpImage } from '../../images'
+// import { ButtonContainer } from 'views/Nft/market/Collection/IndividualNFTPage/shared/styles'
 
 const FlexRowItem = styled(Flex)`
   flex-direction: row;
@@ -10,6 +12,8 @@ const FlexRowItem = styled(Flex)`
   justify-content: space-between;
   align-items: center;
   background: #1d018d;
+  border-radius: 10px;
+  padding: 8px;
 `
 const Avatar = styled.div`
   margin-right: 20px;
@@ -26,9 +30,6 @@ const ItemProperties = styled(Flex)`
 `
 const ItemPrice = styled.div`
   padding-right: 50px;
-`
-const ButtonAction = styled(Button)<{ status: string }>`
-  padding: 0px;
 `
 const ItemLendege = styled.div`
   margin: 0 12px;
@@ -57,6 +58,39 @@ const ItemLendegeText = styled(Text)`
 const FlexLegendItem = styled(Flex)`
   margin-top: 10px;
 `
+const ButtonSelling = styled(Button)`
+  padding: 0px 20px;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid #ccd3ff;
+  color: #fff;
+  height: 40px;
+  border-radius: 10px;
+`
+const ButtonRemove = styled(Button)`
+  padding: 0px 20px;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  background: #9197ba;
+  border: 1px solid #9197ba;
+  color: #fff;
+  height: 40px;
+  border-radius: 10px;
+`
+const ButtonApprove = styled(Button)`
+  padding: 0px 20px;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  background: linear-gradient(103.59deg, #00cc83 26.67%, #36dbff 74.7%);
+  border: 0;
+  color: #fff;
+  height: 40px;
+  border-radius: 10px;
+`
 interface ItemProps extends BoxProps {
   code?: string
   ratity?: string
@@ -72,12 +106,24 @@ interface ItemProps extends BoxProps {
   onClear?: () => void
 }
 
+const getButton = (statusName: string) => {
+  switch (statusName) {
+    case 'selling':
+      return <ButtonSelling>{statusName}</ButtonSelling>
+    case 'remove':
+      return <ButtonRemove>{statusName}</ButtonRemove>
+    case 'approve':
+      return <ButtonApprove>{statusName}</ButtonApprove>
+    default:
+      return <ButtonSelling>Button</ButtonSelling>
+  }
+}
+
 const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   code,
   ratity,
   level,
   avatar,
-  price,
   pow,
   sho,
   spe,
@@ -134,7 +180,7 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
           <Image src={coinImage} width="20px" alt="Ethw" className="properties-icon" />
           <Text>{price}</Text>
         </Flex> */}
-        <ButtonAction status={statusName}>{statusName ?? 'Selling'}</ButtonAction>
+        {getButton(statusName)}
       </ItemPrice>
     </FlexRowItem>
   )

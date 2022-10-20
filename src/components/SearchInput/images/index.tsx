@@ -1,3 +1,3 @@
-import iconImage from './icon.png'
+import iconSearch from './icon-search.png'
 
-export { iconImage }
+export { iconSearch }

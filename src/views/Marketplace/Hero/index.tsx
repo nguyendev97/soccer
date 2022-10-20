@@ -25,6 +25,7 @@ const Hero = () => {
             spe="99"
             jmp="99"
             price="513.436"
+            statusName="selling"
           />
           <MarketItem
             avatar={avtImage}
@@ -36,6 +37,7 @@ const Hero = () => {
             spe="99"
             jmp="99"
             price="513.436"
+            statusName="remove"
           />
           <MarketItem
             avatar={avtImage}
@@ -47,6 +49,7 @@ const Hero = () => {
             spe="99"
             jmp="99"
             price="513.436"
+            statusName="selling"
           />
           <MarketItem
             avatar={avtImage}
@@ -58,6 +61,7 @@ const Hero = () => {
             spe="99"
             jmp="99"
             price="513.436"
+            statusName="approve"
           />
           <MarketItem
             avatar={avtImage}
@@ -69,6 +73,7 @@ const Hero = () => {
             spe="99"
             jmp="99"
             price="513.436"
+            statusName="approve"
           />
         </StyledFlexContent>
       </StyledFlexWrapper>

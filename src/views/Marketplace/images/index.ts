@@ -3,6 +3,7 @@ import shoImage from './sho.png'
 import speImage from './spe.png'
 import jmpImage from './jmp.png'
 import coinImage from './coin.png'
+import coin2xImage from './coin-2x.png'
 import avtImage from './avatar-demo.png'
 import backgroundSoccerImage from './background-soccer.png'
 import borderImage from './border.png'
@@ -20,6 +21,7 @@ export {
   speImage,
   jmpImage,
   coinImage,
+  coin2xImage,
   avtImage,
   backgroundSoccerImage,
   borderImage,
