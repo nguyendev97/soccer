@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import debounce from 'lodash/debounce'
 import { useTranslation } from '@pancakeswap/localization'
 import Image from 'next/image'
-import { iconImage } from './images'
+// import { iconImage } from './images'
 
 const StyledInput = styled(Input)`
   border-radius: 10px;
@@ -68,9 +68,9 @@ const SearchInput: React.FC<React.PropsWithChildren<Props>> = ({
   return (
     <InputWrapper>
       <StyledInput value={searchText} onChange={onChange} placeholder={t(placeholder)} />
-      <ButtonSearch>
+      {/* <ButtonSearch>
         <Image src={iconImage} alt="search" className="search-img" />
-      </ButtonSearch>
+      </ButtonSearch> */}
     </InputWrapper>
   )
 }
