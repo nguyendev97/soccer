@@ -128,3 +128,7 @@ export const getBoxSaleAddress = () => {
 export const getBoxesAddress = () => {
   return getAddress(addresses.boxes)
 }
+
+export const getBoxesOpenAddress = () => {
+  return getAddress(addresses.boxesOpen)
+}

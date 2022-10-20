@@ -1,22 +1,17 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Flex, useModal } from '@pancakeswap/uikit'
-import { useTranslation } from '@pancakeswap/localization'
-import SearchInput from 'components/SearchInput'
-import Select, { OptionProps } from 'components/Select/Select'
+import { useWeb3React } from '@pancakeswap/wagmi'
+import { Flex, useModal, useToast } from '@pancakeswap/uikit'
+import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
+import { useERC1155, useBoxesOpenContract } from 'hooks/useContract'
+import { getBoxesAddress } from 'utils/addressHelpers'
+import useCatchTxError from 'hooks/useCatchTxError'
+import { ToastDescriptionWithTx } from 'components/Toast'
 import BoxItem from '../components/BoxItem'
-import BoxModal from '../components/BoxModal'
-import SuccessModal from '../components/SuccessModal'
 import { specialBoxImage, goldBoxImage, silverBoxImage, commonBoxImage } from '../images'
 
 const StyledFlexWrapper = styled.div`
   width: 100%;
-`
-const StyledFillter = styled(Flex)`
-  flex-direction: column;
-  align-items: center;
-  flex-direction: revert;
-  justify-content: flex-end;
-  margin-bottom: 20px;
 `
 
 export const Container = styled.div`
@@ -32,55 +27,45 @@ export const Col4 = styled.div`
   padding: 0 12px;
 `
 
+const boxesAddress = getBoxesAddress()
+const SPECIAL_TYPE = 1
+
 const SoccerBox = () => {
-  const { t } = useTranslation()
-  const [onPresentBoxModal] = useModal(<BoxModal />)
-  const [onPresentSuccessModal] = useModal(<SuccessModal />)
-  const handleChangeQuery = () => {
-    console.log('change search')
-  }
-  const handleTypeOptionChange = (option: OptionProps): void => {
-    console.log('change select')
+  const { account } = useWeb3React()
+  const { toastSuccess } = useToast()
+  const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
+  const [amountBox, setAmountBox] = useState(0)
+  const { callWithGasPrice } = useCallWithGasPrice()
+  const boxesContract = useERC1155(boxesAddress)
+  const boxesOpenContract = useBoxesOpenContract()
+
+  useEffect(() => {
+    if (account) {
+      boxesContract.balanceOf(account, SPECIAL_TYPE).then(res => setAmountBox(res.toNumber()))
+    }
+  }, [account, boxesContract])
+
+  const handleOpen = async () => {
+    const receipt = await fetchWithCatchTxError(() => {
+      return callWithGasPrice(boxesOpenContract, 'open', [Date.now(), [SPECIAL_TYPE], [3]])
+    })
+    if (receipt?.status) {
+      toastSuccess(
+        `Opened ${amountBox} box(es) just now`,
+        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
+      )
+    }
   }
 
   return (
     <>
       <StyledFlexWrapper>
-        <StyledFillter>
-          <SearchInput onChange={handleChangeQuery} placeholder="Search" />
-          <Select
-            style={{ width: '188px', marginLeft: '30px' }}
-            options={[
-              {
-                label: t('All types'),
-                value: 'all',
-              },
-              {
-                label: t('Special box'),
-                value: 'special',
-              },
-              {
-                label: t('Gold box'),
-                value: 'gold',
-              },
-              {
-                label: t('Silver box'),
-                value: 'silver',
-              },
-              {
-                label: t('Common box'),
-                value: 'common',
-              },
-            ]}
-            onOptionChange={handleTypeOptionChange}
-          />
-        </StyledFillter>
         <Container>
           <Row>
             <Col4>
-              <BoxItem avatar={specialBoxImage} boxName="Special box" onClick={onPresentBoxModal} />
+              <BoxItem pendingTx={pendingTx} totalBox={amountBox} avatar={specialBoxImage} boxName="Special box" onClick={handleOpen} />
             </Col4>
-            <Col4>
+            {/* <Col4>
               <BoxItem avatar={goldBoxImage} boxName="Gold box" />
             </Col4>
             <Col4>
@@ -88,7 +73,7 @@ const SoccerBox = () => {
             </Col4>
             <Col4>
               <BoxItem avatar={commonBoxImage} boxName="Common box" />
-            </Col4>
+            </Col4> */}
           </Row>
         </Container>
       </StyledFlexWrapper>

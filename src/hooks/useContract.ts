@@ -58,6 +58,8 @@ import {
   getTradingCompetitionContractMobox,
   getTradingCompetitionContractMoD,
   getBoxSaleContract,
+  getErc1155Contract,
+  getBoxesOpenContract,
 } from 'utils/contractHelpers'
 import { useSigner } from 'wagmi'
 
@@ -105,6 +107,11 @@ export const useERC20 = (address: string, withSignerIfPossible = true) => {
 export const useERC721 = (address: string, withSignerIfPossible = true) => {
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
   return useMemo(() => getErc721Contract(address, providerOrSigner), [address, providerOrSigner])
+}
+
+export const useERC1155 = (address: string, withSignerIfPossible = true) => {
+  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
+  return useMemo(() => getErc1155Contract(address, providerOrSigner), [address, providerOrSigner])
 }
 
 export const useCake = (): { reader: Cake; signer: Cake } => {
@@ -369,4 +376,9 @@ export function useBCakeProxyContract(proxyContractAddress: string, withSignerIf
 export const useBoxSaleContract = (withSignerIfPossible = true) => {
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
   return useMemo(() => getBoxSaleContract(providerOrSigner), [providerOrSigner])
+}
+
+export const useBoxesOpenContract = (withSignerIfPossible = true) => {
+  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
+  return useMemo(() => getBoxesOpenContract(providerOrSigner), [providerOrSigner])
 }

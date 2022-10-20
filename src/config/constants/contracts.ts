@@ -156,4 +156,8 @@ export default {
     56: '0x1c529e1910adc5a397e59ceb3f55ce85f81c9885',
     97: '0x1c529e1910adc5a397e59ceb3f55ce85f81c9885',
   },
+  boxesOpen: {
+    56: '0x5d2B08aF2B956D6dEaf2D7296B8DFa3BAf8512F8',
+    97: '0x5d2B08aF2B956D6dEaf2D7296B8DFa3BAf8512F8',
+  },
 }

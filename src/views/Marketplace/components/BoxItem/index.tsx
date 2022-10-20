@@ -54,9 +54,10 @@ const TextCount = styled(Text)`
 `
 
 interface ItemProps extends BoxProps {
+  pendingTx?: boolean
   countDown?: string
   boxName?: string
-  totalBox?: string
+  totalBox?: number
   sellBox?: string
   price?: string
   avatar?: any
@@ -72,6 +73,7 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   price,
   avatar,
   onClick,
+  pendingTx,
   ...props
 }) => {
   const accountAddress = useRouter().query.accountAddress as string
@@ -86,7 +88,7 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
         <Image src={avatar} alt={boxName} className="avatar-img" />
       </Avatar>
       <ItemInfo>
-        <HeadingName>{boxName}</HeadingName>
+        <HeadingName>{boxName} [{totalBox}]</HeadingName>
         {invalidAddress && (
           <TextCount>
             {sellBox}/{totalBox}
@@ -103,7 +105,7 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
           </Flex>
         ) : (
           <Text bold fontSize="16px" color="#fff">
-            Open
+            {pendingTx ? 'Opening' : 'Open'}
           </Text>
         )}
       </GradientButton>

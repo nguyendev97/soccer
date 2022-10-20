@@ -42,6 +42,7 @@ import {
   getBCakeFarmBoosterAddress,
   getBCakeFarmBoosterProxyFactoryAddress,
   getBoxSaleAddress,
+  getBoxesOpenAddress
 } from 'utils/addressHelpers'
 
 // ABI
@@ -94,6 +95,8 @@ import bCakeFarmBoosterAbi from 'config/abi/bCakeFarmBooster.json'
 import bCakeFarmBoosterProxyFactoryAbi from 'config/abi/bCakeFarmBoosterProxyFactory.json'
 import bCakeProxyAbi from 'config/abi/bCakeProxy.json'
 import boxSaleAbi from 'config/abi/boxSale.json'
+import erc1155Abi from 'config/abi/erc1155.json'
+import boxesOpenAbi from 'config/abi/boxesOpen.json'
 
 // Types
 import type {
@@ -164,6 +167,9 @@ export const getBep20Contract = (address: string, signer?: Signer | Provider) =>
 }
 export const getErc721Contract = (address: string, signer?: Signer | Provider) => {
   return getContract({ abi: erc721Abi, address, signer }) as Erc721
+}
+export const getErc1155Contract = (address: string, signer?: Signer | Provider) => {
+  return getContract({ abi: erc1155Abi, address, signer })
 }
 export const getLpContract = (address: string, chainId?: number, signer?: Signer | Provider) => {
   return getContract({ abi: lpTokenAbi, address, signer, chainId }) as LpToken
@@ -367,4 +373,8 @@ export const getBCakeProxyContract = (proxyContractAddress: string, signer?: Sig
 
 export const getBoxSaleContract = (signer?: Signer | Provider) => {
   return getContract({ abi: boxSaleAbi, address: getBoxSaleAddress(), signer })
+}
+
+export const getBoxesOpenContract = (signer?: Signer | Provider) => {
+  return getContract({ abi: boxesOpenAbi, address: getBoxesOpenAddress(), signer })
 }
