@@ -123,7 +123,8 @@ export default function Swap() {
           </StyledSwapContainer>
           {isChartExpanded && (
             <Box display={['none', null, null, 'block']} width="100%" height="100%">
-              <Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} />
+              <Footer variant="side" />
+              {/* <Footer variant="side" helpUrl={EXCHANGE_DOCS_URLS} /> */}
             </Box>
           )}
         </Flex>

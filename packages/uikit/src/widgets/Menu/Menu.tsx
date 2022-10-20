@@ -147,7 +147,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   return (
     <MenuContext.Provider value={{ linkComponent }}>
       <Wrapper>
-        <FixedContainer showMenu={showMenu} height="120" isTopPage={isTopPage}>
+        <FixedContainer showMenu={showMenu} height={120} isTopPage={isTopPage}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
           <Container>
             <StyledNav>

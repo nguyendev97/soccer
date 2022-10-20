@@ -71,8 +71,8 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
         <div>
           <Text>{t('POW')}</Text>
           <Flex>
-            <Image src={powImage} width="20px" mr="8px" alt="Ethw" className="properties-icon" />
-            <Text>{pow}</Text>
+            <Image src={powImage} width="20px" alt="Ethw" className="properties-icon" />
+            <Text ml="8px">{pow}</Text>
           </Flex>
         </div>
         <div>

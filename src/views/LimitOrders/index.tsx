@@ -465,7 +465,7 @@ const LimitOrders = () => {
           )}
           {isSideFooter && (
             <Box display={['none', null, null, 'block']} width="100%" height="100%">
-              <Footer variant="side" helpUrl={LIMIT_ORDERS_DOCS_URL} />
+              <Footer variant="side" />
             </Box>
           )}
         </Flex>

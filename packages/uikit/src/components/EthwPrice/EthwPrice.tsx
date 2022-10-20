@@ -37,8 +37,8 @@ const EthwPrice: React.FC<React.PropsWithChildren<Props>> = ({
       target="_blank"
     >
       {/* <LogoRound width="24px" mr="8px" /> */}
-      <Image src={logoImage} width="24px" mr="8px" alt="Ethw" className="ethw-icon" />
-      <Text color={color}>{`$${ethwPriceUsd.toFixed(3)}`}</Text>
+      <Image src={logoImage} width="24px" alt="Ethw" className="ethw-icon" />
+      <Text color={color} ml="8px">{`$${ethwPriceUsd.toFixed(3)}`}</Text>
     </PriceLink>
   ) : showSkeleton ? (
     <Skeleton width={80} height={24} />

@@ -155,10 +155,8 @@ const OptionsFilter: React.FC<React.PropsWithChildren<OptionsFilterProps>> = ({
       <RowOptions>
         <Heading>{t('Level')}</Heading>
         <RowContent>
-          <Button variant="secondary" onClick={handleMinChange}>
-            {t('Min')}
-          </Button>
-          <Button onClick={handleMaxChange}>{t('Max')}</Button>
+          <Button variant="secondary">{t('Min')}</Button>
+          <Button>{t('Max')}</Button>
         </RowContent>
       </RowOptions>
       <RowOptions>
