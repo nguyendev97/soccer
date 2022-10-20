@@ -1,7 +1,7 @@
-import Marketplace from '../views/Marketplace'
+import SpecialBox from 'views/Marketplace/SpecialBox'
 
 const IndexPage = () => {
-  return <Marketplace />
+  return <SpecialBox />
 }
 
 IndexPage.chains = []

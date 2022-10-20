@@ -28,9 +28,11 @@ export const Row = styled.div`
   margin: 0 -12px;
 `
 export const SideBar = styled.div`
+  padding-left: 15px;
   width: calc(100% / 4);
 `
 export const Content = styled.div`
+  padding: 0px 15px;
   width: calc(100% - 100% / 4);
 `
 
@@ -63,7 +65,7 @@ const NftProfile: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
             <ProfileSidebar accountAddress={accountAddress} />
           </SideBar>
           <Content>
-            <Page style={{ minHeight: 'auto', padding: '0px 15px' }}>{children}</Page>
+            <Page style={{ minHeight: 'auto', padding: 0 }}>{children}</Page>
           </Content>
         </Row>
       </Container>

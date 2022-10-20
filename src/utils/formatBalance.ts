@@ -94,3 +94,8 @@ export const formatLpBalance = (balance: BigNumber) => {
   }
   return stakedBalanceBigNumber.toFixed(5, BigNumber.ROUND_DOWN)
 }
+
+export const formatAmount = (amount: number) => {
+  const dollarUSLocale = Intl.NumberFormat('en-US')
+  return dollarUSLocale.format(amount)
+}

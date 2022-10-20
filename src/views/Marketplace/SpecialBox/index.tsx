@@ -11,18 +11,26 @@ import { BUSD } from '@pancakeswap/tokens'
 import { ChainId } from '@pancakeswap/sdk'
 import { ethers } from 'ethers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { getBalanceAmount } from 'utils/formatBalance'
+import { getBalanceAmount, formatAmount } from 'utils/formatBalance'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { useBoxSaleContract, useERC20 } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
-import { specialSellBoxImage, borderImage, busdImage } from '../images'
+import { backgroundSoccerImage, specialSellBoxImage, borderImage, busdImage } from '../images'
 
+const BannerSoccer = styled.div<{ src: string }>`
+  padding-top: 30px;
+  padding-bottom: 90px;
+  background-image: url('${({ src }) => src}');
+  background-color: ${({ theme }) => theme.colors.backgroundAlt3};
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+`
 const StyledFlexWrapper = styled.div`
   width: 100%;
 `
-
 const StyledSoccerBox = styled(Flex)`
   flex-direction: column;
   align-items: center;
@@ -33,7 +41,6 @@ const StyledSoccerBox = styled(Flex)`
   margin: auto;
   margin-top: 30px;
 `
-
 const HeadingBorder = styled(Heading)<{ src: string }>`
   font-weight: 700;
   font-size: 36px;
@@ -47,7 +54,6 @@ const HeadingBorder = styled(Heading)<{ src: string }>`
   background-position: center bottom;
   background-repeat: no-repeat;
 `
-
 const TextInfo = styled(Text)`
   border: 1.5px solid #0a4db6;
   border-radius: 6px;
@@ -64,7 +70,6 @@ const TextCount = styled(Text)`
   color: #ccd3ff;
   margin-left: 10px;
 `
-
 const InputAmout = styled(Input)`
   font-size: 18px;
   font-weight: 700;
@@ -129,43 +134,45 @@ const SpecialBox = () => {
   })
   return (
     <>
-      <StyledFlexWrapper>
-        <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: '26px' }}>
-          Soccer box contains various Heroes with certain drop rates.
-        </Heading>
-        <StyledSoccerBox>
-          <HeadingBorder src={borderImage?.src}>Special box</HeadingBorder>
-          <CountDown date="2022/11/30" />
-          <Image src={specialSellBoxImage} alt="Box" className="box-image" />
-          <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
-            <TextInfo style={{ marginRight: '20px' }}>
-              Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
-            </TextInfo>
-            <TextInfo>
-              Remain: <TextCount>{remain}</TextCount>
-            </TextInfo>
-          </Flex>
-          {account ? (
-            <GradientButton
-              disabled={isApproving || isConfirming}
-              onClick={isApproved ? handleConfirm : handleApprove}
-              fontSize="16px"
-              fontWeight="700"
-            >
-              <Flex style={{ alignItems: 'center' }}>
-                <Image src={busdImage} width="26px" />
-                <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-                  {isApproving && 'Approving ...'}
-                  {isConfirming && 'Confirming ...'}
-                  {!isApproving && !isConfirming && (`${priceOfBox * amount} BUSD` || 'loading...')}
-                </Text>
-              </Flex>
-            </GradientButton>
-          ) : (
-            <ConnectWalletButton />
-          )}
-        </StyledSoccerBox>
-      </StyledFlexWrapper>
+      <BannerSoccer src={backgroundSoccerImage?.src}>
+        <StyledFlexWrapper>
+          <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: '26px' }}>
+            Soccer box contains various Heroes with certain drop rates.
+          </Heading>
+          <StyledSoccerBox>
+            <HeadingBorder src={borderImage?.src}>Special box</HeadingBorder>
+            <CountDown date="2022/11/30" />
+            <Image src={specialSellBoxImage} alt="Box" className="box-image" />
+            <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
+              <TextInfo style={{ marginRight: '20px' }}>
+                Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
+              </TextInfo>
+              <TextInfo>
+                Remain: <TextCount>{remain}</TextCount>
+              </TextInfo>
+            </Flex>
+            {account ? (
+              <GradientButton
+                disabled={isApproving || isConfirming}
+                onClick={isApproved ? handleConfirm : handleApprove}
+                fontSize="16px"
+                fontWeight="700"
+              >
+                <Flex style={{ alignItems: 'center' }}>
+                  <Image src={busdImage} width="26px" />
+                  <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
+                    {isApproving && 'Approving ...'}
+                    {isConfirming && 'Confirming ...'}
+                    {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
+                  </Text>
+                </Flex>
+              </GradientButton>
+            ) : (
+              <ConnectWalletButton />
+            )}
+          </StyledSoccerBox>
+        </StyledFlexWrapper>
+      </BannerSoccer>
     </>
   )
 }
