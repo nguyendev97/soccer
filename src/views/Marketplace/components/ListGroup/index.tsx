@@ -1,7 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { BoxProps } from '@pancakeswap/uikit'
 
-const ListGroupComponent = ({ data, className }) => {
+interface DataProps extends BoxProps {
+  data?: any
+  className?: any
+}
+
+const ListGroupComponent: React.FC<React.PropsWithChildren<DataProps>> = ({ data, className, ...props }) => {
   const UlItem = styled.ul`
     list-style: none;
     margin-top: 24px;

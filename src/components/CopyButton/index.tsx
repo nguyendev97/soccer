@@ -39,7 +39,7 @@ export const CopyButton: React.FC<React.PropsWithChildren<CopyButtonProps>> = ({
   tooltipTop,
   tooltipRight,
   tooltipFontSize,
-  buttonColor = 'primary',
+  buttonColor = '#CCD3FF',
   ...props
 }) => {
   const [isTooltipDisplayed, setIsTooltipDisplayed] = useState(false)

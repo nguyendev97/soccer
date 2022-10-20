@@ -67,22 +67,14 @@ export const Row = styled.div`
   flex-wrap: wrap;
   margin: 0 -12px;
 `;
-export const Col = styled.div`
+export const Col4 = styled.div`
   padding: 0 15px;
-  &.col-12 {
+  width: calc(100% / 4);
+  @media (max-width: 767px) {
     width: 100%;
   }
-  &.col-3 {
-    width: calc(100% / 3);
-  }
-  &.col-4 {
-    width: calc(100% / 4);
-    @media (max-width: 767px) {
-      width: 100%;
-    }
-    @media (min-width: 768px) and (max-width: 992px) {
-      width: 50%;
-    }
+  @media (min-width: 768px) and (max-width: 992px) {
+    width: 50%;
   }
 `;
 export const TitleFooter = styled.h3`

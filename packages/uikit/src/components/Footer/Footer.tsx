@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Col, TitleFooter, Row } from "./styles";
+import { Container, Col4, TitleFooter, Row } from "./styles";
 import { FooterProps } from "./types";
 import ListGroupComponent from "../../../../../src/views/Marketplace/components/ListGroup";
 
@@ -48,22 +48,22 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = () => {
     <div className="Footer" style={style}>
       <Container>
         <Row>
-          <Col className="col-4">
+          <Col4>
             <TitleFooter>Soccer Crypto</TitleFooter>
             <ListGroupComponent data={data} />
-          </Col>
-          <Col className="col-4">
+          </Col4>
+          <Col4>
             <TitleFooter>ABOUT</TitleFooter>
             <ListGroupComponent data={data2} />
-          </Col>
-          <Col className="col-4">
+          </Col4>
+          <Col4>
             <TitleFooter>SOCIAL</TitleFooter>
             <ListGroupComponent data={data2} />
-          </Col>
-          <Col className="col-4">
+          </Col4>
+          <Col4>
             <TitleFooter>OTHERS</TitleFooter>
             <ListGroupComponent data={data2} />
-          </Col>
+          </Col4>
         </Row>
       </Container>
     </div>

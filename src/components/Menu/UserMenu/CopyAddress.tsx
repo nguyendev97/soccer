@@ -9,8 +9,8 @@ interface CopyAddressProps extends FlexProps {
 
 const Wrapper = styled(Flex)`
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.dropdown};
-  border-radius: 16px;
+  background-color: ${({ theme }) => theme.colors.input};
+  border-radius: 10px;
   position: relative;
 `
 
@@ -22,10 +22,10 @@ const Address = styled.div`
   & > input {
     background: transparent;
     border: 0;
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({ theme }) => theme.colors.border};
     display: block;
-    font-weight: 600;
-    font-size: 16px;
+    font-weight: 500;
+    font-size: 14px;
     padding: 0;
     width: 100%;
 
