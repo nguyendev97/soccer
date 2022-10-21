@@ -5,8 +5,8 @@ import { Flex, useModal, useToast } from '@pancakeswap/uikit'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { useERC1155, useBoxesOpenContract } from 'hooks/useContract'
 import { getBoxesAddress } from 'utils/addressHelpers'
-import useCatchTxError from 'hooks/useCatchTxError'
 import { ToastDescriptionWithTx } from 'components/Toast'
+import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import BoxItem from '../components/BoxItem'
 import { specialBoxImage, goldBoxImage, silverBoxImage, commonBoxImage } from '../images'
 
@@ -33,7 +33,6 @@ const SPECIAL_TYPE = 1
 const SoccerBox = () => {
   const { account } = useWeb3React()
   const { toastSuccess } = useToast()
-  const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const [amountBox, setAmountBox] = useState(0)
   const { callWithGasPrice } = useCallWithGasPrice()
   const boxesContract = useERC1155(boxesAddress)
@@ -45,17 +44,34 @@ const SoccerBox = () => {
     }
   }, [account, boxesContract])
 
-  const handleOpen = async () => {
-    const receipt = await fetchWithCatchTxError(() => {
+  const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
+    onRequiresApproval: async () => {
+      try {
+        const approvedForContract = await boxesContract.isApprovedForAll(account, boxesOpenContract.address)
+        return !approvedForContract
+      } catch (error) {
+        return true
+      }
+    },
+    onApprove: () => {
+      return callWithGasPrice(boxesContract, 'setApprovalForAll', [boxesOpenContract.address, true])
+    },
+    onApproveSuccess: async ({ receipt }) => {
+      toastSuccess(
+        'Contract approved - You can now open boxes!',
+        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
+      )
+    },
+    onConfirm: () => {
       return callWithGasPrice(boxesOpenContract, 'open', [Date.now(), [SPECIAL_TYPE], [3]])
-    })
-    if (receipt?.status) {
+    },
+    onSuccess: async ({ receipt }) => {
       toastSuccess(
         `Opened ${amountBox} box(es) just now`,
         <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
       )
-    }
-  }
+    },
+  })
 
   return (
     <>
@@ -63,7 +79,7 @@ const SoccerBox = () => {
         <Container>
           <Row>
             <Col4>
-              <BoxItem pendingTx={pendingTx} totalBox={amountBox} avatar={specialBoxImage} boxName="Special box" onClick={handleOpen} />
+              <BoxItem pendingTx={isApproving || isConfirming} totalBox={amountBox} avatar={specialBoxImage} boxName="Special box" onClick={isApproved ? handleConfirm : handleApprove} />
             </Col4>
             {/* <Col4>
               <BoxItem avatar={goldBoxImage} boxName="Gold box" />

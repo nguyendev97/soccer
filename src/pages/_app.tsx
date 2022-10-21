@@ -1,5 +1,6 @@
 import { ResetCSS, ToastListener } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
+import { NetworkModal } from 'components/NetworkModal'
 import GlobalCheckClaimStatus from 'components/GlobalCheckClaimStatus'
 import { FixedSubgraphHealthIndicator } from 'components/SubgraphHealthIndicator/FixedSubgraphHealthIndicator'
 import { useAccountEventListener } from 'hooks/useAccountEventListener'
@@ -135,7 +136,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       <EasterEgg iterations={2} />
       <ToastListener />
       <FixedSubgraphHealthIndicator />
-      {/* <NetworkModal pageSupportedChains={Component.chains} /> */}
+      <NetworkModal pageSupportedChains={Component.chains} />
     </ProductionErrorBoundary>
   )
 }
