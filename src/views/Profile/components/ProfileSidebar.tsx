@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useModal, Text } from '@pancakeswap/uikit'
+import { Text } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import CopyAddress from 'components/Menu/UserMenu/CopyAddress'
 
@@ -68,7 +68,6 @@ const getActiveIndex = (pathname: string, url?: string): boolean => {
 const ProfileSidebar: React.FC<React.PropsWithChildren<Props>> = ({ accountAddress }) => {
   const { t } = useTranslation()
   const { pathname } = useRouter()
-  console.log('pathname ==>', pathname)
   return (
     <StyledProfileSidebar>
       <WrapperMenuItems>

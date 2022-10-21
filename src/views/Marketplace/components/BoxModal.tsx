@@ -11,6 +11,7 @@ import {
   Input,
   Flex,
 } from '@pancakeswap/uikit'
+import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { useTranslation } from '@pancakeswap/localization'
 import GradientButton from 'components/GradientButton'
 import styled from 'styled-components'
@@ -20,6 +21,11 @@ import { specialSellBoxImage } from '../images'
 const ModalContainer = styled(UIKitModalContainer)`
   background: ${({ theme }) => theme.colors.modalBackground};
   border: 0;
+
+  @media (max-width: 768px) {
+    bottom: auto;
+    width: calc(100% - 30px);
+  }
 `
 const ModalHeader = styled(UIKitModalHeader)`
   border-bottom: 1px solid ${({ theme }) => theme.colors.modalBorder};
@@ -55,10 +61,11 @@ const RegisterButton = styled(GradientButton)`
 `
 
 const BoxModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ onDismiss }) => {
+  const { isMobile } = useMatchBreakpoints()
   const { t } = useTranslation()
 
   return (
-    <ModalContainer title={t('Box Modal!')} $minWidth="440px">
+    <ModalContainer title={t('Box Modal!')} $minWidth={isMobile ? 'auto' : '440px'}>
       <ModalHeader>
         <ModalTitle>
           <HeadingTitle>{t('Special box')}</HeadingTitle>
