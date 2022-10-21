@@ -15,7 +15,7 @@ import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { ethers } from 'ethers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { getBalanceAmount, formatAmount } from 'utils/formatBalance'
-// import useTokenBalance from 'hooks/useTokenBalance'
+import useTokenBalance from 'hooks/useTokenBalance'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
@@ -35,13 +35,14 @@ const SpecialBox = () => {
   const [remain, setRemain] = useState(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [priceOfBox, setPriceOfBox] = useState<number>(0)
-  // const { balance, fetchStatus } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, true) // todo: Show out user's balance
   const boxSaleContract = useBoxSaleContract()
   const refferalContract = useRefferalContract()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { toastSuccess } = useToast()
   const busdContract = useERC20(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address)
+  const { balance } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, false) // todo: Show out user's balance
+  const userBusdBalance = getBalanceAmount(new BigNumber(balance)).toNumber()
 
   useEffect(() => {
     if (router.query.ref) {
@@ -73,6 +74,7 @@ const SpecialBox = () => {
       return callWithGasPrice(refferalContract, 'register', [refAddress])
     })
     if (receipt?.status) {
+      setIsRegistered(true)
       toastSuccess(
         `Registered successfully`,
         <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
@@ -124,11 +126,12 @@ const SpecialBox = () => {
                 Remain: <TextCount>{remain}</TextCount>
               </TextInfo>
             </Flex>
+            
             {account ? 
               isRegistered
                 ? (
                   <GradientButton
-                    disabled={isApproving || isConfirming}
+                    disabled={isApproving || isConfirming || (userBusdBalance < priceOfBox * amount)}
                     onClick={isApproved ? handleConfirm : handleApprove}
                     fontSize="16px"
                     fontWeight="700"
@@ -152,6 +155,11 @@ const SpecialBox = () => {
                     {pendingTx ? "Registering ...": "Register first!"}
                   </GradientButton>
                 ) : <ConnectWalletButton />}
+                <Flex alignItems="center" mt="12px">
+                  <Text mr="8px">Your balance: </Text>
+                  <Image src={busdImage} width="20px" height="20px" />
+                  <Text bold color="#fff" ml="4px">{formatAmount(userBusdBalance)}</Text>
+                </Flex>
           </StyledSoccerBox>
         </StyledFlexWrapper>
       </BannerSoccer>
