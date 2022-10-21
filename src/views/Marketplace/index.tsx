@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { ButtonMenu, Button, Flex } from '@pancakeswap/uikit'
+import { ButtonMenu, Button } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
+import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
+import SelectTabs, { OptionProps } from 'components/SelectTabs/SelectTabs'
 import SoccerBox from './SoccerBox'
 import Hero from './Hero'
 import Equipment from './Equipment'
@@ -56,12 +58,25 @@ export const Row = styled.div`
 export const SideBar = styled.div`
   padding-left: 15px;
   width: calc(100% / 4);
+  @media (max-width: 767px) {
+    width: 100%;
+    padding-right: 15px;
+    margin-bottom: 15px;
+  }
 `
 export const Content = styled.div`
   padding: 0px 15px;
   width: calc(100% - 100% / 4);
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+`
+export const WrapperSelect = styled.div`
+  padding: 0px 15px;
+  margin-bottom: 15px;
 `
 export default function Marketplace() {
+  const { isMobile } = useMatchBreakpoints()
   const initialView = MarketView.SOCCER_BOX
   const [view, setView] = useState(initialView)
   const { t } = useTranslation()
@@ -69,6 +84,8 @@ export default function Marketplace() {
   const handleClick = (newIndex: number) => {
     setView(newIndex)
   }
+
+  const handleTypeOptionChange = useCallback((option: OptionProps) => setView(option.value), [])
 
   const TabsComponent = () => (
     <Tabs>
@@ -86,7 +103,30 @@ export default function Marketplace() {
 
   return (
     <BannerSoccer>
-      {view !== MarketView.WRONG_NETWORK && <TabsComponent />}
+      {isMobile ? (
+        <WrapperSelect>
+          <SelectTabs
+            options={[
+              {
+                label: t('Soccer box'),
+                value: 0,
+              },
+              {
+                label: t('Hero'),
+                value: 1,
+              },
+              {
+                label: t('Equipment'),
+                value: 2,
+              },
+            ]}
+            onOptionChange={handleTypeOptionChange}
+            defaultOptionIndex={initialView}
+          />
+        </WrapperSelect>
+      ) : (
+        <TabsComponent />
+      )}
       <Container>
         <Row>
           <SideBar>

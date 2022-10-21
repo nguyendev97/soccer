@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import GradientButton from 'components/GradientButton'
-import { Menu as UikitMenu, useModal } from '@pancakeswap/uikit'
+import { Menu as UikitMenu, useModal, Flex } from '@pancakeswap/uikit'
 import { useTranslation, languageList } from '@pancakeswap/localization'
 // import { NetworkSwitcher } from 'components/NetworkSwitcher'
 import useTheme from 'hooks/useTheme'
@@ -14,8 +14,10 @@ import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
 import { footerLinks } from './config/footerConfig'
 import RegisterModal from './UserMenu/RegisterModal'
 // import { SettingsMode } from './GlobalSettings/types'
+import { useMatchBreakpoints } from '../../../packages/uikit/src/contexts'
 
 const Menu = (props) => {
+  const { isMobile } = useMatchBreakpoints()
   const { isDark, setTheme } = useTheme()
   const cakePriceUsd = useCakeBusdPrice({ forceMainnet: true })
   const { currentLanguage, setLanguage, t } = useTranslation()
@@ -41,17 +43,20 @@ const Menu = (props) => {
           return <NextLinkFromReactRouter to={linkProps.href} {...linkProps} prefetch={false} />
         }}
         rightSide={
-          <>
-            {/* <GlobalSettings mode={SettingsMode.GLOBAL} /> */}
-            {/* <NetworkSwitcher /> */}
+          <Flex
+            width="100%"
+            flexDirection={isMobile ? 'row-reverse' : 'row'}
+            justifyContent={isMobile ? 'space-between' : 'flex-start'}
+            mt={isMobile ? '20px' : '0px'}
+          >
             <UserMenu />
             <GradientButton
-              style={{ fontSize: '16px', fontWeight: 700, marginLeft: '20px' }}
+              style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px' }}
               onClick={() => onPresentRegisterModal()}
             >
               Play game
             </GradientButton>
-          </>
+          </Flex>
         }
         isDark={isDark}
         toggleTheme={toggleTheme}

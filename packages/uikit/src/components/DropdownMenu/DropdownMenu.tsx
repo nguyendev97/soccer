@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { usePopper } from "react-popper";
+import { useMatchBreakpoints } from "../../contexts";
 import { useOnClickOutside } from "../../hooks";
 import { MenuContext } from "../../widgets/Menu/context";
 import { Box, Flex } from "../Box";
@@ -25,6 +26,7 @@ const DropdownMenu: React.FC<React.PropsWithChildren<DropdownMenuProps>> = ({
   isDisabled,
   ...props
 }) => {
+  const { isMobile } = useMatchBreakpoints();
   const { linkComponent } = useContext(MenuContext);
   const [isOpen, setIsOpen] = useState(false);
   const [targetRef, setTargetRef] = useState<HTMLDivElement | null>(null);
@@ -71,7 +73,7 @@ const DropdownMenu: React.FC<React.PropsWithChildren<DropdownMenuProps>> = ({
   );
 
   return (
-    <Box ref={setTargetRef} {...props}>
+    <Box ref={setTargetRef} {...props} style={{ width: isMobile ? "100%" : "auto" }}>
       <Box
         onPointerDown={() => {
           setIsOpen((s) => !s);

@@ -1,17 +1,17 @@
 import throttle from "lodash/throttle";
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
-import BottomNav from "../../components/BottomNav";
+import { Button } from "@pancakeswap/uikit";
+// import BottomNav from "../../components/BottomNav";
 import { Box } from "../../components/Box";
 import Flex from "../../components/Box/Flex";
 import Footer from "../../components/Footer";
 import MenuItems from "../../components/MenuItems/MenuItems";
 import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../contexts";
-// import CakePrice from "../../components/CakePrice/CakePrice";
-// import EthwPrice from "../../components/EthwPrice/EthwPrice";
 import Logo from "./components/Logo";
-import { MENU_WIDTH, MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
+import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
 // import LangSelector from "../../components/LangSelector/LangSelector";
 import { MenuContext } from "./context";
@@ -35,12 +35,13 @@ const Wrapper = styled.div`
   }
 `;
 
-const StyledNav = styled.nav`
+const StyledNav = styled.nav<{ isMobile: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #1d018d;
   padding-bottom: 10px;
+  padding-top: ${({ isMobile }) => (isMobile ? "10px" : "0px")};
   background: transparent;
 `;
 
@@ -79,6 +80,28 @@ const Inner = styled.div<{ isPushed: boolean; showMenu: boolean }>`
   transform: translate3d(0, 0, 0);
   max-width: 100%;
 `;
+const WrapperMenuMobile = styled.div`
+  position: relative;
+`;
+const WrapperMenuMobileContent = styled.div`
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  width: 100%;
+  background-color: #130355;
+  top: 84px;
+  height: calc(100vh - 84px);
+  padding: 15px;
+`;
+const MenuMobileIcon = styled(Button)<{ showMenuMobile: boolean }>`
+  width: 36px;
+  height: 36px;
+  background: url("/images/${({ showMenuMobile }) => `${showMenuMobile ? "menu-close" : "menu-open"}`}.svg") no-repeat
+    center center;
+`;
+const MenuMobileItems = styled(MenuItems)`
+  flex-direction: column;
+`;
 
 const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   linkComponent = "a",
@@ -98,8 +121,10 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   buyCakeLabel,
   children,
 }) => {
+  const router = useRouter();
   const { isMobile } = useMatchBreakpoints();
   const [showMenu, setShowMenu] = useState(true);
+  const [showMenuMobile, setShowMenuMobile] = useState(false);
   const [isTopPage, setIsTopPage] = useState(true);
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
 
@@ -138,6 +163,10 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
     };
   }, [totalTopMenuHeight]);
 
+  useEffect(() => {
+    setShowMenuMobile(false);
+  }, [router]);
+
   // Find the home link if provided
   const homeLink = links.find((link) => link.label === "Home");
 
@@ -150,21 +179,28 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
         <FixedContainer showMenu={showMenu} height={120} isTopPage={isTopPage}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
           <Container>
-            <StyledNav>
+            <StyledNav isMobile={isMobile}>
               <Flex>
                 <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
                 {!isMobile && (
                   <MenuItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} ml="24px" />
                 )}
               </Flex>
-              <Flex alignItems="center" height="100%">
-                {/* {!isMobile && !isMd && (
-                <Box mr="12px">
-                  <EthwPrice showSkeleton={false} ethwPriceUsd={cakePriceUsd} />
-                </Box>
-              )} */}
-                {rightSide}
-              </Flex>
+              {!isMobile ? (
+                <Flex alignItems="center" height="100%">
+                  {rightSide}
+                </Flex>
+              ) : (
+                <WrapperMenuMobile>
+                  <MenuMobileIcon showMenuMobile={showMenuMobile} onClick={() => setShowMenuMobile(!showMenuMobile)} />
+                  {showMenuMobile && (
+                    <WrapperMenuMobileContent>
+                      <MenuMobileItems items={links} activeItem={activeItem} activeSubItem={activeSubItem} />
+                      <Flex alignItems="center">{rightSide}</Flex>
+                    </WrapperMenuMobileContent>
+                  )}
+                </WrapperMenuMobile>
+              )}
             </StyledNav>
           </Container>
         </FixedContainer>
@@ -182,7 +218,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
             )}
           </Flex>
         )}
-        <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : "60px"}>
+        <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : `${isMobile ? "25px" : "60px"}`}>
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
             <Footer
@@ -198,7 +234,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
             />
           </Inner>
         </BodyWrapper>
-        {isMobile && <BottomNav items={links} activeItem={activeItem} activeSubItem={activeSubItem} />}
+        {/* {isMobile && <BottomNav items={links} activeItem={activeItem} activeSubItem={activeSubItem} />} */}
       </Wrapper>
     </MenuContext.Provider>
   );

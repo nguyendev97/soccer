@@ -17,7 +17,6 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import useAuth from 'hooks/useAuth'
 import NextLink from 'next/link'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import { useProfile } from 'state/profile/hooks'
 import { usePendingTransactions } from 'state/transactions/hooks'
 import { useAccount } from 'wagmi'
@@ -26,7 +25,6 @@ import WalletModal, { WalletView } from './WalletModal'
 import WalletUserMenuItem from './WalletUserMenuItem'
 
 const UserMenu = () => {
-  const router = useRouter()
   const { t } = useTranslation()
   const { address: account } = useAccount()
   const { chainId, isWrongNetwork } = useActiveChainId()
@@ -50,14 +48,6 @@ const UserMenu = () => {
       setUserMenuVariable('default')
     }
   }, [hasPendingTransactions, pendingNumber, t])
-
-  useEffect(() => {
-    console.log('Login ==>', account)
-    if (account) {
-      // router.push(`/profile`)
-      router.push(`/profile/${account.toLowerCase()}/inventory`)
-    }
-  }, [account])
 
   const onClickWalletMenu = (): void => {
     if (isWrongNetwork) {
@@ -130,7 +120,7 @@ const UserMenu = () => {
         <Trans>Connect Wallet</Trans>
       </Box>
       <Box display={['block', , , 'none']}>
-        <Trans>Connect</Trans>
+        <Trans>Connect Wallet</Trans>
       </Box>
     </ConnectWalletButton>
   )

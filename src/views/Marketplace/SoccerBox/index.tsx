@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { Flex, useModal, useToast } from '@pancakeswap/uikit'
+import { useToast } from '@pancakeswap/uikit'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { useERC1155, useBoxesOpenContract } from 'hooks/useContract'
 import { getBoxesAddress } from 'utils/addressHelpers'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import BoxItem from '../components/BoxItem'
-import { specialBoxImage, goldBoxImage, silverBoxImage, commonBoxImage } from '../images'
+import { specialBoxImage } from '../images'
 
 const StyledFlexWrapper = styled.div`
   width: 100%;
@@ -25,6 +25,10 @@ export const Row = styled.div`
 export const Col4 = styled.div`
   width: calc(100% / 4);
   padding: 0 12px;
+  @media (max-width: 768px) {
+    width: 50%;
+    margin-bottom: 15px;
+  }
 `
 
 const boxesAddress = getBoxesAddress()
@@ -41,7 +45,7 @@ const SoccerBox = () => {
 
   useEffect(() => {
     if (account) {
-      boxesContract.balanceOf(account, SPECIAL_TYPE).then(res => setAmountBox(res.toNumber()))
+      boxesContract.balanceOf(account, SPECIAL_TYPE).then((res) => setAmountBox(res.toNumber()))
     }
   }, [account, boxesContract])
 
@@ -50,10 +54,7 @@ const SoccerBox = () => {
       return callWithGasPrice(boxesOpenContract, 'open', [Date.now(), [SPECIAL_TYPE], [3]])
     })
     if (receipt?.status) {
-      toastSuccess(
-        `Opened ${amountBox} box(es) just now`,
-        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
-      )
+      toastSuccess(`Opened ${amountBox} box(es) just now`, <ToastDescriptionWithTx txHash={receipt.transactionHash} />)
     }
   }
 
@@ -63,7 +64,13 @@ const SoccerBox = () => {
         <Container>
           <Row>
             <Col4>
-              <BoxItem pendingTx={pendingTx} totalBox={amountBox} avatar={specialBoxImage} boxName="Special box" onClick={handleOpen} />
+              <BoxItem
+                pendingTx={pendingTx}
+                totalBox={amountBox}
+                avatar={specialBoxImage}
+                boxName="Special box"
+                onClick={handleOpen}
+              />
             </Col4>
             {/* <Col4>
               <BoxItem avatar={goldBoxImage} boxName="Gold box" />

@@ -9,6 +9,7 @@ import { requiresApproval } from 'utils/requiresApproval'
 import BigNumber from 'bignumber.js'
 import { BUSD } from '@pancakeswap/tokens'
 import { ChainId } from '@pancakeswap/sdk'
+import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { ethers } from 'ethers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { getBalanceAmount, formatAmount } from 'utils/formatBalance'
@@ -19,9 +20,11 @@ import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { backgroundSoccerImage, specialSellBoxImage, borderImage, busdImage } from '../images'
 
-const BannerSoccer = styled.div<{ src: string }>`
+const BannerSoccer = styled.div<{ src: string; isMobile: boolean }>`
   padding-top: 30px;
   padding-bottom: 90px;
+  padding-left: ${({ isMobile }) => (isMobile ? '15px' : 0)};
+  padding-right: ${({ isMobile }) => (isMobile ? '15px' : 0)};
   background-image: url('${({ src }) => src}');
   background-color: ${({ theme }) => theme.colors.backgroundAlt3};
   background-position: center bottom;
@@ -41,14 +44,14 @@ const StyledSoccerBox = styled(Flex)`
   margin: auto;
   margin-top: 30px;
 `
-const HeadingBorder = styled(Heading)<{ src: string }>`
+const HeadingBorder = styled(Heading)<{ src: string; isMobile: boolean }>`
   font-weight: 700;
-  font-size: 36px;
+  font-size: ${({ isMobile }) => (isMobile ? '24px' : '36px')};
   color: #fff;
   text-transform: uppercase;
   display: inline-block;
-  padding-left: 150px;
-  padding-right: 150px;
+  padding-left: ${({ isMobile }) => (isMobile ? '60px' : '150px')};
+  padding-right: ${({ isMobile }) => (isMobile ? '60px' : '150px')};
   padding-bottom: 30px;
   background-image: url('${({ src }) => src}');
   background-position: center bottom;
@@ -91,11 +94,12 @@ const InputAmout = styled(Input)`
 const SPECIAL_TYPE = 1
 
 const SpecialBox = () => {
+  const { isMobile } = useMatchBreakpoints()
   const { account, chainId } = useWeb3React()
   const [amount, setAmount] = useState(1)
   const [remain, setRemain] = useState(0)
   const [priceOfBox, setPriceOfBox] = useState<number>(0)
-  const { balance, fetchStatus } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, true) // todo: Show out user's balance
+  // const { balance, fetchStatus } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, true) // todo: Show out user's balance
   const boxSaleContract = useBoxSaleContract()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()
@@ -134,13 +138,15 @@ const SpecialBox = () => {
   })
   return (
     <>
-      <BannerSoccer src={backgroundSoccerImage?.src}>
+      <BannerSoccer src={backgroundSoccerImage?.src} isMobile={isMobile}>
         <StyledFlexWrapper>
-          <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: '26px' }}>
+          <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: isMobile ? '18px' : '26px' }}>
             Soccer box contains various Heroes with certain drop rates.
           </Heading>
           <StyledSoccerBox>
-            <HeadingBorder src={borderImage?.src}>Special box</HeadingBorder>
+            <HeadingBorder src={borderImage?.src} isMobile={isMobile}>
+              Special box
+            </HeadingBorder>
             <CountDown date="2022/11/30" />
             <Image src={specialSellBoxImage} alt="Box" className="box-image" />
             <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>

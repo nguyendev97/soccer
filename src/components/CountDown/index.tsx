@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Flex, Text } from '@pancakeswap/uikit'
+import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 
 const WrapperTimer = styled(Flex)`
   flex-direction: row;
@@ -10,20 +11,20 @@ const ColTimer = styled(Flex)`
   align-items: center;
   flex-direction: column;
 `
-const TimeCount = styled(Text)`
+const TimeCount = styled(Text)<{ isMobile: boolean }>`
   font-weight: 700;
-  font-size: 36px;
+  font-size: ${({ isMobile }) => (isMobile ? '30px' : '36px')};
   color: #fff;
 `
-const TimeType = styled(Text)`
+const TimeType = styled(Text)<{ isMobile: boolean }>`
   font-weight: 400;
-  font-size: 14px;
+  font-size: ${({ isMobile }) => (isMobile ? '11px' : '14px')};
   background: #1d018d;
   border-radius: 6px;
   text-align: center;
-  width: 68px;
-  height: 24px;
-  line-height: 24px;
+  width: ${({ isMobile }) => (isMobile ? '54px' : '68px')};
+  height: ${({ isMobile }) => (isMobile ? '20px' : '24px')};
+  line-height: ${({ isMobile }) => (isMobile ? '20px' : '24px')};
 `
 
 export interface Props {
@@ -31,6 +32,7 @@ export interface Props {
 }
 
 const CountDown: React.FC<React.PropsWithChildren<Props>> = ({ date }) => {
+  const { isMobile } = useMatchBreakpoints()
   const [days, setDays] = useState<any>('00')
   const [hours, setHours] = useState<any>('00')
   const [minutes, setMinutes] = useState<any>('00')
@@ -68,29 +70,29 @@ const CountDown: React.FC<React.PropsWithChildren<Props>> = ({ date }) => {
   return (
     <WrapperTimer>
       <ColTimer>
-        <TimeCount>{days}</TimeCount>
-        <TimeType>Days</TimeType>
+        <TimeCount isMobile={isMobile}>{days}</TimeCount>
+        <TimeType isMobile={isMobile}>Days</TimeType>
       </ColTimer>
       <ColTimer style={{ marginLeft: '5px', marginRight: '5px ' }}>
-        <TimeCount>:</TimeCount>
+        <TimeCount isMobile={isMobile}>:</TimeCount>
       </ColTimer>
       <ColTimer>
-        <TimeCount>{hours}</TimeCount>
-        <TimeType>Times</TimeType>
+        <TimeCount isMobile={isMobile}>{hours}</TimeCount>
+        <TimeType isMobile={isMobile}>Times</TimeType>
       </ColTimer>
       <ColTimer style={{ marginLeft: '5px', marginRight: '5px ' }}>
-        <TimeCount>:</TimeCount>
+        <TimeCount isMobile={isMobile}>:</TimeCount>
       </ColTimer>
       <ColTimer>
-        <TimeCount>{minutes}</TimeCount>
-        <TimeType>Minutes</TimeType>
+        <TimeCount isMobile={isMobile}>{minutes}</TimeCount>
+        <TimeType isMobile={isMobile}>Minutes</TimeType>
       </ColTimer>
       <ColTimer style={{ marginLeft: '5px', marginRight: '5px ' }}>
-        <TimeCount>:</TimeCount>
+        <TimeCount isMobile={isMobile}>:</TimeCount>
       </ColTimer>
       <ColTimer>
-        <TimeCount>{seconds}</TimeCount>
-        <TimeType>Seconds</TimeType>
+        <TimeCount isMobile={isMobile}>{seconds}</TimeCount>
+        <TimeType isMobile={isMobile}>Seconds</TimeType>
       </ColTimer>
     </WrapperTimer>
   )
