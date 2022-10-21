@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { useRouter } from 'next/router'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { Flex, Heading, Text, useToast, Input } from '@pancakeswap/uikit'
 import GradientButton from 'components/GradientButton'
 import CountDown from 'components/CountDown'
 import Image from 'next/image'
 import { requiresApproval } from 'utils/requiresApproval'
+import useCatchTxError from 'hooks/useCatchTxError'
 import BigNumber from 'bignumber.js'
 import { BUSD } from '@pancakeswap/tokens'
 import { ChainId } from '@pancakeswap/sdk'
@@ -15,10 +17,149 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { getBalanceAmount, formatAmount } from 'utils/formatBalance'
 // import useTokenBalance from 'hooks/useTokenBalance'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
-import { useBoxSaleContract, useERC20 } from 'hooks/useContract'
+import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
+import { getRefferalOwnerAddress } from 'utils/addressHelpers'
 import { backgroundSoccerImage, specialSellBoxImage, borderImage, busdImage } from '../images'
+
+const SPECIAL_TYPE = 1
+const refferalOwnerAddress = getRefferalOwnerAddress()
+
+const SpecialBox = () => {
+  const { isMobile } = useMatchBreakpoints()
+  const router = useRouter()
+  const { account, chainId } = useWeb3React()
+  const [refAddress, setRefAddress] = useState('')
+  const [amount, setAmount] = useState(1)
+  const [remain, setRemain] = useState(0)
+  const [isRegistered, setIsRegistered] = useState(false)
+  const [priceOfBox, setPriceOfBox] = useState<number>(0)
+  // const { balance, fetchStatus } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, true) // todo: Show out user's balance
+  const boxSaleContract = useBoxSaleContract()
+  const refferalContract = useRefferalContract()
+  const { callWithGasPrice } = useCallWithGasPrice()
+  const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
+  const { toastSuccess } = useToast()
+  const busdContract = useERC20(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address)
+
+  useEffect(() => {
+    if (router.query.ref) {
+      setRefAddress(router.query.ref as string)
+    } else {
+      setRefAddress(refferalOwnerAddress)
+    }
+  }, [router.query])
+  
+  useEffect(() => {
+    // Get Price of each box
+    boxSaleContract.prices(SPECIAL_TYPE).then((price) => {
+      const busdBalance = getBalanceAmount(new BigNumber(price._hex))
+      setPriceOfBox(busdBalance.toNumber())
+    })
+
+    // Get amount of remaining boxes
+    boxSaleContract.remains(SPECIAL_TYPE).then((res) => setRemain(res.toNumber()))
+
+    // Check if register yet
+    if (account) {
+      refferalContract.isReferrer(account).then(setIsRegistered)
+    }
+    
+  }, [amount, boxSaleContract, account, refferalContract])
+
+  const handleRegister = async() => {
+    const receipt = await fetchWithCatchTxError(() => {
+      return callWithGasPrice(refferalContract, 'register', [refAddress])
+    })
+    if (receipt?.status) {
+      toastSuccess(
+        `Registered successfully`,
+        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
+      )
+    }
+  }
+
+  const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
+    onRequiresApproval: async () => {
+      return requiresApproval(busdContract, account, boxSaleContract.address)
+    },
+    onApprove: () => {
+      return callWithGasPrice(busdContract, 'approve', [boxSaleContract.address, ethers.constants.MaxUint256])
+    },
+    onApproveSuccess: async ({ receipt }) => {
+      toastSuccess(
+        'Contract approved - You can now buy boxes!',
+        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
+      )
+    },
+    onConfirm: () => {
+      return callWithGasPrice(boxSaleContract, 'buy', [SPECIAL_TYPE, amount])
+    },
+    onSuccess: async ({ receipt }) => {
+      toastSuccess(
+        `Bought ${amount} box(es) successfully!`,
+        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
+      )
+    },
+  })
+  return (
+    <>
+      <BannerSoccer src={backgroundSoccerImage?.src} isMobile={isMobile}>
+        <StyledFlexWrapper>
+          <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: isMobile ? '18px' : '26px' }}>
+            Soccer box contains various Heroes with certain drop rates.
+          </Heading>
+          <StyledSoccerBox>
+            <HeadingBorder src={borderImage?.src} isMobile={isMobile}>
+              Special box
+            </HeadingBorder>
+            <CountDown date="2022/11/30" />
+            <Image src={specialSellBoxImage} alt="Box" className="box-image" />
+            <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
+              <TextInfo style={{ marginRight: '20px' }}>
+                Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
+              </TextInfo>
+              <TextInfo>
+                Remain: <TextCount>{remain}</TextCount>
+              </TextInfo>
+            </Flex>
+            {account ? 
+              isRegistered
+                ? (
+                  <GradientButton
+                    disabled={isApproving || isConfirming}
+                    onClick={isApproved ? handleConfirm : handleApprove}
+                    fontSize="16px"
+                    fontWeight="700"
+                  >
+                    <Flex style={{ alignItems: 'center' }}>
+                      <Image src={busdImage} width="26px" />
+                      <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
+                        {isApproving && 'Approving ...'}
+                        {isConfirming && 'Confirming ...'}
+                        {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
+                      </Text>
+                    </Flex>
+                  </GradientButton>
+                ) : (
+                  <GradientButton
+                    disabled={refAddress === ''}
+                    onClick={handleRegister}
+                    fontSize="16px"
+                    fontWeight="700"
+                  >
+                    {pendingTx ? "Registering ...": "Register first!"}
+                  </GradientButton>
+                ) : <ConnectWalletButton />}
+          </StyledSoccerBox>
+        </StyledFlexWrapper>
+      </BannerSoccer>
+    </>
+  )
+}
+
+export default SpecialBox
 
 const BannerSoccer = styled.div<{ src: string; isMobile: boolean }>`
   padding-top: 30px;
@@ -91,96 +232,3 @@ const InputAmout = styled(Input)`
     box-shadow: none;
   }
 `
-const SPECIAL_TYPE = 1
-
-const SpecialBox = () => {
-  const { isMobile } = useMatchBreakpoints()
-  const { account, chainId } = useWeb3React()
-  const [amount, setAmount] = useState(1)
-  const [remain, setRemain] = useState(0)
-  const [priceOfBox, setPriceOfBox] = useState<number>(0)
-  // const { balance, fetchStatus } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, true) // todo: Show out user's balance
-  const boxSaleContract = useBoxSaleContract()
-  const { callWithGasPrice } = useCallWithGasPrice()
-  const { toastSuccess } = useToast()
-  const busdContract = useERC20(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address)
-
-  useEffect(() => {
-    boxSaleContract.prices(SPECIAL_TYPE).then((price) => {
-      const busdBalance = getBalanceAmount(new BigNumber(price._hex))
-      setPriceOfBox(busdBalance.toNumber())
-    })
-    boxSaleContract.remains(SPECIAL_TYPE).then((res) => setRemain(res.toNumber()))
-  }, [amount, boxSaleContract])
-
-  const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
-    onRequiresApproval: async () => {
-      return requiresApproval(busdContract, account, boxSaleContract.address)
-    },
-    onApprove: () => {
-      return callWithGasPrice(busdContract, 'approve', [boxSaleContract.address, ethers.constants.MaxUint256])
-    },
-    onApproveSuccess: async ({ receipt }) => {
-      toastSuccess(
-        'Contract approved - You can now buy boxes!',
-        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
-      )
-    },
-    onConfirm: () => {
-      return callWithGasPrice(boxSaleContract, 'buy', [SPECIAL_TYPE, amount])
-    },
-    onSuccess: async ({ receipt }) => {
-      toastSuccess(
-        `Bought ${amount} box(es) successfully!`,
-        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
-      )
-    },
-  })
-  return (
-    <>
-      <BannerSoccer src={backgroundSoccerImage?.src} isMobile={isMobile}>
-        <StyledFlexWrapper>
-          <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: isMobile ? '18px' : '26px' }}>
-            Soccer box contains various Heroes with certain drop rates.
-          </Heading>
-          <StyledSoccerBox>
-            <HeadingBorder src={borderImage?.src} isMobile={isMobile}>
-              Special box
-            </HeadingBorder>
-            <CountDown date="2022/11/30" />
-            <Image src={specialSellBoxImage} alt="Box" className="box-image" />
-            <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
-              <TextInfo style={{ marginRight: '20px' }}>
-                Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
-              </TextInfo>
-              <TextInfo>
-                Remain: <TextCount>{remain}</TextCount>
-              </TextInfo>
-            </Flex>
-            {account ? (
-              <GradientButton
-                disabled={isApproving || isConfirming}
-                onClick={isApproved ? handleConfirm : handleApprove}
-                fontSize="16px"
-                fontWeight="700"
-              >
-                <Flex style={{ alignItems: 'center' }}>
-                  <Image src={busdImage} width="26px" />
-                  <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-                    {isApproving && 'Approving ...'}
-                    {isConfirming && 'Confirming ...'}
-                    {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
-                  </Text>
-                </Flex>
-              </GradientButton>
-            ) : (
-              <ConnectWalletButton />
-            )}
-          </StyledSoccerBox>
-        </StyledFlexWrapper>
-      </BannerSoccer>
-    </>
-  )
-}
-
-export default SpecialBox

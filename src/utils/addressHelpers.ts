@@ -132,3 +132,11 @@ export const getBoxesAddress = () => {
 export const getBoxesOpenAddress = () => {
   return getAddress(addresses.boxesOpen)
 }
+
+export const getRefferalAddress = () => {
+  return getAddress(addresses.refferal)
+}
+
+export const getRefferalOwnerAddress = () => {
+  return getAddress(addresses.refferalOner)
+}
