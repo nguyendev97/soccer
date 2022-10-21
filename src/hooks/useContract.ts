@@ -60,6 +60,7 @@ import {
   getBoxSaleContract,
   getErc1155Contract,
   getBoxesOpenContract,
+  getRefferalContract,
 } from 'utils/contractHelpers'
 import { useSigner } from 'wagmi'
 
@@ -381,4 +382,9 @@ export const useBoxSaleContract = (withSignerIfPossible = true) => {
 export const useBoxesOpenContract = (withSignerIfPossible = true) => {
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
   return useMemo(() => getBoxesOpenContract(providerOrSigner), [providerOrSigner])
+}
+
+export const useRefferalContract = (withSignerIfPossible = true) => {
+  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
+  return useMemo(() => getRefferalContract(providerOrSigner), [providerOrSigner])
 }

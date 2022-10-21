@@ -42,7 +42,8 @@ import {
   getBCakeFarmBoosterAddress,
   getBCakeFarmBoosterProxyFactoryAddress,
   getBoxSaleAddress,
-  getBoxesOpenAddress
+  getBoxesOpenAddress,
+  getRefferalAddress,
 } from 'utils/addressHelpers'
 
 // ABI
@@ -97,6 +98,7 @@ import bCakeProxyAbi from 'config/abi/bCakeProxy.json'
 import boxSaleAbi from 'config/abi/boxSale.json'
 import erc1155Abi from 'config/abi/erc1155.json'
 import boxesOpenAbi from 'config/abi/boxesOpen.json'
+import refferalAbi from 'config/abi/refferal.json'
 
 // Types
 import type {
@@ -377,4 +379,8 @@ export const getBoxSaleContract = (signer?: Signer | Provider) => {
 
 export const getBoxesOpenContract = (signer?: Signer | Provider) => {
   return getContract({ abi: boxesOpenAbi, address: getBoxesOpenAddress(), signer })
+}
+
+export const getRefferalContract = (signer?: Signer | Provider) => {
+  return getContract({ abi: refferalAbi, address: getRefferalAddress(), signer })
 }

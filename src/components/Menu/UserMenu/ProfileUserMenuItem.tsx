@@ -34,7 +34,7 @@ const ProfileUserMenuItem: React.FC<React.PropsWithChildren<ProfileUserMenuItemP
   }
 
   return (
-    <NextLink href={`/profile/${account?.toLowerCase()}/achievements`} passHref>
+    <NextLink href={`/profile/${account?.toLowerCase()}/inventory`} passHref>
       <UserMenuItem as="a" disabled={disabled}>
         {t('Your Profile')}
       </UserMenuItem>

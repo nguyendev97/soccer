@@ -86,13 +86,13 @@ const ProfileSidebar: React.FC<React.PropsWithChildren<Props>> = ({ accountAddre
         </MenuItem>
       </WrapperMenuItems>
       <WrapperRefferal>
-        <RefferalRow style={{ marginBottom: '24px' }}>
+        {/* <RefferalRow style={{ marginBottom: '24px' }}>
           <RefferalHeading>My Refferal ID</RefferalHeading>
           <CopyAddress account={accountAddress} />
-        </RefferalRow>
+        </RefferalRow> */}
         <RefferalRow>
           <RefferalHeading>My Refferal Link</RefferalHeading>
-          <CopyAddress account={accountAddress} />
+          <CopyAddress account={`${window.location.origin}?ref=${accountAddress}`} />
         </RefferalRow>
       </WrapperRefferal>
     </StyledProfileSidebar>
