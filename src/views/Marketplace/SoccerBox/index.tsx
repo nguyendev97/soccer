@@ -63,7 +63,7 @@ const SoccerBox = () => {
       )
     },
     onConfirm: () => {
-      return callWithGasPrice(boxesOpenContract, 'open', [Date.now(), [SPECIAL_TYPE], [3]])
+      return callWithGasPrice(boxesOpenContract, 'open', [Date.now(), [SPECIAL_TYPE], [amountBox]])
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
@@ -79,7 +79,11 @@ const SoccerBox = () => {
         <Container>
           <Row>
             <Col4>
-              <BoxItem pendingTx={isApproving || isConfirming} totalBox={amountBox} avatar={specialBoxImage} boxName="Special box" onClick={isApproved ? handleConfirm : handleApprove} />
+              <BoxItem
+                disabled={(isApproved && amountBox < 1)}
+                actionLabel={isApproving ? 'Approving ...' : isConfirming ? 'Confirming ...' : 'Open'}
+                totalBox={amountBox} avatar={specialBoxImage}
+                boxName="Special box" onClick={isApproved ? handleConfirm : handleApprove} />
             </Col4>
             {/* <Col4>
               <BoxItem avatar={goldBoxImage} boxName="Gold box" />
