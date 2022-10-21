@@ -51,13 +51,12 @@ const UserMenu = () => {
     }
   }, [hasPendingTransactions, pendingNumber, t])
 
-  useEffect(() => {
-    console.log('Login ==>', account)
-    if (account) {
-      // router.push(`/profile`)
-      router.push(`/profile/${account.toLowerCase()}/inventory`)
-    }
-  }, [account])
+  // useEffect(() => {
+  //   console.log('Login ==>', account)
+  //   if (account) {
+  //     router.push(`/profile/${account.toLowerCase()}/inventory`)
+  //   }
+  // }, [account])
 
   const onClickWalletMenu = (): void => {
     if (isWrongNetwork) {
