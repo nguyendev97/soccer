@@ -54,13 +54,14 @@ const TextCount = styled(Text)`
 `
 
 interface ItemProps extends BoxProps {
-  pendingTx?: boolean
+  disabled?: boolean
   countDown?: string
   boxName?: string
   totalBox?: number
   sellBox?: string
   price?: string
   avatar?: any
+  actionLabel?: string
   onClick?: () => void
   onClear?: () => void
 }
@@ -73,29 +74,34 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   price,
   avatar,
   onClick,
-  pendingTx,
+  actionLabel,
+  disabled,
   ...props
 }) => {
   const accountAddress = useRouter().query.accountAddress as string
   const invalidAddress = !accountAddress || isAddress(accountAddress) === false
-  const handleOpenModal = () => {
-    onClick()
-  }
+
   return (
     <FlexRowItem {...props}>
       <Avatar>
-        {invalidAddress && <TextCountDown>23 : 43 : 07</TextCountDown>}
+        {countDown && <TextCountDown>23 : 43 : 07</TextCountDown>}
         <Image src={avatar} alt={boxName} className="avatar-img" />
       </Avatar>
       <ItemInfo>
-        <HeadingName>{boxName} [{totalBox}]</HeadingName>
+        <HeadingName>
+          {boxName} [{totalBox}]
+        </HeadingName>
         {invalidAddress && (
           <TextCount>
             {sellBox}/{totalBox}
           </TextCount>
         )}
       </ItemInfo>
-      <GradientButton style={{ fontSize: '16px', fontWeight: 700, padding: '0px 20px' }} onClick={handleOpenModal}>
+      <GradientButton
+        disabled={disabled}
+        style={{ fontSize: '16px', fontWeight: 700, padding: '0px 20px' }}
+        onClick={onClick}
+      >
         {invalidAddress ? (
           <Flex style={{ alignItems: 'center' }}>
             <Image src={busdImage} width="26px" />
@@ -105,7 +111,7 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
           </Flex>
         ) : (
           <Text bold fontSize="16px" color="#fff">
-            {pendingTx ? 'Opening' : 'Open'}
+            {actionLabel}
           </Text>
         )}
       </GradientButton>

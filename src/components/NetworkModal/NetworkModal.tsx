@@ -14,6 +14,7 @@ export const hideWrongNetworkModalAtom = atom(false)
 export const NetworkModal = ({ pageSupportedChains = SUPPORT_ONLY_BSC }: { pageSupportedChains?: number[] }) => {
   const { chainId, chain, isWrongNetwork } = useActiveWeb3React()
   const { chains } = useNetwork()
+
   const [dismissWrongNetwork, setDismissWrongNetwork] = useAtom(hideWrongNetworkModalAtom)
 
   const isBNBOnlyPage = useMemo(() => {
