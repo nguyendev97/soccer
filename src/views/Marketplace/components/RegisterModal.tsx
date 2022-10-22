@@ -103,6 +103,7 @@ const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ 
         `Registered successfully`,
         <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
       )
+      onDismiss()
     }
   }
 
@@ -120,7 +121,7 @@ const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ 
         <ModalBodyContent>
           <DefaultButton onClick={() => setRefCode(rootRef)}>Default code</DefaultButton>
           <Flex>
-            <CodeInput value={refCode} />
+            <CodeInput onChange={(event) => setRefCode(event.target.value)} value={refCode} />
             <PaseButton onClick={handlePaste}>Paste</PaseButton>
           </Flex>
           <FlexModalBottom>

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import GradientButton from 'components/GradientButton'
-import { Menu as UikitMenu, useModal, Flex, Text } from '@pancakeswap/uikit'
+import { Menu as UikitMenu, Flex, Text } from '@pancakeswap/uikit'
 import { useTranslation, languageList } from '@pancakeswap/localization'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { useAccount } from 'wagmi'
@@ -13,11 +13,8 @@ import useTheme from 'hooks/useTheme'
 import { useCakeBusdPrice } from 'hooks/useBUSDPrice'
 import UserMenu from './UserMenu'
 import { useMenuItems } from './hooks/useMenuItems'
-// import GlobalSettings from './GlobalSettings'
 import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
 import { footerLinks } from './config/footerConfig'
-import RegisterModal from './UserMenu/RegisterModal'
-// import { SettingsMode } from './GlobalSettings/types'
 
 export const ProfileList = styled.div`
   position: relative;
@@ -62,7 +59,6 @@ const Menu = (props) => {
   const menuItems = useMenuItems()
   const activeMenuItem = getActiveMenuItem({ menuConfig: menuItems, pathname })
   const activeSubMenuItem = getActiveSubMenuItem({ menuItem: activeMenuItem, pathname })
-  const [onPresentRegisterModal] = useModal(<RegisterModal />)
   const accountEllipsis = account ? `${account.substring(0, 12)}...${account.substring(account.length - 4)}` : null
   const toggleTheme = useMemo(() => {
     return () => setTheme(isDark ? 'light' : 'dark')
