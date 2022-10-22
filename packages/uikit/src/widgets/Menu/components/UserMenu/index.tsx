@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { usePopper } from "react-popper";
 import styled from "styled-components";
-import { Box, Flex } from "../../../../components/Box";
+import Image from "next/image";
+import { Box, Flex, Text } from "@pancakeswap/uikit";
+import { coin2xImage } from "../images";
 // import { ChevronDownIcon } from "../../../../components/Svg";
 import { UserMenuProps, variants } from "./types";
 // import MenuIcon from "./MenuIcon";
@@ -14,7 +16,7 @@ export const StyledUserMenu = styled(Flex)`
   cursor: pointer;
   display: inline-flex;
   height: 44px;
-  padding-left: 32px;
+  padding-left: 20px;
   padding-right: 8px;
   position: relative;
 
@@ -61,6 +63,30 @@ const Menu = styled.div<{ isOpen: boolean }>`
     border-radius: 0 0 8px 8px;
   }
 `;
+export const AccountInfo = styled(Flex)`
+  position: relative;
+`;
+export const AccountWallet = styled(Flex)`
+  flex-direction: column;
+  justify-content: center;
+`;
+export const WrapperTextAmount = styled(Flex)`
+  justify-content: flex-end;
+  margin-top: 10px;
+`;
+export const TextAmount = styled(Text)`
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  margin-right: 10px;
+  line-height: 1.2;
+`;
+export const Avatar = styled.div`
+  width: 48px;
+  height: 48px;
+  background: url("/images/user-avatar.png") no-repeat center center;
+  margin-left: 20px;
+`;
 
 const UserMenu: React.FC<UserMenuProps> = ({
   account,
@@ -75,7 +101,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [targetRef, setTargetRef] = useState<HTMLDivElement | null>(null);
   const [tooltipRef, setTooltipRef] = useState<HTMLDivElement | null>(null);
-  const accountEllipsis = account ? `${account.substring(0, 2)}...${account.substring(account.length - 4)}` : null;
+  const accountEllipsis = account ? `${account.substring(0, 12)}...${account.substring(account.length - 4)}` : null;
   const { styles, attributes } = usePopper(targetRef, tooltipRef, {
     strategy: "fixed",
     placement,
@@ -111,8 +137,18 @@ const UserMenu: React.FC<UserMenuProps> = ({
           setIsOpen((s) => !s);
         }}
       >
-        {/* <MenuIcon avatarSrc={avatarSrc} variant={variant} /> */}
-        <LabelText title={typeof text === "string" ? text || account : account}>{text || accountEllipsis}</LabelText>
+        <AccountInfo>
+          <AccountWallet>
+            <LabelText title={typeof text === "string" ? text || account : account}>
+              {text || accountEllipsis}
+            </LabelText>
+            <WrapperTextAmount>
+              <TextAmount>132 SOT</TextAmount>
+              <Image src={coin2xImage} width="20px" height="20px" alt="coin" />
+            </WrapperTextAmount>
+          </AccountWallet>
+          <Avatar />
+        </AccountInfo>
         {/* {!disabled && <ChevronDownIcon color="text" width="24px" />} */}
       </StyledUserMenu>
       {!disabled && (

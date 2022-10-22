@@ -80,17 +80,17 @@ const Menu = (props) => {
           <Flex flexDirection="column" width={isMobile ? '100%' : 'auto'}>
             <Flex
               width="100%"
-              flexDirection={!account && isMobile ? 'row-reverse' : 'row'}
-              justifyContent={isMobile ? 'space-between' : 'flex-start'}
+              flexDirection={!account ? 'row-reverse' : 'row'}
+              justifyContent={isMobile ? 'flex-end' : 'flex-start'}
               mt={isMobile ? '20px' : '0px'}
             >
-              {!isMobile && <UserMenu />}
               <GradientButton
                 style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px' }}
                 onClick={() => onPresentRegisterModal()}
               >
                 Play game
               </GradientButton>
+              {!isMobile && <UserMenu />}
             </Flex>
             {account && isMobile && (
               <ProfileList>

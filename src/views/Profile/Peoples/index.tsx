@@ -15,6 +15,10 @@ const StyledHeading = styled(Heading)`
   font-size: 24px;
   color: #fff;
   margin-bottom: 20px;
+  @media (max-width: 767px) {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
 `
 const Peoples = () => {
   return (
