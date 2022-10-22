@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { Flex, Heading, Text, useToast, Input } from '@pancakeswap/uikit'
+import { Flex, Heading, Text, useToast, Input, useModal } from '@pancakeswap/uikit'
 import GradientButton from 'components/GradientButton'
 import CountDown from 'components/CountDown'
 import Image from 'next/image'
 import { requiresApproval } from 'utils/requiresApproval'
-import useCatchTxError from 'hooks/useCatchTxError'
 import BigNumber from 'bignumber.js'
 import { BUSD } from '@pancakeswap/tokens'
 import { ChainId } from '@pancakeswap/sdk'
@@ -21,6 +20,7 @@ import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useCont
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { getRefferalOwnerAddress } from 'utils/addressHelpers'
+import RegisterModal from '../components/RegisterModal'
 import { backgroundSoccerImage, specialSellBoxImage, borderImage, busdImage } from '../images'
 
 const SPECIAL_TYPE = 1
@@ -38,10 +38,9 @@ const SpecialBox = () => {
   const boxSaleContract = useBoxSaleContract()
   const refferalContract = useRefferalContract()
   const { callWithGasPrice } = useCallWithGasPrice()
-  const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { toastSuccess } = useToast()
   const busdContract = useERC20(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address)
-  const { balance } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, false) // todo: Show out user's balance
+  const { balance } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, false)
   const userBusdBalance = getBalanceAmount(new BigNumber(balance)).toNumber()
 
   useEffect(() => {
@@ -62,25 +61,14 @@ const SpecialBox = () => {
     // Get amount of remaining boxes
     boxSaleContract.remains(SPECIAL_TYPE).then((res) => setRemain(res.toNumber()))
 
-    // Check if register yet
+    // Check if registered yet
     if (account) {
       refferalContract.isReferrer(account).then(setIsRegistered)
     }
     
   }, [amount, boxSaleContract, account, refferalContract])
 
-  const handleRegister = async() => {
-    const receipt = await fetchWithCatchTxError(() => {
-      return callWithGasPrice(refferalContract, 'register', [refAddress])
-    })
-    if (receipt?.status) {
-      setIsRegistered(true)
-      toastSuccess(
-        `Registered successfully`,
-        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
-      )
-    }
-  }
+  const [onPresentRegisterModal] = useModal(<RegisterModal refAddress={refAddress} rootRef={refferalOwnerAddress} onDone={() => setIsRegistered(true)} />)
 
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
     onRequiresApproval: async () => {
@@ -105,6 +93,9 @@ const SpecialBox = () => {
       )
     },
   })
+
+  const isNotEnoughBalance = userBusdBalance < priceOfBox * amount
+
   return (
     <>
       <BannerSoccer src={backgroundSoccerImage?.src} isMobile={isMobile}>
@@ -128,38 +119,40 @@ const SpecialBox = () => {
             </Flex>
             
             {account ? 
-              isRegistered
-                ? (
-                  <GradientButton
-                    disabled={isApproving || isConfirming || (userBusdBalance < priceOfBox * amount)}
-                    onClick={isApproved ? handleConfirm : handleApprove}
-                    fontSize="16px"
-                    fontWeight="700"
-                  >
-                    <Flex style={{ alignItems: 'center' }}>
-                      <Image src={busdImage} width="26px" />
-                      <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-                        {isApproving && 'Approving ...'}
-                        {isConfirming && 'Confirming ...'}
-                        {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
-                      </Text>
-                    </Flex>
-                  </GradientButton>
-                ) : (
-                  <GradientButton
-                    disabled={refAddress === ''}
-                    onClick={handleRegister}
-                    fontSize="16px"
-                    fontWeight="700"
-                  >
-                    {pendingTx ? "Registering ...": "Register first!"}
-                  </GradientButton>
-                ) : <ConnectWalletButton />}
-                <Flex alignItems="center" mt="12px">
-                  <Text mr="8px">Your balance: </Text>
-                  <Image src={busdImage} width="20px" height="20px" />
-                  <Text bold color="#fff" ml="4px">{formatAmount(userBusdBalance)}</Text>
-                </Flex>
+              (<Flex flexDirection="column">
+                <GradientButton
+                  disabled={isApproving || isConfirming || isNotEnoughBalance}
+                  onClick={isApproved ? handleConfirm : handleApprove}
+                  fontSize="16px"
+                  fontWeight="700"
+                >
+                  <Flex style={{ alignItems: 'center' }}>
+                    <Image src={busdImage} width="26px" />
+                    <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
+                      {isApproving && 'Approving ...'}
+                      {isConfirming && 'Confirming ...'}
+                      {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
+                    </Text>
+                  </Flex>
+                </GradientButton>
+                {isNotEnoughBalance ? <Text mt="2px" color="#ED4B9E" bold>Insufficient balance</Text> : null}
+                {!isRegistered && <GradientButton
+                  mt="12px"
+                  disabled={refAddress === ''}
+                  onClick={onPresentRegisterModal}
+                  fontSize="16px"
+                  fontWeight="700"
+                >
+                  Register & Earn rewards!
+                </GradientButton>}
+              </Flex> 
+            ) : <ConnectWalletButton />}
+
+            <Flex alignItems="center" mt="12px">
+              <Text mr="8px">Your balance: </Text>
+              <Image src={busdImage} width="20px" height="20px" />
+              <Text bold color="#fff" ml="4px">{formatAmount(userBusdBalance)}</Text>
+            </Flex>
           </StyledSoccerBox>
         </StyledFlexWrapper>
       </BannerSoccer>

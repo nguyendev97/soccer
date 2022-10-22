@@ -55,7 +55,8 @@ const Menu = (props) => {
   const { isDark, setTheme } = useTheme()
   const cakePriceUsd = useCakeBusdPrice({ forceMainnet: true })
   const { currentLanguage, setLanguage, t } = useTranslation()
-  const { pathname } = useRouter()
+  const router = useRouter()
+  const { pathname } = router
   const { address: account } = useAccount()
 
   const menuItems = useMenuItems()
@@ -86,7 +87,10 @@ const Menu = (props) => {
             >
               <GradientButton
                 style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px' }}
-                onClick={() => onPresentRegisterModal()}
+                onClick={() => router.push(
+                  {
+                    pathname: 'http://game.soccercrypto.io.s3-website-ap-southeast-1.amazonaws.com/',
+                  })}
               >
                 Play game
               </GradientButton>

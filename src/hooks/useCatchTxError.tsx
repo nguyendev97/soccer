@@ -36,7 +36,7 @@ export default function useCatchTxError(): CatchTxErrorReturn {
   const handleNormalError = useCallback(
     (error, tx?: TxResponse) => {
       logError(error)
-
+      
       if (tx) {
         toastError(
           t('Error'),
@@ -45,7 +45,7 @@ export default function useCatchTxError(): CatchTxErrorReturn {
           </ToastDescriptionWithTx>,
         )
       } else {
-        toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+        toastError(t('Error'), error.data ? error.data.message : t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
       }
     },
     [t, toastError],
