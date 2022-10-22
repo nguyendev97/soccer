@@ -1,16 +1,10 @@
 import { NftProfileLayout } from 'views/Profile'
-import ActivityHistory from 'views/Profile/components/ActivityHistory'
-import SubMenu from 'views/Profile/components/SubMenu'
+import Histories from 'views/Profile/Histories'
 
-const NftProfileActivityPage = () => {
-  return (
-    <>
-      <SubMenu />
-      <ActivityHistory />
-    </>
-  )
+const NftProfileHistories = () => {
+  return <Histories />
 }
 
-NftProfileActivityPage.Layout = NftProfileLayout
+NftProfileHistories.Layout = NftProfileLayout
 
-export default NftProfileActivityPage
+export default NftProfileHistories

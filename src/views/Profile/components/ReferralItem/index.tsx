@@ -45,10 +45,12 @@ const SpanCount = styled.span`
 const FlexListAmount = styled(Flex)<{ backgroundColor?: string }>`
   align-items: center;
 `
-const TextAddress = styled.span<{ isChildren?: boolean }>`
+const TextAddress = styled.span<{ isChildren?: boolean; mb?: any }>`
+  display: block;
   font-weight: 500;
   font-size: ${({ isChildren }) => (isChildren ? '16px' : '18px')};
   color: ${({ isChildren }) => (isChildren ? '#CCD3FF' : '#fff')};
+  margin-bottom: ${({ mb }) => mb};
 `
 const SpanAmount = styled.span<{ isChildren?: boolean }>`
   display: flex;
@@ -64,6 +66,7 @@ interface ItemProps extends BoxProps {
   level?: number
   totalRef?: number
   backgroundColor?: string
+  historyDate?: string
   onClick?: () => void
   onClear?: () => void
 }
@@ -73,6 +76,7 @@ const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   level,
   totalRef,
   backgroundColor,
+  historyDate,
   ...props
 }) => {
   const accountAddress = useRouter().query.accountAddress as string
@@ -86,12 +90,20 @@ const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
       )}
       <FlexRowInfo>
         <ItemInfo>
-          {level === 0 ? (
-            <TextAddress isChildren={isChildren}>F0 - {accountAddress}</TextAddress>
+          {historyDate ? (
+            <TextAddress isChildren={isChildren}>{historyDate}</TextAddress>
           ) : (
             <>
-              <TextAddress isChildren={isChildren}>Upline - {accountAddress}</TextAddress>
-              <TextAddress isChildren={isChildren}>You - {accountAddress}</TextAddress>
+              {level === 0 ? (
+                <TextAddress isChildren={isChildren}>F0 - {accountAddress}</TextAddress>
+              ) : (
+                <>
+                  <TextAddress mb="10px" isChildren={isChildren}>
+                    Upline - {accountAddress}
+                  </TextAddress>
+                  <TextAddress isChildren={isChildren}>You - {accountAddress}</TextAddress>
+                </>
+              )}
             </>
           )}
         </ItemInfo>
