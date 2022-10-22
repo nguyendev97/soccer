@@ -30,10 +30,18 @@ export const Row = styled.div`
 export const SideBar = styled.div`
   padding-left: 15px;
   width: calc(100% / 4);
+  @media (max-width: 767px) {
+    width: 100%;
+    padding-right: 15px;
+    margin-bottom: 15px;
+  }
 `
 export const Content = styled.div`
   padding: 0px 15px;
   width: calc(100% - 100% / 4);
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `
 
 const NftProfile: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
