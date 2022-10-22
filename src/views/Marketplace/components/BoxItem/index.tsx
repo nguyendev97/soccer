@@ -61,7 +61,6 @@ interface ItemProps extends BoxProps {
   sellBox?: string
   price?: string
   avatar?: any
-  actionLabel?: string
   onClick?: () => void
   onClear?: () => void
 }
@@ -74,7 +73,6 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   price,
   avatar,
   onClick,
-  actionLabel,
   disabled,
   ...props
 }) => {
@@ -111,7 +109,7 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
           </Flex>
         ) : (
           <Text bold fontSize="16px" color="#fff">
-            {actionLabel}
+            Open
           </Text>
         )}
       </GradientButton>

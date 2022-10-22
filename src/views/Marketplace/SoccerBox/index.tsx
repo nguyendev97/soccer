@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { useToast } from '@pancakeswap/uikit'
-import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
-import { useERC1155, useBoxesOpenContract } from 'hooks/useContract'
+import { useModal } from '@pancakeswap/uikit'
+import { useERC1155 } from 'hooks/useContract'
 import { getBoxesAddress } from 'utils/addressHelpers'
-import { ToastDescriptionWithTx } from 'components/Toast'
-import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
+import OpenBoxesModal from '../components/OpenBoxesModal'
 import BoxItem from '../components/BoxItem'
 import { specialBoxImage } from '../images'
 
@@ -36,11 +34,8 @@ const SPECIAL_TYPE = 1
 
 const SoccerBox = () => {
   const { account } = useWeb3React()
-  const { toastSuccess } = useToast()
   const [amountBox, setAmountBox] = useState(0)
-  const { callWithGasPrice } = useCallWithGasPrice()
   const boxesContract = useERC1155(boxesAddress)
-  const boxesOpenContract = useBoxesOpenContract()
 
   useEffect(() => {
     if (account) {
@@ -48,31 +43,7 @@ const SoccerBox = () => {
     }
   }, [account, boxesContract])
 
-  const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
-    onRequiresApproval: async () => {
-      try {
-        const approvedForContract = await boxesContract.isApprovedForAll(account, boxesOpenContract.address)
-        return !approvedForContract
-      } catch (error) {
-        return true
-      }
-    },
-    onApprove: () => {
-      return callWithGasPrice(boxesContract, 'setApprovalForAll', [boxesOpenContract.address, true])
-    },
-    onApproveSuccess: async ({ receipt }) => {
-      toastSuccess(
-        'Contract approved - You can now open boxes!',
-        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
-      )
-    },
-    onConfirm: () => {
-      return callWithGasPrice(boxesOpenContract, 'open', [Date.now(), [SPECIAL_TYPE], [amountBox]])
-    },
-    onSuccess: async ({ receipt }) => {
-      toastSuccess(`Opened ${amountBox} box(es) just now`, <ToastDescriptionWithTx txHash={receipt.transactionHash} />)
-    },
-  })
+  const [onPresentRegisterModal] = useModal(<OpenBoxesModal onDone={null} />)
 
   return (
     <>
@@ -81,12 +52,11 @@ const SoccerBox = () => {
           <Row>
             <Col4>
               <BoxItem
-                disabled={isApproved && amountBox < 1}
-                actionLabel={isApproving ? 'Approving ...' : isConfirming ? 'Confirming ...' : 'Open'}
+                disabled={amountBox < 1}
                 totalBox={amountBox}
                 avatar={specialBoxImage}
                 boxName="Special box"
-                onClick={isApproved ? handleConfirm : handleApprove}
+                onClick={onPresentRegisterModal}
               />
             </Col4>
             {/* <Col4>

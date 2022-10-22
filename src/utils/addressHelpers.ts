@@ -140,3 +140,7 @@ export const getRefferalAddress = () => {
 export const getRefferalOwnerAddress = () => {
   return getAddress(addresses.refferalOner)
 }
+
+export const getPlayersAddress = () => {
+  return getAddress(addresses.players)
+}

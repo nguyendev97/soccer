@@ -7,8 +7,7 @@ import {
   ModalContainer as UIKitModalContainer,
   ModalHeader as UIKitModalHeader,
   ModalTitle,
-  Button,
-  Input,
+  Text,
   Flex,
 } from '@pancakeswap/uikit'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
@@ -50,6 +49,8 @@ const HeadingTitle = styled(Heading)`
 `
 const ModalBodyContent = styled.div`
   border: 0;
+  overflow-x: auto;
+  max-width: 450px;
 `
 const FlexModalBottom = styled(Flex)`
   margin-top: 40px;
@@ -60,7 +61,11 @@ const RegisterButton = styled(GradientButton)`
   padding: 0px 20px;
 `
 
-const SuccessModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ onDismiss }) => {
+interface SuccessModalProps extends InjectedModalProps {
+  metaDatas: any[]
+}
+
+const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ onDismiss, metaDatas }) => {
   const { isMobile } = useMatchBreakpoints()
   const { t } = useTranslation()
 
@@ -77,11 +82,18 @@ const SuccessModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ o
       {/* {view !== WalletView.WRONG_NETWORK && <TabsComponent />} */}
       <ModalBody p="24px" width="100%">
         <ModalBodyContent>
-          <Flex alignItems="center" justifyContent="center">
-            <Image src={cardItemImage} alt="Card" className="box-image" />
+          <Flex style={{gap: 12}}>
+            {metaDatas.map(({ image, name }) => {
+              return (
+                <Flex border="1px solid #f0b90b" borderRadius="16px" p={4} flexDirection="column" alignItems="center" justifyContent="center">
+                  <img src={image} alt="Card" className="box-image" />
+                  <Text bold color="white">{name}</Text>
+                </Flex>
+              )
+            })}
           </Flex>
           <FlexModalBottom>
-            <RegisterButton>Confirm</RegisterButton>
+            <RegisterButton onClick={onDismiss}>Confirm</RegisterButton>
           </FlexModalBottom>
         </ModalBodyContent>
       </ModalBody>
