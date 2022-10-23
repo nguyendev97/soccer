@@ -111,7 +111,7 @@ const SpecialBox = () => {
             <Image src={specialSellBoxImage} alt="Box" className="box-image" />
             <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
               <TextInfo style={{ marginRight: '20px' }}>
-                Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
+                Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />
               </TextInfo>
               <TextInfo>
                 Remain: <TextCount>{remain}</TextCount>

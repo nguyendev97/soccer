@@ -10,6 +10,9 @@ import {
   Text,
   Flex,
 } from '@pancakeswap/uikit'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css/bundle'
+import SwiperCore from 'swiper'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { useTranslation } from '@pancakeswap/localization'
 import GradientButton from 'components/GradientButton'
@@ -50,13 +53,13 @@ const HeadingTitle = styled(Heading)`
 const ModalBodyContent = styled.div`
   border: 0;
   overflow-x: auto;
-  max-width: 450px;
+  width: 450px;
 `
-const PlayerInfo = styled.div`
+const PlayerInfo = styled.div<{rarity: string}>`
   position: relative;
   width: 210px;
   height: 291px;
-  background: url('/images/player-bg.png') no-repeat center center;
+  background: ${({ rarity }) => `url('/images/player-bg-${rarity}.png') no-repeat center center`};
   background-size: contain;
 `
 const PlayerAvatar = styled.div<{ src?: string }>`
@@ -198,35 +201,38 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
       {/* {view !== WalletView.WRONG_NETWORK && <TabsComponent />} */}
       <ModalBody p="24px" width="100%">
         <ModalBodyContent>
-          <Flex style={{ gap: 12 }} alignItems="center" justifyContent="center">
-            {metaDatas.map(({ image, name, attributes }) => {
+          <Swiper spaceBetween={8} slidesPerView={1.8}>
+          {metaDatas.map(({ image, name, attributes, token_id: tokenId }) => {
               const power = attributes.find(({ key }) => key === 'POW')
               const sho = attributes.find(({ key }) => key === 'SHO')
               const energy = attributes.find(({ key }) => key === 'Energy')
               const spe = attributes.find(({ key }) => key === 'SPE')
               const jmp = attributes.find(({ key }) => key === 'JMP')
               const level = attributes.find(({ key }) => key === 'Level')
+              const rarity = attributes.find(({ key }) => key === 'Rarity')
               return (
-                <PlayerInfo>
-                  <PlayerAvatar src={image} />
-                  <PlayerPower>{power.value}</PlayerPower>
-                  <PlayerName>{name}</PlayerName>
-                  <PlayerProperties>
-                    <PlayerSho>{sho.value}</PlayerSho>
-                    <PlayerPow>{energy.value}</PlayerPow>
-                    <PlayerSpe>{spe.value}</PlayerSpe>
-                    <PlayerJmp>{jmp.value}</PlayerJmp>
-                  </PlayerProperties>
-                  <PlayerLevel>
-                    <LevelText>Level</LevelText>
-                    <LevelText>{level.value}</LevelText>
-                  </PlayerLevel>
-                </PlayerInfo>
+                <SwiperSlide key={tokenId}>
+                  <PlayerInfo rarity={rarity.value.toLowerCase()}>
+                    <PlayerAvatar src={image} />
+                    <PlayerPower>{power.value}</PlayerPower>
+                    <PlayerName>{name}</PlayerName>
+                    <PlayerProperties>
+                      <PlayerSho>{sho.value}</PlayerSho>
+                      <PlayerPow>{energy.value}</PlayerPow>
+                      <PlayerSpe>{spe.value}</PlayerSpe>
+                      <PlayerJmp>{jmp.value}</PlayerJmp>
+                    </PlayerProperties>
+                    <PlayerLevel>
+                      <LevelText>Level</LevelText>
+                      <LevelText>{level.value}</LevelText>
+                    </PlayerLevel>
+                  </PlayerInfo>
+                </SwiperSlide>
               )
-            })}
-          </Flex>
+          })}
+          </Swiper>
           <FlexModalBottom>
-            <RegisterButton onClick={onDismiss}>Confirm</RegisterButton>
+            <RegisterButton onClick={onDismiss}>Confirm {metaDatas.length} kickers</RegisterButton>
           </FlexModalBottom>
         </ModalBodyContent>
       </ModalBody>

@@ -47,7 +47,7 @@ export const lightColors = {
   text99: '#280D5F99',
   textDisabled: '#BDC2C4',
   textSubtle: '#E5E5E5',
-  textSubtle1: '#343a40',
+  textSubtle1: 'black',
   textCoppyright: '#9B9BAE',
   disabled: '#E9EAEB',
   border: '#9197ba',

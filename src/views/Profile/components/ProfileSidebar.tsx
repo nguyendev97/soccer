@@ -76,6 +76,8 @@ const getActiveIndex = (pathname: string, url?: string): boolean => {
   return false
 }
 
+// const specialAddressMockup = '0xB3308aC93252caA618BC87d97c8dCd7bbb0fccb4'
+
 const ProfileSidebar: React.FC<React.PropsWithChildren<Props>> = ({ accountAddress }) => {
   const { t } = useTranslation()
   const { pathname } = useRouter()
@@ -90,26 +92,27 @@ const ProfileSidebar: React.FC<React.PropsWithChildren<Props>> = ({ accountAddre
         setRefferBy(res.refferBy)
       })
       Promise.all([
-        commContract.isSpecialTree(accountAddress),
-        commContract.isSpecial2Tree(accountAddress)
-      ]).then(res => setIsSpecialTree(res[0].isSpecial || res[1].isSpecial))
+        commContract.specials(accountAddress),
+        commContract.specials2(accountAddress)
+      ]).then(res => {
+        setIsSpecialTree(res[0] || res[1])
+      })
     }
     
-  }, [accountAddress, refferalContract])
+  }, [accountAddress, refferalContract, commContract])
   return (
     <StyledProfileSidebar>
       <WrapperMenuItems>
         <MenuItem icon="inventory" active={getActiveIndex(pathname, '/inventory')}>
           <Link href={`/profile/${accountAddress.toLowerCase()}/inventory`}>{t('Inventory')}</Link>
         </MenuItem>
-        <MenuItem icon="account" active={getActiveIndex(pathname, '/account')}>
-          <Link href={`/profile/${accountAddress.toLowerCase()}/account`}>{t('Account')}</Link>
-        </MenuItem>
         <MenuItem icon="peoples" active={getActiveIndex(pathname, '/peoples')}>
-          <Link href={`/profile/${accountAddress.toLowerCase()}/peoples`}>{t('Peoples')}</Link>
+          {/* <Link href={`/profile/${accountAddress.toLowerCase()}/peoples`}>{t('Peoples')}</Link> */}
+          <Link href={`/profile/${accountAddress.toLowerCase()}/inventory`}>{t('Peoples (coming)')}</Link>
         </MenuItem>
         <MenuItem icon="histories" active={getActiveIndex(pathname, '/histories')}>
-          <Link href={`/profile/${accountAddress.toLowerCase()}/histories`}>{t('Histories')}</Link>
+          {/* <Link href={`/profile/${accountAddress.toLowerCase()}/histories`}>{t('Histories')}</Link> */}
+          <Link href={`/profile/${accountAddress.toLowerCase()}/inventory`}>{t('Histories (coming)')}</Link>
         </MenuItem>
       </WrapperMenuItems>
       <WrapperRefferal>

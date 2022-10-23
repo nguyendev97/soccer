@@ -11,7 +11,9 @@ import {
   Flex,
   useToast,
   useModal,
+  Box,
 } from '@pancakeswap/uikit'
+import Image from 'next/image'
 import cloneDeep from 'lodash/cloneDeep'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { useState, useEffect } from 'react'
@@ -24,6 +26,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import GradientButton from 'components/GradientButton'
 import styled from 'styled-components'
 import SuccessModal from 'views/Marketplace/components/SuccessModal'
+import { specialSellBoxImage } from '../images'
 
 const boxesAddress = getBoxesAddress()
 const playersAddress = getPlayersAddress()
@@ -46,7 +49,7 @@ const CodeInput = styled(Input)`
   font-weight: 400;
   font-size: 16px;
   height: 44px;
-  margin-right: 10px;
+  color: white;
 `
 const FlexModalBottom = styled(Flex)`
   margin-top: 30px;
@@ -60,6 +63,8 @@ const RegisterButton = styled(GradientButton)`
 interface OpenBoxesModalProps extends InjectedModalProps {
   onDone: () => void
 }
+
+const MAX_AMOUNT = 3
 
 const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = ({ onDismiss, onDone }) => {
   const { t } = useTranslation()
@@ -146,8 +151,8 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
   })
 
   useEffect(() => {
-    if (amountBoxes > 5) {
-      setAmount(5)
+    if (amountBoxes > MAX_AMOUNT) {
+      setAmount(MAX_AMOUNT)
     }
   }, [amountBoxes])
 
@@ -158,10 +163,10 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
   }, [metaDatas, onPresentSuccessModal])
 
   return (
-    <ModalContainer title={t('Open boxes!')} $minWidth="440px">
+    <ModalContainer title={t('Open special box(es)!')} $minWidth="440px">
       <ModalHeader>
         <ModalTitle>
-          <Heading style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>{t('Open boxes')}</Heading>
+          <Heading style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>{t('Open special box(es) !')}</Heading>
         </ModalTitle>
         <IconButton variant="text" onClick={onDismiss}>
           <CloseIcon width="24px" color="#fff" />
@@ -169,17 +174,20 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       </ModalHeader>
       <ModalBody p="24px" width="100%">
         <ModalBodyContent>
-          <Flex>
+          <Flex flexDirection="column" alignItems="center">
+            <Box width="50%" mb="8px">
+              <Image src={specialSellBoxImage} alt="Box" className="box-image" />
+            </Box>
             <CodeInput
               max={5}
               type="number"
-              onChange={(event) => setAmount(Number(event.target.value))}
+              onChange={(event) => setAmount(parseInt(event.target.value))}
               value={amountBoxes}
             />
           </Flex>
           <FlexModalBottom>
             <RegisterButton onClick={isApproved ? handleConfirm : handleApprove}>
-              {isApproving || isConfirming ? 'Loading ...' : 'Open now!'}
+              {isApproving || isConfirming ? 'Loading ...' : !isApproved ? 'Approve' : 'Open now!'}
             </RegisterButton>
           </FlexModalBottom>
         </ModalBodyContent>

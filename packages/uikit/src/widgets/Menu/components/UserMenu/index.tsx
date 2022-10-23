@@ -144,7 +144,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
               {text || accountEllipsis}
             </LabelText>
             <WrapperTextAmount>
-              <TextAmount>132 SOT</TextAmount>
+              <TextAmount>0 SOT</TextAmount>
               <Image src={coin2xImage} width="20px" height="20px" alt="coin" />
             </WrapperTextAmount>
           </AccountWallet>
