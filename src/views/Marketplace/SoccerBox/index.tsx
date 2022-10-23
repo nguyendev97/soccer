@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { useModal } from '@pancakeswap/uikit'
 import { useERC1155 } from 'hooks/useContract'
+import { useCurrentBlock } from 'state/block/hooks'
 import { getBoxesAddress } from 'utils/addressHelpers'
 import OpenBoxesModal from '../components/OpenBoxesModal'
 import BoxItem from '../components/BoxItem'
@@ -36,12 +37,13 @@ const SoccerBox = () => {
   const { account } = useWeb3React()
   const [amountBox, setAmountBox] = useState(0)
   const boxesContract = useERC1155(boxesAddress)
+  const currentBlock = useCurrentBlock()
 
   useEffect(() => {
     if (account) {
       boxesContract.balanceOf(account, SPECIAL_TYPE).then((res) => setAmountBox(res.toNumber()))
     }
-  }, [account, boxesContract])
+  }, [account, boxesContract, currentBlock])
 
   const [onPresentRegisterModal] = useModal(<OpenBoxesModal onDone={null} />)
 
