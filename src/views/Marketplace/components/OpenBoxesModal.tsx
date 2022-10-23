@@ -124,8 +124,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
           const tokenURIRes = await Promise.all(tasks)
 
           tasks = []
-          console.log({ tokenURIRes })
-          tokenURIRes.forEach((uri) => {
+          tokenURIRes.forEach(uri => {
             const fetchMeta = async () => {
               const uriRes = await fetch(uri)
               if (uriRes.ok) {

@@ -74,7 +74,7 @@ const PlayerName = styled.span`
   text-transform: uppercase;
   color: #fff;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 9px;
 `
 const PlayerPower = styled.div`
   position: absolute;
@@ -103,10 +103,10 @@ const PlayerSho = styled.div`
   background: url('/images/sho-bg.png') no-repeat left center;
   color: #fff;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 9px;
   background-size: contain;
   text-align: right;
-  padding-right: 10px;
+  padding-right: 5px;
   line-height: 25px;
   margin-bottom: 10px;
 `
@@ -116,10 +116,10 @@ const PlayerPow = styled.div`
   background: url('/images/pow-bg.png') no-repeat left center;
   color: #fff;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 9px;
   background-size: contain;
   text-align: right;
-  padding-right: 10px;
+  padding-right: 5px;
   line-height: 25px;
   margin-bottom: 10px;
 `
@@ -129,10 +129,10 @@ const PlayerSpe = styled.div`
   background: url('/images/spe-bg.png') no-repeat left center;
   color: #fff;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 9px;
   background-size: contain;
   text-align: right;
-  padding-right: 10px;
+  padding-right: 5px;
   line-height: 25px;
   margin-bottom: 10px;
 `
@@ -142,10 +142,10 @@ const PlayerJmp = styled.div`
   background: url('/images/jmp-bg.png') no-repeat left center;
   color: #fff;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 9px;
   background-size: contain;
   text-align: right;
-  padding-right: 10px;
+  padding-right: 5px;
   line-height: 25px;
 `
 const PlayerLevel = styled.div`
@@ -199,17 +199,22 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
       <ModalBody p="24px" width="100%">
         <ModalBodyContent>
           <Flex style={{ gap: 12 }} alignItems="center" justifyContent="center">
-            {metaDatas.map(({ image, name }) => {
+            {metaDatas.map(({ image, name, attributes }) => {
+              const power = attributes.find(({ key }) => key === 'POW')
+              const sho = attributes.find(({ key }) => key === 'SHO')
+              const energy = attributes.find(({ key }) => key === 'Energy')
+              const spe = attributes.find(({ key }) => key === 'SPE')
+              const jmp = attributes.find(({ key }) => key === 'JMP')
               return (
                 <PlayerInfo>
                   <PlayerAvatar src={image} />
-                  <PlayerPower>100/100</PlayerPower>
+                  <PlayerPower>{power.value}</PlayerPower>
                   <PlayerName>{name}</PlayerName>
                   <PlayerProperties>
-                    <PlayerSho>24</PlayerSho>
-                    <PlayerPow>25</PlayerPow>
-                    <PlayerSpe>26</PlayerSpe>
-                    <PlayerJmp>27</PlayerJmp>
+                    <PlayerSho>{sho.value}</PlayerSho>
+                    <PlayerPow>{energy.value}</PlayerPow>
+                    <PlayerSpe>{spe.value}</PlayerSpe>
+                    <PlayerJmp>{jmp.value}</PlayerJmp>
                   </PlayerProperties>
                   <PlayerLevel>
                     <LevelText>Level</LevelText>

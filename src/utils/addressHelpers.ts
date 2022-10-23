@@ -121,26 +121,30 @@ export const getBCakeFarmBoosterProxyFactoryAddress = () => {
   return getAddress(addresses.bCakeFarmBoosterProxyFactory)
 }
 
-export const getBoxSaleAddress = () => {
-  return getAddress(addresses.boxSale)
+export const getBoxSaleAddress = (chainId?: number) => {
+  return getAddress(addresses.boxSale, chainId)
 }
 
-export const getBoxesAddress = () => {
-  return getAddress(addresses.boxes)
+export const getBoxesAddress = (chainId?: number) => {
+  return getAddress(addresses.boxes, chainId)
 }
 
-export const getBoxesOpenAddress = () => {
-  return getAddress(addresses.boxesOpen)
+export const getBoxesOpenAddress = (chainId?: number) => {
+  return getAddress(addresses.boxesOpen, chainId)
 }
 
-export const getRefferalAddress = () => {
-  return getAddress(addresses.refferal)
+export const getRefferalAddress = (chainId?: number) => {
+  return getAddress(addresses.refferal, chainId)
 }
 
-export const getRefferalOwnerAddress = () => {
-  return getAddress(addresses.refferalOner)
+export const getRefferalOwnerAddress = (chainId?: number) => {
+  return getAddress(addresses.refferalOner, chainId)
 }
 
-export const getPlayersAddress = () => {
-  return getAddress(addresses.players)
+export const getPlayersAddress = (chainId?: number) => {
+  return getAddress(addresses.players, chainId)
+}
+
+export const getCommAddress = (chainId?: number) => {
+  return getAddress(addresses.comm, chainId)
 }

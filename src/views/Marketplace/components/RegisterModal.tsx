@@ -126,7 +126,7 @@ const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ 
           </Flex>
           <FlexModalBottom>
             <LaterButton onClick={onDismiss}>Later</LaterButton>
-            <RegisterButton onClick={handleRegister}>{pendingTx ? "Registering ...": "Register!"}</RegisterButton>
+            <RegisterButton onClick={handleRegister}>{pendingTx ? "Registering...": "Register!"}</RegisterButton>
           </FlexModalBottom>
         </ModalBodyContent>
       </ModalBody>

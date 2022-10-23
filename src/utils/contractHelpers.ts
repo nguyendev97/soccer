@@ -44,6 +44,7 @@ import {
   getBoxSaleAddress,
   getBoxesOpenAddress,
   getRefferalAddress,
+  getCommAddress,
 } from 'utils/addressHelpers'
 
 // ABI
@@ -99,6 +100,7 @@ import boxSaleAbi from 'config/abi/boxSale.json'
 import erc1155Abi from 'config/abi/erc1155.json'
 import boxesOpenAbi from 'config/abi/boxesOpen.json'
 import refferalAbi from 'config/abi/refferal.json'
+import commAbi from 'config/abi/comm.json'
 
 // Types
 import type {
@@ -383,4 +385,8 @@ export const getBoxesOpenContract = (signer?: Signer | Provider) => {
 
 export const getRefferalContract = (signer?: Signer | Provider) => {
   return getContract({ abi: refferalAbi, address: getRefferalAddress(), signer })
+}
+
+export const getCommContract = (signer?: Signer | Provider) => {
+  return getContract({ abi: commAbi, address: getCommAddress(), signer })
 }
