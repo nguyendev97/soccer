@@ -157,7 +157,7 @@ export default {
     97: '0x1c529e1910adc5a397e59ceb3f55ce85f81c9885',
   },
   boxesOpen: {
-    56: '0x0BC7Ef094A1498b2d6e95E990472bDa4c4CD1577',
+    56: '0xdBfcEe104d8C8df2f45661D17A18D75a9Ed2894D',
     97: '0x00c376468CA10dAEfFc4F1EAe31b35843Ebc128E',
   },
   refferal: {
