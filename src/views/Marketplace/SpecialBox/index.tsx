@@ -107,7 +107,7 @@ const SpecialBox = () => {
             <HeadingBorder src={borderImage?.src} isMobile={isMobile}>
               Special box
             </HeadingBorder>
-            <CountDown date="2022/11/30" />
+            <CountDown date="2022/11/10" />
             <Image src={specialSellBoxImage} alt="Box" className="box-image" />
             <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
               <TextInfo style={{ marginRight: '20px' }}>
