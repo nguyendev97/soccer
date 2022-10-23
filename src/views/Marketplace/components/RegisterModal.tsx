@@ -91,23 +91,23 @@ const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ 
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { toastSuccess } = useToast()
   const [refCode, setRefCode] = useState(refAddress)
-
+  const isRoot = refAddress.toLowerCase() === refCode.toLowerCase()
   const handlePaste = async() => {
     const address = await navigator.clipboard.readText()
     setRefCode(address)
   }
 
   useEffect(() => {
-    if (account) {
-      refferalContract.isReferrer(account).then(setIsRegistered)
+    if (refCode) {
+      refferalContract.isReferrer(refCode).then(setIsRegistered)
     }
-  }, [refferalContract, account])
+  }, [refferalContract, refCode])
 
-  useEffect(() => {
-    if (!isRegistered) {
-      setRefCode(rootRef)
-    }
-  }, [isRegistered, rootRef])
+  // useEffect(() => {
+  //   if (!isRegistered) {
+  //     setRefCode(rootRef)
+  //   }
+  // }, [isRegistered, rootRef])
 
   const handleRegister = async() => {
     const receipt = await fetchWithCatchTxError(() => {
@@ -142,7 +142,7 @@ const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ 
             <CodeInput onChange={(event) => setRefCode(event.target.value)} value={refCode} />
             <PaseButton onClick={handlePaste}>Paste</PaseButton>
           </Flex>
-          {!isRegistered && <Text color="#ED4B9E">The reference code does not exist</Text>}
+          {!isRegistered && !isRoot && <Text color="#ED4B9E">The reference code does not exist</Text>}
           <FlexModalBottom>
             <LaterButton onClick={onDismiss}>Later</LaterButton>
             <RegisterButton onClick={handleRegister}>{pendingTx ? "Registering...": "Register!"}</RegisterButton>
