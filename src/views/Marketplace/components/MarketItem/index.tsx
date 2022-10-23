@@ -134,9 +134,20 @@ const ButtonApprove = styled(Button)`
     height: 36px;
   }
 `
+
+const PlayerInfo = styled(Flex)<{rarity: string}>`
+  width: 110px;
+  height: 110px;
+  // background: ${({ rarity }) => `url('/images/player-bg-${rarity}.png') no-repeat center center`};
+  background: ${({ rarity }) => `url('/images/rarity/${rarity}.png') no-repeat center center`};
+  background-size: contain;
+  align-items: center;
+  justify-content: center;
+`
+
 interface ItemProps extends BoxProps {
   code?: string
-  ratity?: string
+  ratity: string
   level?: string
   avatar?: any
   price?: string
@@ -151,6 +162,8 @@ interface ItemProps extends BoxProps {
 
 const getButton = (statusName: string) => {
   switch (statusName) {
+    case 'inWallet':
+      return <ButtonSelling disabled>In Wallet</ButtonSelling>
     case 'selling':
       return <ButtonSelling>{statusName}</ButtonSelling>
     case 'remove':
@@ -176,13 +189,15 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
 }) => {
   const { isMobile } = useMatchBreakpoints()
   const { t } = useTranslation()
-
+  console.log(ratity.toLowerCase())
   return (
     <FlexRowItem {...props}>
       <Flex width={isMobile ? '100%' : 'auto'}>
         <Flex>
           <Avatar>
-            <Image src={avatar} alt={code} className="avatar-img" />
+            <PlayerInfo rarity={ratity}>
+              <img style={{height: 100, width: 'fit-content'}} src={avatar} alt={code} className="avatar-img" />
+            </PlayerInfo>
           </Avatar>
           <ItemInfo>
             <LegendTextRaty>{ratity}</LegendTextRaty>

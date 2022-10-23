@@ -88,17 +88,16 @@ function ConnectModal<T>({ login, onDismiss = () => null, displayCount = 3, t, w
           </Grid>
         </WalletWrapper>
         <Box p="24px">
-          <Text textAlign="center" color="textSubtle" as="p" mb="16px">
+          <Text textAlign="center" color="text" as="p" mb="16px">
             {t("Haven’t got a crypto wallet yet?")}
           </Text>
           <Button
             as="a"
             href="https://blogs.soccercrypto.io/2022/10/22/how-to-connect-metamask-wallet-to-soccercrypto/"
-            variant="subtle"
             width="100%"
             {...EXTERNAL_LINK_PROPS}
           >
-            {t("Learn How to Connect")}
+            {t("Learn How To Connect Soccer Crypto")}
           </Button>
         </Box>
       </ModalBody>

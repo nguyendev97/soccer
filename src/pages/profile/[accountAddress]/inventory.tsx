@@ -68,9 +68,9 @@ const NftProfileInventory = () => {
           {t('Soccer box')}
         </TabsButton>
         <TabsButton isActive={view === MarketView.HERO} style={{ marginRight: '20px' }}>
-          {t('Hero')}
+          {t('Kickers')}
         </TabsButton>
-        <TabsButton isActive={view === MarketView.EQUIPMENT}>{t('Equipment')}</TabsButton>
+        <TabsButton isActive={view === MarketView.HERO}>{t('Equipment (Coming)')}</TabsButton>
       </TabsWrapper>
     </Tabs>
   )
@@ -86,12 +86,12 @@ const NftProfileInventory = () => {
                 value: 0,
               },
               {
-                label: t('Hero'),
+                label: t('Kickers'),
                 value: 1,
               },
               {
-                label: t('Equipment'),
-                value: 2,
+                label: t('Equipment (Coming)'),
+                value: 1,
               },
             ]}
             onOptionChange={handleTypeOptionChange}

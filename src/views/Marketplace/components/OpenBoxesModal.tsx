@@ -61,12 +61,12 @@ const RegisterButton = styled(GradientButton)`
 `
 
 interface OpenBoxesModalProps extends InjectedModalProps {
-  onDone: () => void
+  maxAmount: number
 }
 
 const MAX_AMOUNT = 5
 
-const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = ({ onDismiss, onDone }) => {
+const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = ({ onDismiss, maxAmount }) => {
   const { t } = useTranslation()
   const [metaDatas, setMetaDatas] = useState([])
   const { account } = useWeb3React()
@@ -151,10 +151,11 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
   })
 
   useEffect(() => {
-    if (amountBoxes > MAX_AMOUNT) {
-      setAmount(MAX_AMOUNT)
+    const max = Math.min(MAX_AMOUNT, maxAmount)
+    if (amountBoxes > max) {
+      setAmount(max)
     }
-  }, [amountBoxes])
+  }, [amountBoxes, maxAmount])
 
   useEffect(() => {
     if (metaDatas.length) {

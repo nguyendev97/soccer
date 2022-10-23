@@ -45,7 +45,7 @@ const SoccerBox = () => {
     }
   }, [account, boxesContract, currentBlock])
 
-  const [onPresentRegisterModal] = useModal(<OpenBoxesModal onDone={null} />)
+  const [onPresentRegisterModal] = useModal(<OpenBoxesModal maxAmount={amountBox} />)
 
   return (
     <>

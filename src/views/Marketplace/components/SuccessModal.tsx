@@ -17,8 +17,6 @@ import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { useTranslation } from '@pancakeswap/localization'
 import GradientButton from 'components/GradientButton'
 import styled from 'styled-components'
-import Image from 'next/image'
-import { cardItemImage } from '../images'
 
 const ModalContainer = styled(UIKitModalContainer)`
   background: ${({ theme }) => theme.colors.modalBackground};
@@ -175,8 +173,8 @@ const FlexModalBottom = styled(Flex)`
   margin-top: 40px;
   justify-content: center;
 `
-const RegisterButton = styled(GradientButton)`
-  width: calc(90% - 10px);
+const ButtonStyled = styled(GradientButton)`
+  width: fit-content;
   padding: 0px 20px;
 `
 
@@ -231,7 +229,7 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
           })}
           </Swiper>
           <FlexModalBottom>
-            <RegisterButton onClick={onDismiss}>Confirm {metaDatas.length} kickers</RegisterButton>
+            <ButtonStyled onClick={onDismiss}>Confirm {metaDatas.length} kickers</ButtonStyled>
           </FlexModalBottom>
         </ModalBodyContent>
       </ModalBody>
