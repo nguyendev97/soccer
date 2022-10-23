@@ -52,7 +52,7 @@ const SoccerBox = () => {
           <Row>
             <Col4>
               <BoxItem
-                disabled={amountBox < 1}
+                // disabled={amountBox < 1}
                 totalBox={amountBox}
                 avatar={specialBoxImage}
                 boxName="Special box"

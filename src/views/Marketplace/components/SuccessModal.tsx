@@ -52,6 +52,122 @@ const ModalBodyContent = styled.div`
   overflow-x: auto;
   max-width: 450px;
 `
+const PlayerInfo = styled.div`
+  position: relative;
+  width: 210px;
+  height: 291px;
+  background: url('/images/player-bg.png') no-repeat center center;
+  background-size: contain;
+`
+const PlayerAvatar = styled.div<{ src?: string }>`
+  width: 150px;
+  height: 200px;
+  position: absolute;
+  top: 40px;
+  background: url('${({ src }) => src}') no-repeat center center;
+  background-size: contain;
+`
+const PlayerName = styled.span`
+  position: absolute;
+  bottom: 32px;
+  left: 29px;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+`
+const PlayerPower = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 51px;
+  background: url('/images/power-bg.png') no-repeat left center;
+  background-size: contain;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 700;
+  font-size: 8px;
+  width: 60px;
+  height: 25px;
+  padding-right: 4px;
+  text-align: right;
+  line-height: 28px;
+`
+const PlayerProperties = styled.div`
+  position: absolute;
+  right: 20px;
+  top: 50px;
+`
+const PlayerSho = styled.div`
+  width: 60px;
+  height: 25px;
+  background: url('/images/sho-bg.png') no-repeat left center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  background-size: contain;
+  text-align: right;
+  padding-right: 10px;
+  line-height: 25px;
+  margin-bottom: 10px;
+`
+const PlayerPow = styled.div`
+  width: 60px;
+  height: 25px;
+  background: url('/images/pow-bg.png') no-repeat left center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  background-size: contain;
+  text-align: right;
+  padding-right: 10px;
+  line-height: 25px;
+  margin-bottom: 10px;
+`
+const PlayerSpe = styled.div`
+  width: 60px;
+  height: 25px;
+  background: url('/images/spe-bg.png') no-repeat left center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  background-size: contain;
+  text-align: right;
+  padding-right: 10px;
+  line-height: 25px;
+  margin-bottom: 10px;
+`
+const PlayerJmp = styled.div`
+  width: 60px;
+  height: 25px;
+  background: url('/images/jmp-bg.png') no-repeat left center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  background-size: contain;
+  text-align: right;
+  padding-right: 10px;
+  line-height: 25px;
+`
+const PlayerLevel = styled.div`
+  position: absolute;
+  right: 10px;
+  width: 70px;
+  height: 35px;
+  background: url('/images/level-bg.png') no-repeat left center;
+  bottom: 70px;
+  background-size: contain;
+  padding-top: 8px;
+  padding-left: 20px;
+`
+const LevelText = styled.span`
+  display: block;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 10px;
+`
+
 const FlexModalBottom = styled(Flex)`
   margin-top: 40px;
   justify-content: center;
@@ -82,13 +198,24 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
       {/* {view !== WalletView.WRONG_NETWORK && <TabsComponent />} */}
       <ModalBody p="24px" width="100%">
         <ModalBodyContent>
-          <Flex style={{gap: 12}}>
+          <Flex style={{ gap: 12 }} alignItems="center" justifyContent="center">
             {metaDatas.map(({ image, name }) => {
               return (
-                <Flex border="1px solid #f0b90b" borderRadius="16px" p={4} flexDirection="column" alignItems="center" justifyContent="center">
-                  <img src={image} alt="Card" className="box-image" />
-                  <Text bold color="white">{name}</Text>
-                </Flex>
+                <PlayerInfo>
+                  <PlayerAvatar src={image} />
+                  <PlayerPower>100/100</PlayerPower>
+                  <PlayerName>{name}</PlayerName>
+                  <PlayerProperties>
+                    <PlayerSho>24</PlayerSho>
+                    <PlayerPow>25</PlayerPow>
+                    <PlayerSpe>26</PlayerSpe>
+                    <PlayerJmp>27</PlayerJmp>
+                  </PlayerProperties>
+                  <PlayerLevel>
+                    <LevelText>Level</LevelText>
+                    <LevelText>100</LevelText>
+                  </PlayerLevel>
+                </PlayerInfo>
               )
             })}
           </Flex>

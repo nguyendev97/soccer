@@ -25,7 +25,6 @@ import GradientButton from 'components/GradientButton'
 import styled from 'styled-components'
 import SuccessModal from 'views/Marketplace/components/SuccessModal'
 
-
 const boxesAddress = getBoxesAddress()
 const playersAddress = getPlayersAddress()
 const SPECIAL_TYPE = 1
@@ -96,36 +95,37 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       return callWithGasPrice(boxesOpenContract, 'open', [Date.now(), [SPECIAL_TYPE], [amountBoxes]])
     },
     onSuccess: async ({ receipt }) => {
-      playersContract.balanceOf(account)
-        .then(res => {
+      playersContract
+        .balanceOf(account)
+        .then((res) => {
           let amountCloned = cloneDeep(amountBoxes)
           const balance = res.toNumber()
           // eslint-disable-next-line prefer-const
           let newIds = []
           while (amountCloned > 0) {
             newIds.push(balance - amountCloned)
-            amountCloned --
+            amountCloned--
           }
           return newIds
         })
-        .then(async newIds => {
+        .then(async (newIds) => {
           // eslint-disable-next-line prefer-const
           let tasks = []
-          newIds.forEach(id => {
+          newIds.forEach((id) => {
             tasks.push(playersContract.tokenOfOwnerByIndex(account, id))
           })
           const res = await Promise.all(tasks)
-          const tokenIds = res.map(tokenId => tokenId.toNumber())
+          const tokenIds = res.map((tokenId) => tokenId.toNumber())
 
           tasks = []
-          tokenIds.forEach(id => {
+          tokenIds.forEach((id) => {
             tasks.push(playersContract.tokenURI(id))
           })
           const tokenURIRes = await Promise.all(tasks)
 
           tasks = []
-          console.log({tokenURIRes})
-          tokenURIRes.forEach(uri => {
+          console.log({ tokenURIRes })
+          tokenURIRes.forEach((uri) => {
             const fetchMeta = async () => {
               const uriRes = await fetch(uri)
               if (uriRes.ok) {
@@ -136,10 +136,13 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
             }
             tasks.push(fetchMeta())
           })
-         const metas = await Promise.all(tasks)
-         setMetaDatas(metas)
+          const metas = await Promise.all(tasks)
+          setMetaDatas(metas)
         })
-      toastSuccess(`Opened ${amountBoxes} box(es) just now`, <ToastDescriptionWithTx txHash={receipt.transactionHash} />)
+      toastSuccess(
+        `Opened ${amountBoxes} box(es) just now`,
+        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
+      )
     },
   })
 
@@ -168,10 +171,18 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       <ModalBody p="24px" width="100%">
         <ModalBodyContent>
           <Flex>
-            <CodeInput max={5} type="number" onChange={(event) => setAmount(Number(event.target.value))} value={amountBoxes} />
+            <CodeInput
+              max={5}
+              type="number"
+              onChange={(event) => setAmount(Number(event.target.value))}
+              value={amountBoxes}
+            />
           </Flex>
           <FlexModalBottom>
-            <RegisterButton onClick={isApproved ? handleConfirm : handleApprove}>{isApproving || isConfirming ? 'Loading ...' : 'Open now!'}</RegisterButton>
+            <RegisterButton onClick={onPresentSuccessModal}>
+              {isApproving || isConfirming ? 'Loading ...' : 'Open now!'}
+            </RegisterButton>
+            {/* <RegisterButton onClick={isApproved ? handleConfirm : handleApprove}>{isApproving || isConfirming ? 'Loading ...' : 'Open now!'}</RegisterButton> */}
           </FlexModalBottom>
         </ModalBodyContent>
       </ModalBody>
