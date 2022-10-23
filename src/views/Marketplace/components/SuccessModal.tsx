@@ -205,6 +205,7 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
               const energy = attributes.find(({ key }) => key === 'Energy')
               const spe = attributes.find(({ key }) => key === 'SPE')
               const jmp = attributes.find(({ key }) => key === 'JMP')
+              const level = attributes.find(({ key }) => key === 'Level')
               return (
                 <PlayerInfo>
                   <PlayerAvatar src={image} />
@@ -218,7 +219,7 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
                   </PlayerProperties>
                   <PlayerLevel>
                     <LevelText>Level</LevelText>
-                    <LevelText>100</LevelText>
+                    <LevelText>{level.value}</LevelText>
                   </PlayerLevel>
                 </PlayerInfo>
               )
