@@ -176,7 +176,7 @@ const FlexModalBottom = styled(Flex)`
   justify-content: center;
 `
 const RegisterButton = styled(GradientButton)`
-  width: calc(50% - 10px);
+  width: calc(90% - 10px);
   padding: 0px 20px;
 `
 
@@ -200,8 +200,8 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
       </ModalHeader>
       <ModalBody p="24px" width="100%">
         <ModalBodyContent numItems={metaDatas.length}>
-          <Swiper spaceBetween={8} slidesPerView={isMobile ? 1.8 : metaDatas.length}>
-          {metaDatas.map(({ image, name, attributes, token_id: tokenId }) => {
+          <Swiper spaceBetween={8} slidesPerView={isMobile ? 1.5 : metaDatas.length}>
+          {metaDatas.map(({ imagePlayer, name, attributes, token_id: tokenId }) => {
               const power = attributes.find(({ key }) => key === 'POW')
               const sho = attributes.find(({ key }) => key === 'SHO')
               const energy = attributes.find(({ key }) => key === 'Energy')
@@ -212,7 +212,7 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
               return (
                 <SwiperSlide key={tokenId}>
                   <PlayerInfo rarity={rarity.value.toLowerCase()}>
-                    <PlayerAvatar src={image} />
+                    <PlayerAvatar src={imagePlayer} />
                     <PlayerPower>{power.value}</PlayerPower>
                     <PlayerName>{name}</PlayerName>
                     <PlayerProperties>

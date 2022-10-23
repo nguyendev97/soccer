@@ -130,7 +130,7 @@ const ProfileSidebar: React.FC<React.PropsWithChildren<Props>> = ({ accountAddre
             <Text color="#36DBFF" bold fontSize="20px">100%</Text>
           </Flex>
           <Text>Buy box: {isSpecialTree ? '35' : '25'}%</Text>
-          <Text>PvE: {isSpecialTree ? '35' : '25'}%</Text>
+          <Text>PvE: 25%</Text>
           <Text>Normal level: {isSpecialTree ? '7' : '4'} levels</Text>
         </RefferalDetails>
       </WrapperRefferal>
