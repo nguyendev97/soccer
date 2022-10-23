@@ -179,10 +179,9 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
             />
           </Flex>
           <FlexModalBottom>
-            <RegisterButton onClick={onPresentSuccessModal}>
+            <RegisterButton onClick={isApproved ? handleConfirm : handleApprove}>
               {isApproving || isConfirming ? 'Loading ...' : 'Open now!'}
             </RegisterButton>
-            {/* <RegisterButton onClick={isApproved ? handleConfirm : handleApprove}>{isApproving || isConfirming ? 'Loading ...' : 'Open now!'}</RegisterButton> */}
           </FlexModalBottom>
         </ModalBodyContent>
       </ModalBody>
