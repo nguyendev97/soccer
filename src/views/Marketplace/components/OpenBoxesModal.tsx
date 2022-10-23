@@ -17,6 +17,7 @@ import Image from 'next/image'
 import cloneDeep from 'lodash/cloneDeep'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { useState, useEffect } from 'react'
+import { callWithEstimateGas } from 'utils/calls'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { useERC1155, useBoxesOpenContract, useERC721 } from 'hooks/useContract'
 import { getBoxesAddress, getPlayersAddress } from 'utils/addressHelpers'
@@ -97,7 +98,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       )
     },
     onConfirm: () => {
-      return callWithGasPrice(boxesOpenContract, 'open', [Date.now(), [SPECIAL_TYPE], [amountBoxes]])
+      return callWithEstimateGas(boxesOpenContract, 'open', [Date.now(), [SPECIAL_TYPE], [amountBoxes]])
     },
     onSuccess: async ({ receipt }) => {
       playersContract

@@ -376,21 +376,25 @@ export function useBCakeProxyContract(proxyContractAddress: string, withSignerIf
 }
 
 export const useBoxSaleContract = (withSignerIfPossible = true) => {
+  const { chainId } = useActiveWeb3React()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getBoxSaleContract(providerOrSigner), [providerOrSigner])
+  return useMemo(() => getBoxSaleContract(chainId, providerOrSigner), [providerOrSigner, chainId])
 }
 
 export const useBoxesOpenContract = (withSignerIfPossible = true) => {
+  const { chainId } = useActiveWeb3React()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getBoxesOpenContract(providerOrSigner), [providerOrSigner])
+  return useMemo(() => getBoxesOpenContract(chainId, providerOrSigner), [providerOrSigner, chainId])
 }
 
 export const useRefferalContract = (withSignerIfPossible = true) => {
+  const { chainId } = useActiveWeb3React()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getRefferalContract(providerOrSigner), [providerOrSigner])
+  return useMemo(() => getRefferalContract(chainId, providerOrSigner), [providerOrSigner, chainId])
 }
 
 export const useCommContract = (withSignerIfPossible = true) => {
+  const { chainId } = useActiveWeb3React()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getCommContract(providerOrSigner), [providerOrSigner])
+  return useMemo(() => getCommContract(chainId, providerOrSigner), [providerOrSigner, chainId])
 }

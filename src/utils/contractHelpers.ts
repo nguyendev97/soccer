@@ -375,18 +375,18 @@ export const getBCakeProxyContract = (proxyContractAddress: string, signer?: Sig
   return getContract({ abi: bCakeProxyAbi, address: proxyContractAddress, signer }) as BCakeProxy
 }
 
-export const getBoxSaleContract = (signer?: Signer | Provider) => {
-  return getContract({ abi: boxSaleAbi, address: getBoxSaleAddress(), signer })
+export const getBoxSaleContract = (chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: boxSaleAbi, address: getBoxSaleAddress(chainId), signer })
 }
 
-export const getBoxesOpenContract = (signer?: Signer | Provider) => {
-  return getContract({ abi: boxesOpenAbi, address: getBoxesOpenAddress(), signer })
+export const getBoxesOpenContract = (chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: boxesOpenAbi, address: getBoxesOpenAddress(chainId), signer })
 }
 
-export const getRefferalContract = (signer?: Signer | Provider) => {
-  return getContract({ abi: refferalAbi, address: getRefferalAddress(), signer })
+export const getRefferalContract = (chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: refferalAbi, address: getRefferalAddress(chainId), signer })
 }
 
-export const getCommContract = (signer?: Signer | Provider) => {
-  return getContract({ abi: commAbi, address: getCommAddress(), signer })
+export const getCommContract = (chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: commAbi, address: getCommAddress(chainId), signer })
 }
