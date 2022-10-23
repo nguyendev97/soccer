@@ -50,12 +50,12 @@ const HeadingTitle = styled(Heading)`
   );
   line-height: 48px;
 `
-const ModalBodyContent = styled.div`
+const ModalBodyContent = styled.div<{numItems: number}>`
   border: 0;
-  overflow-x: auto;
-  width: 450px;
+  max-width: ${({ numItems }) => `${numItems * 218}px`};
 `
 const PlayerInfo = styled.div<{rarity: string}>`
+  margin: auto;
   position: relative;
   width: 210px;
   height: 291px;
@@ -198,10 +198,9 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
           <CloseIcon width="24px" color="#fff" />
         </IconButton>
       </ModalHeader>
-      {/* {view !== WalletView.WRONG_NETWORK && <TabsComponent />} */}
       <ModalBody p="24px" width="100%">
-        <ModalBodyContent>
-          <Swiper spaceBetween={8} slidesPerView={1.8}>
+        <ModalBodyContent numItems={metaDatas.length}>
+          <Swiper spaceBetween={8} slidesPerView={isMobile ? 1.8 : metaDatas.length}>
           {metaDatas.map(({ image, name, attributes, token_id: tokenId }) => {
               const power = attributes.find(({ key }) => key === 'POW')
               const sho = attributes.find(({ key }) => key === 'SHO')

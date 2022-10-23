@@ -64,7 +64,7 @@ interface OpenBoxesModalProps extends InjectedModalProps {
   onDone: () => void
 }
 
-const MAX_AMOUNT = 3
+const MAX_AMOUNT = 5
 
 const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = ({ onDismiss, onDone }) => {
   const { t } = useTranslation()
