@@ -30,7 +30,7 @@ export const wallets: WalletConfig<ConnectorNames>[] = [
     installed: typeof window !== 'undefined' && Boolean(window.ethereum?.isMetaMask),
     connectorId: ConnectorNames.MetaMask,
     priority: 1,
-    href: 'https://metamask.app.link/dapp/pancakeswap.finance/',
+    href: 'https://metamask.app.link/dapp/marketplace.soccercrypto.io/',
   },
   {
     title: 'Binance Wallet',

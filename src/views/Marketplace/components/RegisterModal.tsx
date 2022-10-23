@@ -11,8 +11,10 @@ import {
   Input,
   Flex,
   useToast,
+  Text,
 } from '@pancakeswap/uikit'
-import { useState } from 'react'
+import { useWeb3React } from '@pancakeswap/wagmi'
+import { useState, useEffect } from 'react'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { useRefferalContract } from 'hooks/useContract'
 import { useTranslation } from '@pancakeswap/localization'
@@ -82,7 +84,9 @@ interface RegisterModalProps extends InjectedModalProps {
 
 const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ onDismiss, refAddress, rootRef, onDone }) => {
   const { t } = useTranslation()
+  const { account } = useWeb3React()
   const refferalContract = useRefferalContract()
+  const [isRegistered, setIsRegistered] = useState(true)
   const { callWithGasPrice } = useCallWithGasPrice()
   const { fetchWithCatchTxError, loading: pendingTx } = useCatchTxError()
   const { toastSuccess } = useToast()
@@ -93,10 +97,23 @@ const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ 
     setRefCode(address)
   }
 
+  useEffect(() => {
+    if (account) {
+      refferalContract.isReferrer(account).then(setIsRegistered)
+    }
+  }, [refferalContract, account])
+
+  useEffect(() => {
+    if (!isRegistered) {
+      setRefCode(rootRef)
+    }
+  }, [isRegistered, rootRef])
+
   const handleRegister = async() => {
     const receipt = await fetchWithCatchTxError(() => {
       return callWithGasPrice(refferalContract, 'register', [refCode])
     })
+
     if (receipt?.status) {
       onDone()
       toastSuccess(
@@ -117,13 +134,15 @@ const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ 
           <CloseIcon width="24px" color="#fff" />
         </IconButton>
       </ModalHeader>
-      <ModalBody p="24px" width="100%">
+      <ModalBody p="24px" width={["100%", null, "550px"]}>
         <ModalBodyContent>
-          <DefaultButton onClick={() => setRefCode(rootRef)}>Default code</DefaultButton>
+          <Text mb="12px">Please paste (Ctr+V) refferal code here or click default code</Text>
+          <DefaultButton onClick={() => setRefCode(rootRef)}>Default address</DefaultButton>
           <Flex>
             <CodeInput onChange={(event) => setRefCode(event.target.value)} value={refCode} />
             <PaseButton onClick={handlePaste}>Paste</PaseButton>
           </Flex>
+          {!isRegistered && <Text color="#ED4B9E">The reference code does not exist</Text>}
           <FlexModalBottom>
             <LaterButton onClick={onDismiss}>Later</LaterButton>
             <RegisterButton onClick={handleRegister}>{pendingTx ? "Registering...": "Register!"}</RegisterButton>
