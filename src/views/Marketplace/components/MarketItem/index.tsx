@@ -135,14 +135,20 @@ const ButtonApprove = styled(Button)`
   }
 `
 
-const PlayerInfo = styled(Flex)<{rarity: string}>`
+const PlayerInfo = styled(Flex)<{ rarity: string }>`
   width: 110px;
   height: 110px;
-  // background: ${({ rarity }) => `url('/images/player-bg-${rarity}.png') no-repeat center center`};
+  padding: 5px;
   background: ${({ rarity }) => `url('/images/rarity/${rarity}.png') no-repeat center center`};
   background-size: contain;
   align-items: center;
   justify-content: center;
+`
+const PlayerAvatar = styled.div<{ avatar: string }>`
+  width: 100%;
+  height: 100%;
+  background: ${({ avatar }) => `url('${avatar}') no-repeat center center`};
+  background-size: contain;
 `
 
 interface ItemProps extends BoxProps {
@@ -196,7 +202,8 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
         <Flex>
           <Avatar>
             <PlayerInfo rarity={ratity}>
-              <img style={{height: 100, width: 'fit-content'}} src={avatar} alt={code} className="avatar-img" />
+              <PlayerAvatar avatar={avatar} />
+              {/* <img style={{height: 100, width: 'fit-content'}} src={avatar} alt={code} className="avatar-img" /> */}
             </PlayerInfo>
           </Avatar>
           <ItemInfo>
