@@ -46,7 +46,6 @@ const TabsButton = styled(Button)<{ isActive: boolean }>`
   font-size: 16px;
 `
 export const WrapperSelect = styled.div`
-  padding: 0px 15px;
   margin-bottom: 15px;
 `
 

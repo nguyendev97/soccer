@@ -92,6 +92,7 @@ const WrapperMenuMobileContent = styled.div`
   top: 84px;
   height: calc(100vh - 84px);
   padding: 15px;
+  overflow-y: auto;
 `;
 const MenuMobileIcon = styled(Button)<{ showMenuMobile: boolean }>`
   width: 36px;

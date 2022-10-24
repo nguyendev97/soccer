@@ -72,7 +72,6 @@ export const Content = styled.div`
   }
 `
 export const WrapperSelect = styled.div`
-  padding: 0px 15px;
   margin-bottom: 15px;
 `
 export default function Marketplace() {

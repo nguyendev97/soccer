@@ -11,6 +11,7 @@ import { useAccount } from 'wagmi'
 // import { NetworkSwitcher } from 'components/NetworkSwitcher'
 import useTheme from 'hooks/useTheme'
 import { useCakeBusdPrice } from 'hooks/useBUSDPrice'
+import ReferralBox from 'views/Profile/components/ReferralBox'
 import UserMenu from './UserMenu'
 import { useMenuItems } from './hooks/useMenuItems'
 import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
@@ -18,9 +19,12 @@ import { footerLinks } from './config/footerConfig'
 
 export const ProfileList = styled.div`
   position: relative;
-  margin-top: 15px;
-  padding-top: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 10x;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `
 export const AccountInfo = styled(Flex)`
   position: relative;
@@ -82,37 +86,41 @@ const Menu = (props) => {
               mt={isMobile ? '20px' : '0px'}
             >
               <GradientButton
-                style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px' }}
-                onClick={() => router.push(
-                  {
+                style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px', marginRight: 'auto' }}
+                onClick={() =>
+                  router.push({
                     pathname: 'http://game.soccercrypto.io.s3-website-ap-southeast-1.amazonaws.com/',
-                  })}
+                  })
+                }
               >
                 Play game
               </GradientButton>
               {!isMobile && <UserMenu />}
             </Flex>
             {account && isMobile && (
-              <ProfileList>
-                <AccountInfo>
-                  <Avatar />
-                  <Text>{accountEllipsis}</Text>
-                </AccountInfo>
-                <ProfileMenu>
-                  <MenuItem>
-                    <Link href={`/profile/${account.toLowerCase()}/inventory`}>{t('Inventory')}</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href={`/profile/${account.toLowerCase()}/account`}>{t('Account')}</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href={`/profile/${account.toLowerCase()}/peoples`}>{t('Peoples')}</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href={`/profile/${account.toLowerCase()}/histories`}>{t('Histories')}</Link>
-                  </MenuItem>
-                </ProfileMenu>
-              </ProfileList>
+              <>
+                <ProfileList>
+                  <AccountInfo>
+                    <Avatar />
+                    <Text>{accountEllipsis}</Text>
+                  </AccountInfo>
+                  <ProfileMenu>
+                    <MenuItem>
+                      <Link href={`/profile/${account.toLowerCase()}/inventory`}>{t('Inventory')}</Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link href={`/profile/${account.toLowerCase()}/account`}>{t('Account')}</Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link href={`/profile/${account.toLowerCase()}/peoples`}>{t('Peoples')}</Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link href={`/profile/${account.toLowerCase()}/histories`}>{t('Histories')}</Link>
+                    </MenuItem>
+                  </ProfileMenu>
+                </ProfileList>
+                <ReferralBox accountAddress={account} />
+              </>
             )}
           </Flex>
         }
