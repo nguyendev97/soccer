@@ -1,4 +1,4 @@
-import { InjectedModalProps, Modal, Flex, Text, Button, useModal, Link, Grid, LinkExternal } from '@pancakeswap/uikit'
+import { InjectedModalProps, Modal, Flex, Text, Button, Link, Grid, LinkExternal } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
 import styled from 'styled-components'
 import { NftToken } from 'state/nftMarket/types'
@@ -22,7 +22,7 @@ interface ProfileNftModalProps extends InjectedModalProps {
   onSuccess?: () => void
 }
 
-const ProfileNftModal: React.FC<React.PropsWithChildren<ProfileNftModalProps>> = ({ nft, onDismiss, onSuccess }) => {
+const ProfileNftModal: React.FC<React.PropsWithChildren<ProfileNftModalProps>> = ({ nft, onDismiss }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
 

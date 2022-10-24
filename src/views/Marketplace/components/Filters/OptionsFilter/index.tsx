@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { Text, BoxProps, Button, Checkbox, Heading, Input, Flex } from '@pancakeswap/uikit'

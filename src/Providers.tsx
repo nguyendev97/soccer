@@ -1,4 +1,4 @@
-import { ModalProvider, light, dark, UIKitProvider } from '@pancakeswap/uikit'
+import { ModalProvider, light, UIKitProvider } from '@pancakeswap/uikit'
 import { useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { SWRConfig } from 'swr'

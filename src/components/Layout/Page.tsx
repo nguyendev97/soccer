@@ -21,7 +21,7 @@ const StyledPage = styled(Container)`
   }
 `
 
-export const PageMeta: React.FC<React.PropsWithChildren<{ symbol?: string }>> = ({ symbol }) => {
+export const PageMeta: React.FC<React.PropsWithChildren> = () => {
   const {
     t,
     currentLanguage: { locale },
@@ -30,7 +30,7 @@ export const PageMeta: React.FC<React.PropsWithChildren<{ symbol?: string }>> = 
 
   const pageMeta = getCustomMeta(pathname, t, locale) || {}
   const { title, description, image } = { ...DEFAULT_META, ...pageMeta }
-  console.log(pageMeta)
+
   return (
     <Head>
       <title>{title}</title>
@@ -45,10 +45,10 @@ interface PageProps extends React.HTMLAttributes<HTMLDivElement> {
   symbol?: string
 }
 
-const Page: React.FC<React.PropsWithChildren<PageProps>> = ({ children, symbol, ...props }) => {
+const Page: React.FC<React.PropsWithChildren<PageProps>> = ({ children, ...props }) => {
   return (
     <>
-      <PageMeta symbol={symbol} />
+      <PageMeta />
       <StyledPage {...props}>{children}</StyledPage>
     </>
   )
