@@ -7,7 +7,7 @@ interface DataProps extends BoxProps {
   className?: any
 }
 
-const ListGroupComponent: React.FC<React.PropsWithChildren<DataProps>> = ({ data, className, ...props }) => {
+const ListGroupComponent: React.FC<React.PropsWithChildren<DataProps>> = ({ data, className }) => {
   const UlItem = styled.ul`
     list-style: none;
     margin-top: 24px;

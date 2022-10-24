@@ -54,7 +54,7 @@ const Peoples = () => {
             address: user,
             totalRefer: totalRefer.toNumber()
           }))
-          console.log({skip})
+          
           const rewardsCalls = cleanedChildren.map(({ address }) => {
             const params = [address, BUSD[chainId]?.address]
             return { address: getCommAddress(chainId), name: 'totalRewards', params }
@@ -72,7 +72,7 @@ const Peoples = () => {
               }
             )}
           )
-          console.log({rewardsCallsResult, cleanedChildren})
+          
           const newChilren = cleanedChildren.map((item, index) => ({
             ...item,
             rewards: {
@@ -84,6 +84,7 @@ const Peoples = () => {
         })
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, page])
 
   // console.log({children})

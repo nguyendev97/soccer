@@ -195,7 +195,7 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
 }) => {
   const { isMobile } = useMatchBreakpoints()
   const { t } = useTranslation()
-  console.log(ratity.toLowerCase())
+
   return (
     <FlexRowItem {...props}>
       <Flex width={isMobile ? '100%' : 'auto'}>

@@ -8,7 +8,6 @@ import {
   ModalHeader as UIKitModalHeader,
   ModalTitle,
   Button,
-  Input,
   Flex,
 } from '@pancakeswap/uikit'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'

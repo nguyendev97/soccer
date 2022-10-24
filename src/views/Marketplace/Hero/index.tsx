@@ -81,7 +81,7 @@ const Hero = () => {
       <StyledFlexWrapper>
         <StyledFlexContent>
         {isLoading && <Skeleton height="50" />}
-        {!isLoading && nfts.slice(0, currentSize).map(({ imagePlayer, name, attributes, token_id: tokenId }) => {
+        {!isLoading && nfts.slice(0, currentSize).map(({ imagePlayer, attributes, token_id: tokenId }) => {
           const attributesMap: any = groupBy(attributes, 'key')
           return <MarketItem
             key={tokenId}

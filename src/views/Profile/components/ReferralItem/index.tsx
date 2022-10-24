@@ -100,7 +100,7 @@ interface ItemProps extends BoxProps {
 
 const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   isChildren,
-  level,
+  // level,
   totalRef,
   backgroundColor,
   historyDate,

@@ -70,7 +70,7 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   boxName,
   totalBox,
   sellBox,
-  price,
+  // price,
   avatar,
   onClick,
   disabled,

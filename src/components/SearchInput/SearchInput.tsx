@@ -1,9 +1,9 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Input, Button } from '@pancakeswap/uikit'
+import { Input } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import debounce from 'lodash/debounce'
 import { useTranslation } from '@pancakeswap/localization'
-import Image from 'next/image'
+// import Image from 'next/image'
 // import { iconImage } from './images'
 
 const StyledInput = styled(Input)`
@@ -25,16 +25,16 @@ const InputWrapper = styled.div`
     display: block;
   }
 `
-const ButtonSearch = styled(Button)`
-  position: absolute;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  top: 0;
-  right: 0;
-  background-color: transparent;
-  padding-right: 10px;
-`
+// const ButtonSearch = styled(Button)`
+//   position: absolute;
+//   padding: 0;
+//   width: 40px;
+//   height: 40px;
+//   top: 0;
+//   right: 0;
+//   background-color: transparent;
+//   padding-right: 10px;
+// `
 
 interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void

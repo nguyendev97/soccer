@@ -13,7 +13,6 @@ import {
   useToast,
   Text,
 } from '@pancakeswap/uikit'
-import { useWeb3React } from '@pancakeswap/wagmi'
 import { useState, useEffect } from 'react'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { useRefferalContract } from 'hooks/useContract'
