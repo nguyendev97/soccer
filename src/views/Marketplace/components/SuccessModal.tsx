@@ -7,16 +7,21 @@ import {
   ModalContainer as UIKitModalContainer,
   ModalHeader as UIKitModalHeader,
   ModalTitle,
-  Text,
   Flex,
 } from '@pancakeswap/uikit'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css/bundle'
-import SwiperCore from 'swiper'
+import { EffectFlip, Pagination, Navigation } from "swiper"
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { useTranslation } from '@pancakeswap/localization'
 import GradientButton from 'components/GradientButton'
 import styled from 'styled-components'
+
+// Import Swiper styles
+import "swiper/css"
+import "swiper/css/effect-flip"
+import "swiper/css/pagination"
+import "swiper/css/navigation"
 
 const ModalContainer = styled(UIKitModalContainer)`
   background: ${({ theme }) => theme.colors.modalBackground};
@@ -198,7 +203,14 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
       </ModalHeader>
       <ModalBody p="24px" width="100%">
         <ModalBodyContent numItems={metaDatas.length}>
-          <Swiper spaceBetween={8} slidesPerView={isMobile ? 1.5 : metaDatas.length}>
+          <Swiper
+            effect="flip"
+            grabCursor
+            pagination
+            navigation
+            spaceBetween={8}
+            modules={[EffectFlip, Pagination, Navigation]}
+            slidesPerView={isMobile ? 1 : metaDatas.length}>
           {metaDatas.map(({ imagePlayer, name, attributes, token_id: tokenId }) => {
               const power = attributes.find(({ key }) => key === 'POW')
               const sho = attributes.find(({ key }) => key === 'SHO')

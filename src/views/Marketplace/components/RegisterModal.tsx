@@ -40,7 +40,6 @@ const DefaultButton = styled(Button)`
   font-weight: 400;
   font-size: 14px;
   height: 32px;
-  margin-bottom: 10px;
 `
 const PaseButton = styled(Button)`
   background-color: #0a4db6;
@@ -84,7 +83,6 @@ interface RegisterModalProps extends InjectedModalProps {
 
 const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ onDismiss, refAddress, rootRef, onDone }) => {
   const { t } = useTranslation()
-  const { account } = useWeb3React()
   const refferalContract = useRefferalContract()
   const [isRegistered, setIsRegistered] = useState(true)
   const { callWithGasPrice } = useCallWithGasPrice()
@@ -102,12 +100,6 @@ const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ 
       refferalContract.isReferrer(refCode).then(setIsRegistered)
     }
   }, [refferalContract, refCode])
-
-  // useEffect(() => {
-  //   if (!isRegistered) {
-  //     setRefCode(rootRef)
-  //   }
-  // }, [isRegistered, rootRef])
 
   const handleRegister = async() => {
     const receipt = await fetchWithCatchTxError(() => {
@@ -137,12 +129,17 @@ const RegisterModal: React.FC<React.PropsWithChildren<RegisterModalProps>> = ({ 
       <ModalBody p="24px" width={["100%", null, "550px"]}>
         <ModalBodyContent>
           <Text mb="12px">Please paste (Ctr+V) refferal code here or click default code</Text>
-          <DefaultButton onClick={() => setRefCode(rootRef)}>Default address</DefaultButton>
-          <Flex>
+          
+          <Flex mb="4px">
             <CodeInput onChange={(event) => setRefCode(event.target.value)} value={refCode} />
-            <PaseButton onClick={handlePaste}>Paste</PaseButton>
           </Flex>
           {!isRegistered && !isRoot && <Text color="#ED4B9E">The reference code does not exist</Text>}
+          {isRoot && <Text color="#ffb237">Warning: The reference code is Root address</Text>}
+          <Flex mt="8px" justifyContent="space-between" align-items="flex-end">
+            <DefaultButton onClick={() => setRefCode(rootRef)}>Default address</DefaultButton>
+            <PaseButton onClick={handlePaste}>Paste</PaseButton>
+          </Flex>
+          
           <FlexModalBottom>
             <LaterButton onClick={onDismiss}>Later</LaterButton>
             <RegisterButton onClick={handleRegister}>{pendingTx ? "Registering...": "Register!"}</RegisterButton>

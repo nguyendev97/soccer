@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { useModal } from '@pancakeswap/uikit'
+import { useModal, Grid } from '@pancakeswap/uikit'
 import { useERC1155 } from 'hooks/useContract'
 import { useCurrentBlock } from 'state/block/hooks'
 import { getBoxesAddress } from 'utils/addressHelpers'
@@ -30,18 +30,20 @@ export const Col4 = styled.div`
   }
 `
 
-const boxesAddress = getBoxesAddress()
 const SPECIAL_TYPE = 1
 
 const SoccerBox = () => {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const [amountBox, setAmountBox] = useState(0)
+  const boxesAddress = getBoxesAddress(chainId)
   const boxesContract = useERC1155(boxesAddress)
   const currentBlock = useCurrentBlock()
 
   useEffect(() => {
     if (account) {
-      boxesContract.balanceOf(account, SPECIAL_TYPE).then((res) => setAmountBox(res.toNumber()))
+      boxesContract.balanceOf(account, SPECIAL_TYPE).then((res) => {
+        setAmountBox(res.toNumber())
+      })
     }
   }, [account, boxesContract, currentBlock])
 
@@ -52,7 +54,7 @@ const SoccerBox = () => {
       <StyledFlexWrapper>
         <Container>
           <Row>
-            <Col4>
+            <Grid gridTemplateColumns={["repeat(2, 1fr)", null, "repeat(3, 1fr)"]} gridRowGap="8px">
               <BoxItem
                 disabled={amountBox < 1}
                 totalBox={amountBox}
@@ -60,7 +62,7 @@ const SoccerBox = () => {
                 boxName="Special box"
                 onClick={onPresentRegisterModal}
               />
-            </Col4>
+            </Grid>
             {/* <Col4>
               <BoxItem avatar={goldBoxImage} boxName="Gold box" />
             </Col4>

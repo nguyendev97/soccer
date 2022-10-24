@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { BoxProps, Flex } from '@pancakeswap/uikit'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { busdImage, coin2xImage } from 'views/Marketplace/images'
+import truncateHash from '@pancakeswap/utils/truncateHash'
 
 const FlexRowItem = styled(Flex)<{ backgroundColor?: string; isChildren?: boolean }>`
   width: 100%;
@@ -94,8 +94,8 @@ interface ItemProps extends BoxProps {
   totalRef?: number
   backgroundColor?: string
   historyDate?: string
-  onClick?: () => void
-  onClear?: () => void
+  rewards: any
+  address: string
 }
 
 const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
@@ -104,15 +104,14 @@ const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   totalRef,
   backgroundColor,
   historyDate,
+  address,
+  rewards,
   ...props
 }) => {
   const { isMobile } = useMatchBreakpoints()
-  const accountAddress = useRouter().query.accountAddress as string
-  const accountEllipsis = accountAddress
-    ? `${accountAddress.substring(0, 20)}...${accountAddress.substring(accountAddress.length - 4)}`
-    : null
+  const accountEllipsis = truncateHash(address)
   return (
-    <FlexRowItem backgroundColor={backgroundColor} isChildren={isChildren} {...props}>
+    <FlexRowItem mb="8px" backgroundColor={backgroundColor} isChildren={isChildren} {...props}>
       {isChildren && (
         <Avatar>
           <SpanCount>{totalRef}</SpanCount>
@@ -124,18 +123,19 @@ const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
             <TextAddress isChildren={isChildren}>{historyDate}</TextAddress>
           ) : (
             <>
-              {level === 0 ? (
-                <TextAddress isChildren={isChildren}>F0 - {!isMobile ? accountAddress : accountEllipsis}</TextAddress>
+              {/* {level === 0 ? (
+                <TextAddress isChildren={isChildren}>F0 - {!isMobile ? address : accountEllipsis}</TextAddress>
               ) : (
                 <>
                   <TextAddress mb="10px" isChildren={isChildren}>
-                    Upline - {!isMobile ? accountAddress : accountEllipsis}
+                    Upline - {!isMobile ? address : accountEllipsis}
                   </TextAddress>
                   <TextAddress isChildren={isChildren}>
-                    You - {!isMobile ? accountAddress : accountEllipsis}
+                    You - {!isMobile ? address : accountEllipsis}
                   </TextAddress>
                 </>
-              )}
+              )} */}
+              <TextAddress isChildren={isChildren}>{!isMobile ? address : accountEllipsis}</TextAddress>
             </>
           )}
         </ItemInfo>
@@ -147,7 +147,7 @@ const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
               height={isChildren ? (isMobile ? '18px' : '24px') : isMobile ? '24px' : '30px'}
               alt="busd"
             />
-            <SpanAmount isChildren={isChildren}>114.06</SpanAmount>
+            <SpanAmount isChildren={isChildren}>{rewards?.busd}</SpanAmount>
           </Flex>
           <Flex alignContent="center" mr={isMobile ? '0px' : '60px'}>
             <Image
@@ -158,7 +158,7 @@ const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
             />
             <SpanAmount isChildren={isChildren}>0.00</SpanAmount>
           </Flex>
-          <Flex alignContent="center">
+          {/* <Flex alignContent="center">
             <Image
               src={coin2xImage}
               width={isChildren ? (isMobile ? '18px' : '24px') : isMobile ? '24px' : '30px'}
@@ -166,7 +166,7 @@ const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
               alt="coin"
             />
             <SpanAmount isChildren={isChildren}>0.00</SpanAmount>
-          </Flex>
+          </Flex> */}
         </FlexListAmount>
       </FlexRowInfo>
     </FlexRowItem>

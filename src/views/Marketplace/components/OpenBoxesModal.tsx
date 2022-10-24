@@ -29,8 +29,6 @@ import styled from 'styled-components'
 import SuccessModal from 'views/Marketplace/components/SuccessModal'
 import { specialSellBoxImage } from '../images'
 
-const boxesAddress = getBoxesAddress()
-const playersAddress = getPlayersAddress()
 const SPECIAL_TYPE = 1
 
 const ModalContainer = styled(UIKitModalContainer)`
@@ -70,7 +68,9 @@ const MAX_AMOUNT = 5
 const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = ({ onDismiss, maxAmount }) => {
   const { t } = useTranslation()
   const [metaDatas, setMetaDatas] = useState([])
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
+  const boxesAddress = getBoxesAddress(chainId)
+  const playersAddress = getPlayersAddress(chainId)
   const [amountBoxes, setAmount] = useState(1)
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()
@@ -163,7 +163,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       onPresentSuccessModal()
     }
   }, [metaDatas, onPresentSuccessModal])
-
+  
   return (
     <ModalContainer title={t('Open special box(es)!')} $minWidth="440px">
       <ModalHeader>
