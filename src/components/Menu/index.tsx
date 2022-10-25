@@ -109,7 +109,7 @@ const Menu = (props) => {
                       <Link href={`/profile/${account.toLowerCase()}/inventory`}>{t('Inventory')}</Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link href={`/profile/${account.toLowerCase()}/peoples`}>{t('Peoples')}</Link>
+                      <Link href={`/profile/${account.toLowerCase()}/people`}>{t('People')}</Link>
                     </MenuItem>
                     <MenuItem>
                       <Link href={`/profile/${account.toLowerCase()}/histories`}>{t('Histories')}</Link>

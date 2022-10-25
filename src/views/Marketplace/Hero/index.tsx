@@ -17,12 +17,12 @@ const StyledFlexContent = styled(Flex)`
   flex-direction: column;
 `
 
-const playersAddress = getPlayersAddress()
-
 const PAGE_SIZE = 10
 const Hero = () => {
+  
+  const { account, chainId } = useWeb3React()
+  const playersAddress = getPlayersAddress(chainId)
   const playersContract = useERC721(playersAddress)
-  const { account } = useWeb3React()
   const [nfts, setNfts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(1)
