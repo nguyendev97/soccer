@@ -23,20 +23,7 @@ const Avatar = styled.div`
   border-radius: 10px;
   overflow: hidden;
 `
-const TextCountDown = styled(Text)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 99;
-  text-align: center;
-  height: 40px;
-  line-height: 40px;
-  background: rgb(29 1 141 / 60%);
-  color: #fff;
-  font-size: 18px;
-  font-weight: 600;
-`
+
 const ItemInfo = styled(Flex)`
   justify-content: center;
   align-items: center;
@@ -67,7 +54,6 @@ interface ItemProps extends BoxProps {
 }
 
 const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
-  countDown,
   boxName,
   totalBox,
   sellBox,

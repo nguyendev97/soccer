@@ -7,7 +7,6 @@ import { useCurrentBlock } from 'state/block/hooks'
 import { getBoxesAddress } from 'utils/addressHelpers'
 import OpenBoxesModal from '../components/OpenBoxesModal'
 import BoxItem from '../components/BoxItem'
-import { specialBoxImage } from '../images'
 
 const StyledFlexWrapper = styled.div`
   width: 100%;
