@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import {
   CloseIcon,
   Heading,
@@ -9,8 +10,10 @@ import {
   ModalTitle,
   Flex,
 } from '@pancakeswap/uikit'
+import Video from 'components/Video'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css/bundle'
+import groupBy from 'lodash/groupBy'
 import { EffectFlip, Pagination, Navigation } from "swiper"
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { useTranslation } from '@pancakeswap/localization'
@@ -26,11 +29,7 @@ import "swiper/css/navigation"
 const ModalContainer = styled(UIKitModalContainer)`
   background: ${({ theme }) => theme.colors.modalBackground};
   border: 0;
-
-  @media (max-width: 768px) {
-    bottom: auto;
-    width: calc(100% - 30px);
-  }
+  max-width: 450px;
 `
 const ModalHeader = styled(UIKitModalHeader)`
   border-bottom: 0;
@@ -55,7 +54,6 @@ const HeadingTitle = styled(Heading)`
 `
 const ModalBodyContent = styled.div<{numItems: number}>`
   border: 0;
-  max-width: ${({ numItems }) => `${numItems * 218}px`};
 `
 const PlayerInfo = styled.div<{rarity: string}>`
   margin: auto;
@@ -75,12 +73,12 @@ const PlayerAvatar = styled.div<{ src?: string }>`
 `
 const PlayerName = styled.span`
   position: absolute;
-  bottom: 32px;
+  bottom: 25px;
   left: 29px;
   text-transform: uppercase;
   color: #fff;
   font-weight: 700;
-  font-size: 9px;
+  font-size: 10px;
 `
 const PlayerPower = styled.div`
   position: absolute;
@@ -190,6 +188,10 @@ interface SuccessModalProps extends InjectedModalProps {
 const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ onDismiss, metaDatas }) => {
   const { isMobile } = useMatchBreakpoints()
   const { t } = useTranslation()
+  const [shownVideo, setShownVideo] = useState(true)
+  useEffect(() => {
+    setTimeout(() => setShownVideo(false), 3000)
+  }, [])
 
   return (
     <ModalContainer title={t('Box Modal!')} $minWidth={isMobile ? 'auto' : '440px'}>
@@ -203,46 +205,46 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
       </ModalHeader>
       <ModalBody p="24px" width="100%">
         <ModalBodyContent numItems={metaDatas.length}>
-          <Swiper
-            effect="flip"
-            grabCursor
-            pagination
-            navigation
-            spaceBetween={8}
-            modules={[EffectFlip, Pagination, Navigation]}
-            slidesPerView={isMobile ? 1 : metaDatas.length}>
-          {metaDatas.map(({ imagePlayer, name, attributes, token_id: tokenId }) => {
-              const power = attributes.find(({ key }) => key === 'POW')
-              const sho = attributes.find(({ key }) => key === 'SHO')
-              const energy = attributes.find(({ key }) => key === 'Energy')
-              const spe = attributes.find(({ key }) => key === 'SPE')
-              const jmp = attributes.find(({ key }) => key === 'JMP')
-              const level = attributes.find(({ key }) => key === 'Level')
-              const rarity = attributes.find(({ key }) => key === 'Rarity')
-              return (
-                <SwiperSlide key={tokenId}>
-                  <PlayerInfo rarity={rarity.value.toLowerCase()}>
-                    <PlayerAvatar src={imagePlayer} />
-                    <PlayerPower>{power.value}</PlayerPower>
-                    <PlayerName>{name}</PlayerName>
-                    <PlayerProperties>
-                      <PlayerSho>{sho.value}</PlayerSho>
-                      <PlayerPow>{energy.value}</PlayerPow>
-                      <PlayerSpe>{spe.value}</PlayerSpe>
-                      <PlayerJmp>{jmp.value}</PlayerJmp>
-                    </PlayerProperties>
-                    <PlayerLevel>
-                      <LevelText>Level</LevelText>
-                      <LevelText>{level.value}</LevelText>
-                    </PlayerLevel>
-                  </PlayerInfo>
-                </SwiperSlide>
-              )
-          })}
-          </Swiper>
-          <FlexModalBottom>
-            <ButtonStyled onClick={onDismiss}>Confirm {metaDatas.length} kickers</ButtonStyled>
-          </FlexModalBottom>
+          {shownVideo
+            ? <Flex width="100%" height="fit-content"><Video src="/videos/open-successfully.mp4" /></Flex>
+            : <>
+                <Swiper
+                  effect="flip"
+                  grabCursor
+                  pagination
+                  navigation
+                  spaceBetween={8}
+                  modules={[EffectFlip, Pagination, Navigation]}
+                  slidesPerView={isMobile ? 1 : metaDatas.length}>
+                {metaDatas.map(({ imagePlayer, name, attributes, token_id: tokenId }) => {
+                    const attributesMap: any = groupBy(attributes, 'key')
+                    return (
+                      <SwiperSlide key={tokenId}>
+                        <PlayerInfo rarity={attributesMap.Rarity[0].value as string}>
+                          <PlayerAvatar src={imagePlayer} />
+                          <PlayerPower>{attributesMap.POW[0].value as string}</PlayerPower>
+                          <PlayerName>{name}</PlayerName>
+                          <PlayerProperties>
+                            <PlayerSho>{attributesMap.SHO[0].value as string}</PlayerSho>
+                            <PlayerPow>{attributesMap.POW[0].value as string}</PlayerPow>
+                            <PlayerSpe>{attributesMap.SPE[0].value as string}</PlayerSpe>
+                            <PlayerJmp>{attributesMap.JMP[0].value as string}</PlayerJmp>
+                          </PlayerProperties>
+                          <PlayerLevel>
+                            <LevelText>Level</LevelText>
+                            <LevelText>{attributesMap.Level[0].value as string}</LevelText>
+                          </PlayerLevel>
+                        </PlayerInfo>
+                      </SwiperSlide>
+                    )
+                })}
+                </Swiper>
+                <FlexModalBottom>
+                  <ButtonStyled onClick={onDismiss}>Confirm {metaDatas.length} kickers</ButtonStyled>
+                </FlexModalBottom>
+              </>
+          }
+          
         </ModalBodyContent>
       </ModalBody>
     </ModalContainer>

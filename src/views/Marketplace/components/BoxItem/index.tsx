@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { isAddress } from 'utils'
 import { Text, BoxProps, Heading, Flex } from '@pancakeswap/uikit'
 import GradientButton from 'components/GradientButton'
+import Video from 'components/Video'
 import { busdImage } from '../../images'
 
 const FlexRowItem = styled(Flex)`
@@ -82,8 +83,7 @@ const BoxItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   return (
     <FlexRowItem {...props}>
       <Avatar>
-        {countDown && <TextCountDown>23 : 43 : 07</TextCountDown>}
-        <Image src={avatar} alt={boxName} className="avatar-img" />
+        <Video src={avatar} />
       </Avatar>
       <ItemInfo>
         <HeadingName>

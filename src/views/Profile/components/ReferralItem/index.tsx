@@ -10,6 +10,7 @@ const FlexRowItem = styled(Flex)<{ backgroundColor?: string; isChildren?: boolea
   background-color: ${({ backgroundColor }) => backgroundColor || 'transparent'};
   padding: ${({ isChildren }) => (isChildren ? '10px 20px' : '16px 20px')};
   border-radius: 10px;
+  cursor: pointer;
   @media (max-width: 767px) {
     padding: 10px;
   }

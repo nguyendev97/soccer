@@ -19,7 +19,6 @@ export const Container = styled.div`
 export const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -12px;
 `
 export const Col4 = styled.div`
   width: calc(100% / 4);
@@ -53,26 +52,15 @@ const SoccerBox = () => {
     <>
       <StyledFlexWrapper>
         <Container>
-          <Row>
-            <Grid gridTemplateColumns={["repeat(2, 1fr)", null, "repeat(3, 1fr)"]} gridRowGap="8px">
-              <BoxItem
-                disabled={amountBox < 1}
-                totalBox={amountBox}
-                avatar={specialBoxImage}
-                boxName="Special box"
-                onClick={onPresentRegisterModal}
-              />
-            </Grid>
-            {/* <Col4>
-              <BoxItem avatar={goldBoxImage} boxName="Gold box" />
-            </Col4>
-            <Col4>
-              <BoxItem avatar={silverBoxImage} boxName="Silver box" />
-            </Col4>
-            <Col4>
-              <BoxItem avatar={commonBoxImage} boxName="Common box" />
-            </Col4> */}
-          </Row>
+          <Grid gridTemplateColumns={["repeat(2, 1fr)", null, "repeat(3, 1fr)"]} gridRowGap="8px">
+            <BoxItem
+              disabled={amountBox < 1}
+              totalBox={amountBox}
+              avatar="/videos/special.mp4"
+              boxName="Special box"
+              onClick={onPresentRegisterModal}
+            />
+          </Grid>
         </Container>
       </StyledFlexWrapper>
     </>

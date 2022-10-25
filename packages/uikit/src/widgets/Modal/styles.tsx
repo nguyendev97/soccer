@@ -74,7 +74,7 @@ export const ModalContainer = styled(MotionBox)<{ $minWidth: string }>`
   position: absolute;
   min-width: ${({ $minWidth }) => $minWidth};
   bottom: 0;
-  max-width: none !important;
+  max-width: 550px;
   min-height: 300px;
 
   ${({ theme }) => theme.mediaQueries.md} {

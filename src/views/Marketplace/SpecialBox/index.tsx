@@ -20,8 +20,9 @@ import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useCont
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { getRefferalOwnerAddress } from 'utils/addressHelpers'
+import Video from 'components/Video'
 import RegisterModal from '../components/RegisterModal'
-import { backgroundSoccerImage, specialSellBoxImage, borderImage, busdImage } from '../images'
+import { backgroundSoccerImage, borderImage, busdImage } from '../images'
 
 const SPECIAL_TYPE = 1
 const refferalOwnerAddress = getRefferalOwnerAddress()
@@ -108,7 +109,7 @@ const SpecialBox = () => {
               Special box
             </HeadingBorder>
             <CountDown date="2022/11/10" />
-            <Image src={specialSellBoxImage} alt="Box" className="box-image" />
+            <Video maxWidth="300px" maxHeight="300px" src="/videos/special.mp4" />
             <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
               <TextInfo style={{ marginRight: '20px' }}>
                 Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Flex, Heading } from '@pancakeswap/uikit'
+import { Flex, Heading, Button, Text } from '@pancakeswap/uikit'
 import { useRefferalContract, useCommContract } from 'hooks/useContract'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import GradientButton from 'components/GradientButton'
@@ -10,6 +10,7 @@ import commAbi from 'config/abi/comm.json'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { getCommAddress } from 'utils/addressHelpers'
 import { BUSD } from '@pancakeswap/tokens'
+import GridPlaceholder from 'components/GridPlaceholder'
 import ReferralItem from '../components/ReferralItem'
 
 const StyledFlexWrapper = styled(Flex)`
@@ -30,27 +31,38 @@ const StyledHeading = styled(Heading)`
     margin-bottom: 16px;
   }
 `
-const skipMarked = []
+let skipMarked = []
 
 const pageSize = 2
-const mockup = "0xd9Ee77C838B4613a67eAe08A602F078997FfB2DE"
+
 const People = () => {
   const { account, chainId } = useWeb3React()
   const refferalContract = useRefferalContract()
   const commContract = useCommContract()
   const [children, setChildren] = useState([])
   const [page, setPage] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
   const [rootRewards, setRootRewards] = useState({
     busd: 0
   })
   const [totalChildren, setTotalChildren] = useState(0)
+  const [selectedAccount, setSelectedAccount] = useState(account)
+  const [history, setHistory] = useState([])
 
   useEffect(() => {
-    if (account) {
+    if (history.length < 1 && account) {
+      setHistory([account])
+      setSelectedAccount(account)
+    }
+  }, [account, history])
+
+  useEffect(() => {
+    if (selectedAccount) {
       const skip = (page * pageSize)
       if (!skipMarked.includes(skip)) {
         skipMarked.push(skip)
-        refferalContract.getTotalUserByUp(account, pageSize, skip).then( async res => {
+        setIsLoading(true)
+        refferalContract.getTotalUserByUp(selectedAccount, pageSize, skip).then( async res => {
           const cleanedChildren = res.list.map(({ user, totalRefer }) => ({
             address: user,
             totalRefer: totalRefer.toNumber()
@@ -67,11 +79,10 @@ const People = () => {
             chainId,
           })
 
-          commContract.totalRewards(account, BUSD[chainId]?.address).then(resRewards => {
-              setRootRewards({
-                busd: getBalanceNumber(new BigNumber(resRewards._hex))
-              }
-            )}
+          commContract.totalRewards(selectedAccount, BUSD[chainId]?.address).then(resRewards => {
+            setRootRewards({
+              busd: getBalanceNumber(new BigNumber(resRewards._hex))
+            })}
           )
           
           const newChilren = cleanedChildren.map((item, index) => ({
@@ -82,20 +93,41 @@ const People = () => {
           }))
           setChildren((prev) => [...prev, ...newChilren])
           setTotalChildren(res.totalItem.toNumber())
-        })
+        }).finally(() => setIsLoading(false))
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, page])
+  }, [selectedAccount, page])
 
-  // console.log({children})
+  const handleViewAccount = acc => {
+    setHistory(prev => [...prev, acc])
+    setPage(0)
+    setSelectedAccount(acc)
+    setChildren([])
+    skipMarked = []
+  }
+
+  const handleBack = acc => {
+    setHistory(prev => prev.filter(item => item !== acc))
+    setPage(0)
+    setSelectedAccount(acc)
+    setChildren([])
+    skipMarked = []
+  }
+
   return (
     <StyledFlexWrapper>
-      <ReferralItem rewards={rootRewards} address={account} isChildren={false} level={0} totalRef={2} backgroundColor="#1D018D" />
+      {history.length > 1 && <Flex alignItems="center" mb="12px">
+        <Button variant="secondary" mr="12px" scale='sm' onClick={() => handleBack(history[history.length - 2])}>Back to `&gt;`?</Button>
+        <Text>{history[history.length - 2]}</Text>
+      </Flex>}
+      <ReferralItem rewards={rootRewards} address={selectedAccount} isChildren={false} level={0} totalRef={2} backgroundColor="#1D018D" />
       <ChildrenContent>
         <StyledHeading>Referral income of {totalChildren} children</StyledHeading>
-        {children.map(({ address, totalRefer, rewards }, index) => {
-          return <ReferralItem key={address} rewards={rewards} address={address} isChildren level={index} totalRef={totalRefer} backgroundColor={(index % 2) ? "transparent" : "#160461"} />
+        {isLoading
+          ? <GridPlaceholder numItems={1} />
+          : children.map(({ address, totalRefer, rewards }, index) => {
+          return <ReferralItem onClick={() => handleViewAccount(address)} key={address} rewards={rewards} address={address} isChildren level={index} totalRef={totalRefer} backgroundColor={(index % 2) ? "transparent" : "#160461"} />
         })}
       </ChildrenContent>
       <Flex mt="12px" flexDirection="column" alignItems="center">
