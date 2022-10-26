@@ -60,7 +60,7 @@ const PlayerInfo = styled.div<{rarity: string}>`
   position: relative;
   width: 210px;
   height: 291px;
-  background: ${({ rarity }) => `url('/images/player-bg-${rarity}.png') no-repeat center center`};
+  background: ${({ rarity }) => `url('/images/player-bg-${rarity.toLowerCase()}.png') no-repeat center center`};
   background-size: contain;
 `
 const PlayerAvatar = styled.div<{ src?: string }>`
@@ -190,7 +190,7 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
   const { t } = useTranslation()
   const [shownVideo, setShownVideo] = useState(true)
   useEffect(() => {
-    setTimeout(() => setShownVideo(false), 3000)
+    setTimeout(() => setShownVideo(false), 5000)
   }, [])
 
   return (
