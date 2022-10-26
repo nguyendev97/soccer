@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { Flex, Heading, Text, useToast, Input, useModal } from '@pancakeswap/uikit'
+import { Flex, Heading, Text, useToast, Input, useModal, AutoRenewIcon } from '@pancakeswap/uikit'
 import GradientButton from 'components/GradientButton'
 import CountDown from 'components/CountDown'
 import Image from 'next/image'
@@ -122,6 +122,7 @@ const SpecialBox = () => {
             {account ? 
               (<Flex flexDirection="column">
                 <GradientButton
+                  endIcon={isApproving || isConfirming ? <AutoRenewIcon spin color="currentColor" /> : undefined}
                   disabled={isApproving || isConfirming || isNotEnoughBalance}
                   onClick={isApproved ? handleConfirm : handleApprove}
                   fontSize="16px"
@@ -130,8 +131,8 @@ const SpecialBox = () => {
                   <Flex style={{ alignItems: 'center' }}>
                     <Image src={busdImage} width="26px" />
                     <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-                      {isApproving && 'Approving ...'}
-                      {isConfirming && 'Confirming ...'}
+                      {isApproving && 'Approving'}
+                      {isConfirming && 'Confirming'}
                       {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
                     </Text>
                   </Flex>

@@ -60,7 +60,7 @@ const config: (
       items: [],
     },
     {
-      label: t('Stake'),
+      label: t('Boxes'),
       href: '/',
       icon: SwapIcon,
       fillIcon: SwapFillIcon,

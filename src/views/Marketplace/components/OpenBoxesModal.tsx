@@ -12,6 +12,7 @@ import {
   useToast,
   useModal,
   Box,
+  AutoRenewIcon
 } from '@pancakeswap/uikit'
 import Image from 'next/image'
 import cloneDeep from 'lodash/cloneDeep'
@@ -188,8 +189,8 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
             />
           </Flex>
           <FlexModalBottom>
-            <RegisterButton onClick={isApproved ? handleConfirm : handleApprove}>
-              {isApproving || isConfirming ? 'Loading ...' : !isApproved ? 'Approve' : 'Open now!'}
+            <RegisterButton endIcon={isApproving || isConfirming ? <AutoRenewIcon spin color="currentColor" /> : undefined} onClick={isApproved ? handleConfirm : handleApprove}>
+              {isApproving || isConfirming ? 'Loading' : !isApproved ? 'Approve' : 'Open now!'}
             </RegisterButton>
           </FlexModalBottom>
         </ModalBodyContent>
