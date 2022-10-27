@@ -137,6 +137,10 @@ export const getBoxesOpenAddress = (chainId?: number) => {
   return getAddress(addresses.boxesOpen, chainId)
 }
 
+export const getHalloweenBoxesOpenAddress = (chainId?: number) => {
+  return getAddress(addresses.halloweenBoxesOpen, chainId)
+}
+
 export const getRefferalAddress = (chainId?: number) => {
   return getAddress(addresses.refferal, chainId)
 }

@@ -45,7 +45,8 @@ const SoccerBox = () => {
     }
   }, [account, boxesContract, currentBlock])
 
-  const [onPresentRegisterModal] = useModal(<OpenBoxesModal maxAmount={amountBox} />)
+  const [onPresentOpenBoxesModal] = useModal(<OpenBoxesModal maxAmount={amountBox} />)
+  const [onPresentOpenHalloweenBoxesModal] = useModal(<OpenBoxesModal type="halloween" maxAmount={amountBox} />)
 
   return (
     <>
@@ -55,9 +56,16 @@ const SoccerBox = () => {
             <BoxItem
               disabled={amountBox < 1}
               totalBox={amountBox}
+              avatar="/videos/halloween.mp4"
+              boxName="Halloween box"
+              onClick={onPresentOpenHalloweenBoxesModal}
+            />
+            <BoxItem
+              disabled={amountBox < 1}
+              totalBox={amountBox}
               avatar="/videos/special.mp4"
               boxName="Special box"
-              onClick={onPresentRegisterModal}
+              onClick={onPresentOpenBoxesModal}
             />
           </Grid>
         </Container>

@@ -2,13 +2,10 @@ import type { Signer } from '@ethersproject/abstract-signer'
 import type { Provider } from '@ethersproject/providers'
 import { provider } from 'utils/wagmi'
 import { Contract } from '@ethersproject/contracts'
-import poolsConfig from 'config/constants/pools'
-import { PoolCategory } from 'config/constants/types'
 import { CAKE } from '@pancakeswap/tokens'
 
 // Addresses
 import {
-  getAddress,
   getPancakeProfileAddress,
   getPancakeBunniesAddress,
   getBunnyFactoryAddress,
@@ -45,6 +42,7 @@ import {
   getBoxesOpenAddress,
   getRefferalAddress,
   getCommAddress,
+  getHalloweenBoxesOpenAddress,
   getHalloweenBoxSaleAddress,
 } from 'utils/addressHelpers'
 
@@ -57,15 +55,10 @@ import bep20Abi from 'config/abi/erc20.json'
 import erc721Abi from 'config/abi/erc721.json'
 import lpTokenAbi from 'config/abi/lpToken.json'
 import cakeAbi from 'config/abi/cake.json'
-import ifoV1Abi from 'config/abi/ifoV1.json'
-import ifoV2Abi from 'config/abi/ifoV2.json'
 import pointCenterIfo from 'config/abi/pointCenterIfo.json'
 import lotteryV2Abi from 'config/abi/lotteryV2.json'
 import masterChef from 'config/abi/masterchef.json'
 import masterChefV1 from 'config/abi/masterchefV1.json'
-import sousChef from 'config/abi/sousChef.json'
-import sousChefV2 from 'config/abi/sousChefV2.json'
-import sousChefBnb from 'config/abi/sousChefBnb.json'
 import claimRefundAbi from 'config/abi/claimRefund.json'
 import tradingCompetitionEasterAbi from 'config/abi/tradingCompetitionEaster.json'
 import tradingCompetitionFanTokenAbi from 'config/abi/tradingCompetitionFanToken.json'
@@ -92,7 +85,6 @@ import potteryVaultAbi from 'config/abi/potteryVaultAbi.json'
 import potteryDrawAbi from 'config/abi/potteryDrawAbi.json'
 import zapAbi from 'config/abi/zap.json'
 import iCakeAbi from 'config/abi/iCake.json'
-import ifoV3Abi from 'config/abi/ifoV3.json'
 import cakePredictionsAbi from 'config/abi/cakePredictions.json'
 import bCakeFarmBoosterAbi from 'config/abi/bCakeFarmBooster.json'
 import bCakeFarmBoosterProxyFactoryAbi from 'config/abi/bCakeFarmBoosterProxyFactory.json'
@@ -109,8 +101,6 @@ import type {
   FarmAuction,
   Predictions,
   AnniversaryAchievement,
-  IfoV1,
-  IfoV2,
   Erc20,
   Erc721,
   Cake,
@@ -120,8 +110,6 @@ import type {
   LotteryV2,
   Masterchef,
   MasterchefV1,
-  SousChef,
-  SousChefV2,
   BunnySpecial,
   LpToken,
   ClaimRefund,
@@ -178,24 +166,6 @@ export const getErc1155Contract = (address: string, signer?: Signer | Provider) 
 }
 export const getLpContract = (address: string, chainId?: number, signer?: Signer | Provider) => {
   return getContract({ abi: lpTokenAbi, address, signer, chainId }) as LpToken
-}
-export const getIfoV1Contract = (address: string, signer?: Signer | Provider) => {
-  return getContract({ abi: ifoV1Abi, address, signer }) as IfoV1
-}
-export const getIfoV2Contract = (address: string, signer?: Signer | Provider) => {
-  return getContract({ abi: ifoV2Abi, address, signer }) as IfoV2
-}
-export const getIfoV3Contract = (address: string, signer?: Signer | Provider) => {
-  return getContract({ abi: ifoV3Abi, address, signer })
-}
-export const getSouschefContract = (id: number, signer?: Signer | Provider) => {
-  const config = poolsConfig.find((pool) => pool.sousId === id)
-  const abi = config.poolCategory === PoolCategory.BINANCE ? sousChefBnb : sousChef
-  return getContract({ abi, address: getAddress(config.contractAddress), signer }) as SousChef
-}
-export const getSouschefV2Contract = (id: number, signer?: Signer | Provider) => {
-  const config = poolsConfig.find((pool) => pool.sousId === id)
-  return getContract({ abi: sousChefV2, address: getAddress(config.contractAddress), signer }) as SousChefV2
 }
 
 export const getPointCenterIfoContract = (signer?: Signer | Provider) => {
@@ -386,6 +356,10 @@ export const getHalloweenBoxSaleContract = (chainId?: number, signer?: Signer | 
 
 export const getBoxesOpenContract = (chainId?: number, signer?: Signer | Provider) => {
   return getContract({ abi: boxesOpenAbi, address: getBoxesOpenAddress(chainId), signer })
+}
+
+export const getHalloweenBoxesOpenContract = (chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: boxesOpenAbi, address: getHalloweenBoxesOpenAddress(chainId), signer })
 }
 
 export const getRefferalContract = (chainId?: number, signer?: Signer | Provider) => {

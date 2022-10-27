@@ -14,6 +14,7 @@ import goldBoxImage from './gold-box.png'
 import silverBoxImage from './silver-box.png'
 import commonBoxImage from './common-box.png'
 import cardItemImage from './card-item.png'
+import halloweenBoxImage from './halloween-box.png'
 
 export {
   powImage,
@@ -32,4 +33,5 @@ export {
   silverBoxImage,
   commonBoxImage,
   cardItemImage,
+  halloweenBoxImage,
 }

@@ -36,9 +36,6 @@ import {
   getErc721CollectionContract,
   getErc721Contract,
   getFarmAuctionContract,
-  getIfoV1Contract,
-  getIfoV2Contract,
-  getIfoV3Contract,
   getLotteryV2Contract,
   getMasterchefContract,
   getMasterchefV1Contract,
@@ -52,7 +49,7 @@ import {
   getPredictionsContract,
   getPredictionsV1Contract,
   getProfileContract,
-  getSouschefContract,
+  getHalloweenBoxesOpenContract,
   getTradingCompetitionContractEaster,
   getTradingCompetitionContractFanToken,
   getTradingCompetitionContractMobox,
@@ -79,25 +76,6 @@ import { getContract } from '../utils'
 import { IPancakePair } from '../config/abi/types/IPancakePair'
 import { VaultKey } from '../state/types'
 import { useActiveChainId } from './useActiveChainId'
-
-/**
- * Helper hooks to get specific contracts (by ABI)
- */
-
-export const useIfoV1Contract = (address: string) => {
-  const { data: signer } = useSigner()
-  return useMemo(() => getIfoV1Contract(address, signer), [address, signer])
-}
-
-export const useIfoV2Contract = (address: string) => {
-  const { data: signer } = useSigner()
-  return useMemo(() => getIfoV2Contract(address, signer), [address, signer])
-}
-
-export const useIfoV3Contract = (address: string) => {
-  const { data: signer } = useSigner()
-  return useMemo(() => getIfoV3Contract(address, signer), [address, signer])
-}
 
 export const useERC20 = (address: string, withSignerIfPossible = true) => {
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
@@ -157,11 +135,6 @@ export const useMasterchef = (withSignerIfPossible = true) => {
 export const useMasterchefV1 = () => {
   const { data: signer } = useSigner()
   return useMemo(() => getMasterchefV1Contract(signer), [signer])
-}
-
-export const useSousChef = (id) => {
-  const { data: signer } = useSigner()
-  return useMemo(() => getSouschefContract(id, signer), [id, signer])
 }
 
 export const usePointCenterIfoContract = () => {
@@ -392,6 +365,12 @@ export const useBoxesOpenContract = (withSignerIfPossible = true) => {
   const { chainId } = useActiveWeb3React()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
   return useMemo(() => getBoxesOpenContract(chainId, providerOrSigner), [providerOrSigner, chainId])
+}
+
+export const useHalloweenBoxesOpenContract = (withSignerIfPossible = true) => {
+  const { chainId } = useActiveWeb3React()
+  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
+  return useMemo(() => getHalloweenBoxesOpenContract(chainId, providerOrSigner), [providerOrSigner, chainId])
 }
 
 export const useRefferalContract = (withSignerIfPossible = true) => {
