@@ -61,10 +61,19 @@ const config: (
     },
     {
       label: t('Boxes'),
-      href: '/',
+      // href: '/',
       icon: SwapIcon,
       fillIcon: SwapFillIcon,
-      items: [],
+      items: [
+        {
+          label: t('Special'),
+          href: '/boxes/special',
+        },
+        {
+          label: t('Halloween'),
+          href: '//boxes/halloween',
+        }
+      ],
     },
   ].map((item) => addMenuItemSupported(item, chainId))
 

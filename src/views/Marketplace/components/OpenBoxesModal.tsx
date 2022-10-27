@@ -85,7 +85,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
   const halloweenBoxesOpenContract = useHalloweenBoxesOpenContract()
   const [onPresentSuccessModal] = useModal(<SuccessModal metaDatas={metaDatas} />)
   const selectedBoxesOpenContract = type === HALLOWEEN ? halloweenBoxesOpenContract : boxesOpenContract
-  console.log({selectedBoxesOpenContract})
+
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
     onRequiresApproval: async () => {
       try {

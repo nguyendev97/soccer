@@ -10,7 +10,6 @@ import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { useAccount } from 'wagmi'
 // import { NetworkSwitcher } from 'components/NetworkSwitcher'
 import useTheme from 'hooks/useTheme'
-import { useCakeBusdPrice } from 'hooks/useBUSDPrice'
 import ReferralBox from 'views/Profile/components/ReferralBox'
 import UserMenu from './UserMenu'
 import { useMenuItems } from './hooks/useMenuItems'
@@ -54,7 +53,6 @@ const MenuItem = styled.li`
 const Menu = (props) => {
   const { isMobile } = useMatchBreakpoints()
   const { isDark, setTheme } = useTheme()
-  const cakePriceUsd = useCakeBusdPrice({ forceMainnet: true })
   const { currentLanguage, setLanguage, t } = useTranslation()
   const router = useRouter()
   const { pathname } = router
@@ -126,7 +124,7 @@ const Menu = (props) => {
         currentLang={currentLanguage.code}
         langs={languageList}
         setLang={setLanguage}
-        cakePriceUsd={cakePriceUsd}
+        cakePriceUsd={0}
         links={menuItems}
         subLinks={activeMenuItem?.hideSubNav || activeSubMenuItem?.hideSubNav ? [] : activeMenuItem?.items}
         footerLinks={getFooterLinks}
