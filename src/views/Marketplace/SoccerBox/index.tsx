@@ -29,10 +29,12 @@ export const Col4 = styled.div`
 `
 
 const SPECIAL_TYPE = 1
+const HALLOWEEN_TYPE = 5
 
 const SoccerBox = () => {
   const { account, chainId } = useWeb3React()
   const [amountBox, setAmountBox] = useState(0)
+  const [amountHalloweenBox, setAmountHalloweenBox] = useState(0)
   const boxesAddress = getBoxesAddress(chainId)
   const boxesContract = useERC1155(boxesAddress)
   const currentBlock = useCurrentBlock()
@@ -42,11 +44,14 @@ const SoccerBox = () => {
       boxesContract.balanceOf(account, SPECIAL_TYPE).then((res) => {
         setAmountBox(res.toNumber())
       })
+      boxesContract.balanceOf(account, HALLOWEEN_TYPE).then((res) => {
+        setAmountHalloweenBox(res.toNumber())
+      })
     }
   }, [account, boxesContract, currentBlock])
 
   const [onPresentOpenBoxesModal] = useModal(<OpenBoxesModal maxAmount={amountBox} />)
-  const [onPresentOpenHalloweenBoxesModal] = useModal(<OpenBoxesModal type="halloween" maxAmount={amountBox} />)
+  const [onPresentOpenHalloweenBoxesModal] = useModal(<OpenBoxesModal type="halloween" maxAmount={amountHalloweenBox} />)
 
   return (
     <>
@@ -54,8 +59,8 @@ const SoccerBox = () => {
         <Container>
           <Grid gridTemplateColumns={["repeat(2, 1fr)", null, "repeat(3, 1fr)"]} gridRowGap="8px">
             <BoxItem
-              disabled={amountBox < 1}
-              totalBox={amountBox}
+              disabled={amountHalloweenBox < 1}
+              totalBox={amountHalloweenBox}
               avatar="/videos/halloween.mp4"
               boxName="Halloween box"
               onClick={onPresentOpenHalloweenBoxesModal}
