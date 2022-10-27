@@ -18,7 +18,7 @@ export const DropdownMenuItem = styled.button<StyledDropdownMenuItemProps & { $i
   align-items: center;
   border: 0;
   background: transparent;
-  color: ${({ theme, disabled, $isActive }) => getTextColor({ theme, disabled, $isActive })};
+  color: #452a7a;
   cursor: pointer;
   font-weight: ${({ $isActive = false }) => ($isActive ? "600" : "400")};
   display: flex;
