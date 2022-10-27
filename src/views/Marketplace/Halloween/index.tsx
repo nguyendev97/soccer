@@ -20,7 +20,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { getBalanceAmount, formatAmount } from 'utils/formatBalance'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
-import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
+import { useHalloweenBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { getRefferalOwnerAddress } from 'utils/addressHelpers'
@@ -49,7 +49,7 @@ const Halloween = () => {
   const [remain, setRemain] = useState(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [priceOfBox, setPriceOfBox] = useState<number>(0)
-  const boxSaleContract = useBoxSaleContract()
+  const boxSaleContract = useHalloweenBoxSaleContract()
   const refferalContract = useRefferalContract()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()

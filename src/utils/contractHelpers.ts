@@ -45,6 +45,7 @@ import {
   getBoxesOpenAddress,
   getRefferalAddress,
   getCommAddress,
+  getHalloweenBoxSaleAddress,
 } from 'utils/addressHelpers'
 
 // ABI
@@ -377,6 +378,10 @@ export const getBCakeProxyContract = (proxyContractAddress: string, signer?: Sig
 
 export const getBoxSaleContract = (chainId?: number, signer?: Signer | Provider) => {
   return getContract({ abi: boxSaleAbi, address: getBoxSaleAddress(chainId), signer })
+}
+
+export const getHalloweenBoxSaleContract = (chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: boxSaleAbi, address: getHalloweenBoxSaleAddress(chainId), signer })
 }
 
 export const getBoxesOpenContract = (chainId?: number, signer?: Signer | Provider) => {

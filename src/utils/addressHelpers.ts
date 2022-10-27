@@ -125,6 +125,10 @@ export const getBoxSaleAddress = (chainId?: number) => {
   return getAddress(addresses.boxSale, chainId)
 }
 
+export const getHalloweenBoxSaleAddress = (chainId?: number) => {
+  return getAddress(addresses.boxHalloweenSale, chainId)
+}
+
 export const getBoxesAddress = (chainId?: number) => {
   return getAddress(addresses.boxes, chainId)
 }

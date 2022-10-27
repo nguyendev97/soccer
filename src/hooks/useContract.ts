@@ -62,6 +62,7 @@ import {
   getBoxesOpenContract,
   getRefferalContract,
   getCommContract,
+  getHalloweenBoxSaleContract,
 } from 'utils/contractHelpers'
 import { useSigner } from 'wagmi'
 
@@ -379,6 +380,12 @@ export const useBoxSaleContract = (withSignerIfPossible = true) => {
   const { chainId } = useActiveWeb3React()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
   return useMemo(() => getBoxSaleContract(chainId, providerOrSigner), [providerOrSigner, chainId])
+}
+
+export const useHalloweenBoxSaleContract = (withSignerIfPossible = true) => {
+  const { chainId } = useActiveWeb3React()
+  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
+  return useMemo(() => getHalloweenBoxSaleContract(chainId, providerOrSigner), [providerOrSigner, chainId])
 }
 
 export const useBoxesOpenContract = (withSignerIfPossible = true) => {
