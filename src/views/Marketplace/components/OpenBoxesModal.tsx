@@ -83,7 +83,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
   const playersContract = useERC721(playersAddress)
   const boxesOpenContract = useBoxesOpenContract()
   const halloweenBoxesOpenContract = useHalloweenBoxesOpenContract()
-  const [onPresentSuccessModal] = useModal(<SuccessModal metaDatas={metaDatas} />)
+  const [onPresentSuccessModal] = useModal(<SuccessModal type={type} metaDatas={metaDatas} />)
   const selectedBoxesOpenContract = type === HALLOWEEN ? halloweenBoxesOpenContract : boxesOpenContract
 
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({

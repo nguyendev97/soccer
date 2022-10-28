@@ -57,7 +57,7 @@ const SoccerBox = () => {
     <>
       <StyledFlexWrapper>
         <Container>
-          <Grid gridTemplateColumns={["repeat(2, 1fr)", null, "repeat(3, 1fr)"]} gridRowGap="8px">
+          <Grid gridTemplateColumns={["repeat(2, 1fr)", null, "repeat(3, 1fr)"]} gridColumnGap="16px" gridRowGap="8px">
             <BoxItem
               disabled={amountHalloweenBox < 1}
               totalBox={amountHalloweenBox}

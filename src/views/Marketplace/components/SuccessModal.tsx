@@ -184,9 +184,12 @@ const ButtonStyled = styled(GradientButton)`
 
 interface SuccessModalProps extends InjectedModalProps {
   metaDatas: any[]
+  type?: string
 }
 
-const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ onDismiss, metaDatas }) => {
+const HALLOWEEN = 'halloween'
+
+const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ onDismiss, metaDatas, type }) => {
   const { isMobile } = useMatchBreakpoints()
   const { t } = useTranslation()
   const [shownVideo, setShownVideo] = useState(true)
@@ -207,7 +210,7 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
       <ModalBody p="24px" width="100%">
         <ModalBodyContent numItems={metaDatas.length}>
           {shownVideo
-            ? <Flex width="100%" height="fit-content"><Video src="/videos/open-successfully.mp4" /></Flex>
+            ? <Flex width="100%" height="fit-content"><Video src={type === HALLOWEEN ? "/videos/open-halloween-successfully.mp4" : "/videos/open-successfully.mp4"} /></Flex>
             : <>
                 <Swiper
                   effect="flip"
