@@ -165,7 +165,7 @@ export default {
     97: '0x00c376468CA10dAEfFc4F1EAe31b35843Ebc128E',
   },
   halloweenBoxesOpen: {
-    56: '0x7e009Dc52eE3221f804600FD0632B8959dEfd065',
+    56: '0x8aBa1f111fd080f40dc3b0E4833d429d3dFcec45',
     97: '0x9cC221A35aD32C69322Dfee30255f2d0c6e502f2',
   },
   refferal: {
