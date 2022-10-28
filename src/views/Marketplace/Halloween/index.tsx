@@ -194,12 +194,12 @@ const Halloween = () => {
                       "disableOnInteraction": false
                     }}
                     grabCursor
-                    pagination
+                    // pagination
                     navigation
                     spaceBetween={8}
                     modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
                     slidesPerView={isMobile ? 2.1 : 2.3}>
-                    {[...CARDS_COMMON, ...CARDS_LEGEND, ...CARDS_RARE, ...EQUIPS].map((card) => {
+                    {[...CARDS_COMMON, ...CARDS_LEGEND, ...CARDS_RARE, ...EQUIPS.map(e => `equipments/${e}`)].map((card) => {
                         return (
                           <SwiperSlide key={card}><img style={{ height: 250 }} src={`/images/cards/${card}`} alt="card" /></SwiperSlide>
                         )
