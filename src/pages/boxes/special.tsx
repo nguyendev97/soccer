@@ -1,7 +1,7 @@
-import Halloween from 'views/Marketplace/Halloween'
+import Special from 'views/Marketplace/SpecialBox'
 
 const IndexPage = () => {
-  return <Halloween />
+  return <Special />
 }
 
 IndexPage.chains = []

@@ -64,7 +64,8 @@ const PlayerInfo = styled.div<{rarity: string}>`
   background-size: contain;
 `
 const PlayerAvatar = styled.div<{ src?: string }>`
-  width: 150px;
+  width: 50%;
+  left: 25px;
   height: 200px;
   position: absolute;
   top: 40px;
@@ -76,7 +77,7 @@ const PlayerName = styled.span`
   bottom: 25px;
   left: 29px;
   text-transform: uppercase;
-  color: #fff;
+  color: #191325;
   font-weight: 700;
   font-size: 10px;
 `
