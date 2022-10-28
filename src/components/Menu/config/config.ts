@@ -54,7 +54,7 @@ const config: (
     },
     {
       label: t('Special box'),
-      href: 'boxes/special',
+      href: '/boxes/special',
       icon: SwapIcon,
       fillIcon: SwapFillIcon,
       items: [],
