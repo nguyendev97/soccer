@@ -35,9 +35,9 @@ import "swiper/css/effect-coverflow"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 
-const CARDS_COMMON = ['common/Ahmed Zain.png','common/Hannibal Mejbri.png','common/carcelen.png','common/Alejandro Brand.png','common/Harry Wilson.png','common/Luka Jovic.png','common/eisa ahmed palangi.png','common/Alphonso Davies.png','common/Thomas Partey.png','common/Chicharito.png','bcommon/dessamad Ezzalzouli.png']
+const CARDS_COMMON = ['common/Ahmed Zain.png','common/Hannibal Mejbri.png','common/carcelen.png','common/Alejandro Brand.png','common/Harry Wilson.png','common/Luka Jovic.png','common/eisa ahmed palangi.png','common/Alphonso Davies.png','common/Thomas Partey.png','common/Chicharito.png','common/dessamad Ezzalzouli.png']
 const CARDS_LEGEND = ['legend/Christian Pulisic.png','legend/Mbabu.png','legend/cavani.png','legend/sadio mane.png','legend/Shahab Zahedi.png','legend/lewandowski.png','legend/son heung min.png']
-const CARDS_RARE = ['rare/Frenkie de Jong.png','rare/MBABE.png','rare/harry kane.png','rare/neymar (1).png','rare/HALLAND.png','rare/Pogba.png','rare/luka modric.png','rare/ronaldo.png','rare/Toni kroos.png','rare/messi.png','rare/sergio ramos.png']
+const CARDS_RARE = ['rare/MBABE.png', 'rare/HALLAND.png',]
 const EQUIPS = ['Layer 33.png','Layer 806.png','Layer 820.png','Layer 831.png','Layer 841.png','Layer 47 copy 5.png','Layer 809.png','Layer 822.png','Layer 833.png','Layer 843 copy.png','Layer 52 copy.png','Layer 812 copy.png','Layer 824.png','Layer 835.png','Layer 845.png','Layer 63 copy.png','Layer 814 copy.png','Layer 826.png','Layer 837.png','Layer 847.png','Layer 68 copy 2.png','Layer 816.png','Layer 828.png','Layer 839 copy.png','Layer 802.png','Layer 818.png','Layer 83.png','Layer 84 copy.png','Layer 805.png','Layer 82.png','Layer 830.png','Layer 84.png']
 
 const HALLOWEEN_TYPE = 5
@@ -199,7 +199,7 @@ const Halloween = () => {
                     spaceBetween={8}
                     modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
                     slidesPerView={isMobile ? 2.1 : 2.3}>
-                    {[...CARDS_COMMON, ...CARDS_LEGEND, ...CARDS_RARE, ...EQUIPS.map(e => `equipments/${e}`)].map((card) => {
+                    {[...CARDS_RARE, ...EQUIPS.map(e => `equipments/${e}`)].map((card) => {
                         return (
                           <SwiperSlide key={card}><img style={{ height: 250 }} src={`/images/cards/${card}`} alt="card" /></SwiperSlide>
                         )
