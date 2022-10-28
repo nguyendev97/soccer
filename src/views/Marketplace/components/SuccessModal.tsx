@@ -244,7 +244,7 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
                 })}
                 </Swiper>
                 <FlexModalBottom>
-                  <ButtonStyled onClick={onDismiss}>Confirm {metaDatas.length} kickers</ButtonStyled>
+                  <ButtonStyled onClick={onDismiss}>Confirm {metaDatas.length} items</ButtonStyled>
                 </FlexModalBottom>
               </>
           }

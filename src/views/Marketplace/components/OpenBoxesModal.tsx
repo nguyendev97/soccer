@@ -21,7 +21,7 @@ import { useState, useEffect } from 'react'
 import { callWithEstimateGas } from 'utils/calls'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { useERC1155, useBoxesOpenContract, useHalloweenBoxesOpenContract, useERC721 } from 'hooks/useContract'
-import { getBoxesAddress, getPlayersAddress } from 'utils/addressHelpers'
+import { getBoxesAddress, getPlayersAddress, getEquipmentsAddress } from 'utils/addressHelpers'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { useTranslation } from '@pancakeswap/localization'
@@ -73,19 +73,33 @@ const MAX_AMOUNT = 5
 const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = ({ onDismiss, maxAmount, type }) => {
   const { t } = useTranslation()
   const [metaDatas, setMetaDatas] = useState([])
+  const [playerBalances, setPlayerBalances] = useState(0)
+  const [equipmentBalances, setEquipmentBalances] = useState(0)
   const { account, chainId } = useWeb3React()
   const boxesAddress = getBoxesAddress(chainId)
   const playersAddress = getPlayersAddress(chainId)
+  const equipmentsAddress = getEquipmentsAddress(chainId)
   const [amountBoxes, setAmount] = useState(1)
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()
   const boxesContract = useERC1155(boxesAddress)
   const playersContract = useERC721(playersAddress)
+  const equipmentsContract = useERC721(equipmentsAddress)
   const boxesOpenContract = useBoxesOpenContract()
   const halloweenBoxesOpenContract = useHalloweenBoxesOpenContract()
   const [onPresentSuccessModal] = useModal(<SuccessModal type={type} metaDatas={metaDatas} />)
   const selectedBoxesOpenContract = type === HALLOWEEN ? halloweenBoxesOpenContract : boxesOpenContract
 
+  useEffect(() => {
+    playersContract
+      .balanceOf(account)
+      .then(res => setPlayerBalances(res.toNumber()))
+
+    equipmentsContract
+      .balanceOf(account)
+      .then(res => setEquipmentBalances(res.toNumber()))
+  }, [chainId, account])
+  console.log({playerBalances, equipmentBalances })
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
     onRequiresApproval: async () => {
       try {
@@ -108,49 +122,60 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       return callWithEstimateGas(selectedBoxesOpenContract, 'open', [Date.now(), [type === HALLOWEEN ? HALLOWEEN_TYPE : SPECIAL_TYPE], [amountBoxes]], null, 500000)
     },
     onSuccess: async ({ receipt }) => {
-      playersContract
-        .balanceOf(account)
-        .then((res) => {
-          let amountCloned = cloneDeep(amountBoxes)
-          const balance = res.toNumber()
-          // eslint-disable-next-line prefer-const
-          let newIds = []
-          while (amountCloned > 0) {
-            newIds.push(balance - amountCloned)
-            amountCloned--
-          }
-          return newIds
-        })
-        .then(async (newIds) => {
-          // eslint-disable-next-line prefer-const
-          let tasks = []
-          newIds.forEach((id) => {
-            tasks.push(playersContract.tokenOfOwnerByIndex(account, id))
-          })
-          const res = await Promise.all(tasks)
-          const tokenIds = res.map((tokenId) => tokenId.toNumber())
 
-          tasks = []
-          tokenIds.forEach((id) => {
-            tasks.push(playersContract.tokenURI(id))
-          })
-          const tokenURIRes = await Promise.all(tasks)
-
-          tasks = []
-          tokenURIRes.forEach(uri => {
-            const fetchMeta = async () => {
-              const uriRes = await fetch(uri)
-              if (uriRes.ok) {
-                const json = await uriRes.json()
-                return json
-              }
-              return null
+      const fetchMetas = (contract, previousBalance) => {
+        
+        return contract
+          .balanceOf(account)
+          .then((res) => {
+            let amountCloned = cloneDeep(previousBalance)
+            const balance = res.toNumber()
+            console.log({contract, previousBalance, balance})
+            // eslint-disable-next-line prefer-const
+            let newIds = []
+            while (amountCloned < balance) {
+              amountCloned++
+              newIds.push(amountCloned - 1)
             }
-            tasks.push(fetchMeta())
+            return newIds
           })
-          const metas = await Promise.all(tasks)
-          setMetaDatas(metas)
-        })
+          .then(async (newIds) => {
+            console.log({newIds})
+            // eslint-disable-next-line prefer-const
+            let tasks = []
+            newIds.forEach((id) => {
+              tasks.push(contract.tokenOfOwnerByIndex(account, id))
+            })
+            const res = await Promise.all(tasks)
+            const tokenIds = res.map((tokenId) => tokenId.toNumber())
+
+            tasks = []
+            tokenIds.forEach((id) => {
+              tasks.push(contract.tokenURI(id))
+            })
+            const tokenURIRes = await Promise.all(tasks)
+
+            tasks = []
+            tokenURIRes.forEach(uri => {
+              const fetchMeta = async () => {
+                const uriRes = await fetch(uri)
+                if (uriRes.ok) {
+                  const json = await uriRes.json()
+                  return json
+                }
+                return null
+              }
+              tasks.push(fetchMeta())
+            })
+            const metas = await Promise.all(tasks)
+            return metas
+          })
+      }
+      const resMetas = await Promise.all([
+        fetchMetas(playersContract, playerBalances),
+        fetchMetas(equipmentsContract, equipmentBalances)
+      ])
+      setMetaDatas(resMetas.flat())
       toastSuccess(
         `Opened ${amountBoxes} box(es) just now`,
         <ToastDescriptionWithTx txHash={receipt.transactionHash} />,

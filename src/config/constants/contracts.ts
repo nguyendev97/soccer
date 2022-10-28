@@ -166,7 +166,7 @@ export default {
   },
   halloweenBoxesOpen: {
     56: '0x2f2b5aaBa224ae53C9F54B1D220e88B75e3bf81b',
-    97: '0x9cC221A35aD32C69322Dfee30255f2d0c6e502f2',
+    97: '0x72D080212E86F602DC3DfD4EEA8331f80Fd4ED3D',
   },
   refferal: {
     56: '0x9Aa12B0853a8AEF18744A30BAB11c8DF6D83d5CF',
@@ -179,6 +179,10 @@ export default {
   players: {
     56: '0xFDBcAF35b55c0B8969b7B1265a405f87896380c1',
     97: '0xdF3C460F69d75EdCdF0b1d5C5b44BAbCc0844E59',
+  },
+  equipments: {
+    56: '0x4EB1917B335cCbe44529D702Efcff33392896003',
+    97: '0x0B63A49df272Ad6c3E3CBE6fD04b536Dc8816cc5',
   },
   comm: {
     56: '0xe87c10452b14BFC3Bf7dF867dE35323A93bbc5c9',

@@ -153,6 +153,10 @@ export const getPlayersAddress = (chainId?: number) => {
   return getAddress(addresses.players, chainId)
 }
 
+export const getEquipmentsAddress = (chainId?: number) => {
+  return getAddress(addresses.equipments, chainId)
+}
+
 export const getCommAddress = (chainId?: number) => {
   return getAddress(addresses.comm, chainId)
 }
