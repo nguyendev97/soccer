@@ -205,7 +205,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
             </StyledNav>
           </Container>
         </FixedContainer>
-        {subLinks && (
+        {/* {subLinks && (
           <Flex justifyContent="space-around">
             <SubMenuItems items={subLinksWithoutMobile} mt={`${totalTopMenuHeight + 1}px`} activeItem={activeSubItem} />
 
@@ -218,7 +218,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
               />
             )}
           </Flex>
-        )}
+        )} */}
         <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : `${isMobile ? "25px" : "60px"}`}>
           <Inner isPushed={false} showMenu={showMenu}>
             {children}

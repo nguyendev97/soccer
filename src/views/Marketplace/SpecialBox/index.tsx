@@ -5,6 +5,7 @@ import { useWeb3React } from '@pancakeswap/wagmi'
 import { Flex, Heading, Text, useToast, Input, useModal, AutoRenewIcon } from '@pancakeswap/uikit'
 import GradientButton from 'components/GradientButton'
 import CountDown from 'components/CountDown'
+import Page from 'components/Layout/Page'
 import Image from 'next/image'
 import { requiresApproval } from 'utils/requiresApproval'
 import BigNumber from 'bignumber.js'
@@ -98,67 +99,67 @@ const SpecialBox = () => {
   const isNotEnoughBalance = userBusdBalance < priceOfBox * amount
 
   return (
-    <>
       <BannerSoccer src={backgroundSoccerImage?.src} isMobile={isMobile}>
-        <StyledFlexWrapper>
-          <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: isMobile ? '18px' : '26px' }}>
-            Soccer box contains various Heroes with certain drop rates.
-          </Heading>
-          <StyledSoccerBox>
-            <HeadingBorder src={borderImage?.src} isMobile={isMobile}>
-              Special box
-            </HeadingBorder>
-            <CountDown date="2022/11/10" />
-            <Video maxWidth="300px" maxHeight="300px" src="/videos/special.mp4" />
-            <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
-              <TextInfo style={{ marginRight: '20px' }}>
-                Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />
-              </TextInfo>
-              <TextInfo>
-                Remain: <TextCount>{remain}</TextCount>
-              </TextInfo>
-            </Flex>
-            
-            {account ? 
-              (<Flex flexDirection="column">
-                <GradientButton
-                  endIcon={isApproving || isConfirming ? <AutoRenewIcon spin color="currentColor" /> : undefined}
-                  disabled={isApproving || isConfirming || isNotEnoughBalance}
-                  onClick={isApproved ? handleConfirm : handleApprove}
-                  fontSize="16px"
-                  fontWeight="700"
-                >
-                  <Flex style={{ alignItems: 'center' }}>
-                    <Image src={busdImage} width="26px" />
-                    <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-                      {isApproving && 'Approving'}
-                      {isConfirming && 'Confirming'}
-                      {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
-                    </Text>
-                  </Flex>
-                </GradientButton>
-                {isNotEnoughBalance ? <Text mt="2px" color="#ED4B9E" bold>Insufficient balance</Text> : null}
-                {!isRegistered && <GradientButton
-                  mt="12px"
-                  disabled={refAddress === ''}
-                  onClick={onPresentRegisterModal}
-                  fontSize="16px"
-                  fontWeight="700"
-                >
-                  Register & Earn rewards!
-                </GradientButton>}
-              </Flex> 
-            ) : <ConnectWalletButton />}
+        <PapeStyled>
+          <StyledFlexWrapper>
+            <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: isMobile ? '18px' : '26px' }}>
+              Soccer box contains various Heroes with certain drop rates.
+            </Heading>
+            <StyledSoccerBox>
+              <HeadingBorder src={borderImage?.src} isMobile={isMobile}>
+                Special box
+              </HeadingBorder>
+              <CountDown date="2022/11/10" />
+              <Video maxWidth="300px" maxHeight="300px" src="/videos/special.mp4" />
+              <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
+                <TextInfo style={{ marginRight: '20px' }}>
+                  Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />
+                </TextInfo>
+                <TextInfo>
+                  Remain: <TextCount>{remain}</TextCount>
+                </TextInfo>
+              </Flex>
+              
+              {account ? 
+                (<Flex flexDirection="column">
+                  <GradientButton
+                    endIcon={isApproving || isConfirming ? <AutoRenewIcon spin color="currentColor" /> : undefined}
+                    disabled={isApproving || isConfirming || isNotEnoughBalance}
+                    onClick={isApproved ? handleConfirm : handleApprove}
+                    fontSize="16px"
+                    fontWeight="700"
+                  >
+                    <Flex style={{ alignItems: 'center' }}>
+                      <Image src={busdImage} width="26px" />
+                      <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
+                        {isApproving && 'Approving'}
+                        {isConfirming && 'Confirming'}
+                        {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
+                      </Text>
+                    </Flex>
+                  </GradientButton>
+                  {isNotEnoughBalance ? <Text mt="2px" color="#ED4B9E" bold>Insufficient balance</Text> : null}
+                  {!isRegistered && <GradientButton
+                    mt="12px"
+                    disabled={refAddress === ''}
+                    onClick={onPresentRegisterModal}
+                    fontSize="16px"
+                    fontWeight="700"
+                  >
+                    Register & Earn rewards!
+                  </GradientButton>}
+                </Flex> 
+              ) : <ConnectWalletButton />}
 
-            <Flex alignItems="center" mt="12px">
-              <Text mr="8px">Your balance: </Text>
-              <Image src={busdImage} width="20px" height="20px" />
-              <Text bold color="#fff" ml="4px">{formatAmount(userBusdBalance)}</Text>
-            </Flex>
-          </StyledSoccerBox>
-        </StyledFlexWrapper>
+              <Flex alignItems="center" mt="12px">
+                <Text mr="8px">Your balance: </Text>
+                <Image src={busdImage} width="20px" height="20px" />
+                <Text bold color="#fff" ml="4px">{formatAmount(userBusdBalance)}</Text>
+              </Flex>
+            </StyledSoccerBox>
+          </StyledFlexWrapper>
+        </PapeStyled>
       </BannerSoccer>
-    </>
   )
 }
 
@@ -234,4 +235,8 @@ const InputAmout = styled(Input)`
   &:focus:not(:disabled) {
     box-shadow: none;
   }
+`
+
+const PapeStyled = styled(Page)`
+  min-height: calc(100vh - 364px);
 `
