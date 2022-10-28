@@ -45,7 +45,7 @@ const MenuItem: React.FC<React.PropsWithChildren<MenuItemProps>> = ({
         $isDisabled={isDisabled}
         $variant={variant}
         $statusColor={statusColor}
-        style={{ padding: isMobile ? 0 : "0px 16px" }}
+        style={{ padding: isMobile ? 0 : "0px 12px" }}
         {...props}
       >
         {children}

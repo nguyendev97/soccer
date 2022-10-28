@@ -53,27 +53,18 @@ const config: (
       items: [],
     },
     {
-      label: t('Marketplace'),
-      href: '/',
+      label: t('Special box'),
+      href: 'boxes/special',
       icon: SwapIcon,
       fillIcon: SwapFillIcon,
       items: [],
     },
     {
-      label: t('Boxes'),
-      // href: '/',
+      label: t('Halloween box'),
+      href: '/boxes/halloween',
       icon: SwapIcon,
       fillIcon: SwapFillIcon,
-      items: [
-        {
-          label: t('Special'),
-          href: '/boxes/special',
-        },
-        {
-          label: t('Halloween'),
-          href: '//boxes/halloween',
-        }
-      ],
+      items: [],
     },
   ].map((item) => addMenuItemSupported(item, chainId))
 
