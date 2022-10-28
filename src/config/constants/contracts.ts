@@ -149,7 +149,7 @@ export default {
     97: '',
   },
   boxHalloweenSale: {
-    56: '0xd07C4e6Fc6a8da6b086e750E94A2679E2f158BAB',
+    56: '0xeccE07EcA0149a6d78dd47024202093987F2E54c',
     97: '0xd07C4e6Fc6a8da6b086e750E94A2679E2f158BAB',
   },
   boxSale: {
@@ -165,7 +165,7 @@ export default {
     97: '0x00c376468CA10dAEfFc4F1EAe31b35843Ebc128E',
   },
   halloweenBoxesOpen: {
-    56: '0x9cC221A35aD32C69322Dfee30255f2d0c6e502f2',
+    56: '0x7e009Dc52eE3221f804600FD0632B8959dEfd065',
     97: '0x9cC221A35aD32C69322Dfee30255f2d0c6e502f2',
   },
   refferal: {
