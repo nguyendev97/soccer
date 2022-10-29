@@ -55,7 +55,7 @@ export const StyledSocialLinks = styled(SocialLinks)`
   margin-left: auto;
 `;
 export const Container = styled.div`
-  width: 1200px;
+  width: 1310px;
   padding: 0 15px;
   margin: 0 auto;
   @media (max-width: 992px) {

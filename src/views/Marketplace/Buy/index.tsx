@@ -1,32 +1,35 @@
 import { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import { ButtonMenu, Button } from '@pancakeswap/uikit'
+import { ButtonMenu, Button, Flex } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
-import SelectTabs, { OptionProps } from 'components/SelectTabs/SelectTabs'
-import SoccerBox from './SoccerBox'
-import Hero from './Hero'
-import Equipment from './Equipment'
-import OptionsFilter from './components/Filters/OptionsFilter'
+import SelectTabs, { OptionProps } from '../../../components/SelectTabs/SelectTabs'
+import OptionsFilter from '../components/Filters/OptionsFilter'
+import Pagination from '../components/Pagination'
+import Heroes from '../Heroes'
 
 export enum MarketView {
-  SOCCER_BOX,
-  HERO,
+  HEROES,
   EQUIPMENT,
-  WRONG_NETWORK,
 }
-
-const BannerSoccer = styled.div`
-  padding-top: 30px;
-  padding-bottom: 90px;
-  background-color: ${({ theme }) => theme.colors.backgroundAlt3};
+const StyledFlexWrapper = styled.div`
+  width: 100%;
+  margin-top: 63px;
+  background-color: #130355;
+  @media (max-width: 768px) {
+    margin-top: 27px;
+    padding-top: 15px;
+  }
 `
 const Tabs = styled.div`
   background-color: ${({ theme }) => theme.colors.backgroundAlt3};
   width: 1310px;
   margin: auto;
   padding: 0px 15px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `
 const TabsWrapper = styled(ButtonMenu)`
   display: block;
@@ -34,9 +37,10 @@ const TabsWrapper = styled(ButtonMenu)`
   border: 0;
   border-radius: 0;
 `
-const TabsButton = styled(Button)<{ isActive: boolean }>`
-  background-color: ${({ theme, isActive }) =>
-    isActive ? theme.colors.buttonSecondaryActive : theme.colors.buttonSecondary};
+const TabsButton = styled(Button)<{ icon?: string; active: boolean }>`
+  background: url('/images/${({ icon, active }) => `${icon}${active ? '-active' : ''}`}.png') no-repeat left 30px center;
+  background-color: ${({ theme, active }) =>
+    active ? theme.colors.buttonSecondaryActive : theme.colors.buttonSecondary};
   border-radius: 10px;
   padding: 10px 20px;
   height: 48px;
@@ -72,13 +76,45 @@ export const Content = styled.div`
   }
 `
 export const WrapperSelect = styled.div`
+  padding: 0px 15px;
   margin-bottom: 15px;
 `
-export default function Marketplace() {
+export const FlexPagination = styled(Flex)`
+  justify-content: flex-end;
+  margin-top: 40px;
+  margin-bottom: 50px;
+  @media (max-width: 767px) {
+    justify-content: center;
+  }
+`
+const Buy = () => {
   const { isMobile } = useMatchBreakpoints()
-  const initialView = MarketView.SOCCER_BOX
+  const initialView = MarketView.HEROES
   const [view, setView] = useState(initialView)
   const { t } = useTranslation()
+
+  const listCheck = [
+    {
+      key: 'Common',
+      value: true,
+      content: 'Common',
+    },
+    {
+      key: 'Rare',
+      value: false,
+      content: 'Rare',
+    },
+    {
+      key: 'Epic',
+      value: false,
+      content: 'Epic',
+    },
+    {
+      key: 'Legend',
+      value: false,
+      content: 'Legend',
+    },
+  ]
 
   const handleClick = (newIndex: number) => {
     setView(newIndex)
@@ -89,34 +125,29 @@ export default function Marketplace() {
   const TabsComponent = () => (
     <Tabs>
       <TabsWrapper scale="sm" variant="subtle" onItemClick={handleClick} activeIndex={view} fullWidth>
-        <TabsButton isActive={view === MarketView.SOCCER_BOX} style={{ marginRight: '20px' }}>
-          {t('Soccer box')}
+        <TabsButton icon="heroes" active={view === MarketView.HEROES} style={{ marginRight: '20px' }}>
+          {t('Heroes')}
         </TabsButton>
-        <TabsButton isActive={view === MarketView.HERO} style={{ marginRight: '20px' }}>
-          {t('Hero')}
+        <TabsButton icon="equipments" active={view === MarketView.EQUIPMENT}>
+          {t('Equipment')}
         </TabsButton>
-        <TabsButton isActive={view === MarketView.EQUIPMENT}>{t('Equipment')}</TabsButton>
       </TabsWrapper>
     </Tabs>
   )
 
   return (
-    <BannerSoccer>
+    <StyledFlexWrapper>
       {isMobile ? (
         <WrapperSelect>
           <SelectTabs
             options={[
               {
-                label: t('Soccer box'),
+                label: t('Heroes'),
                 value: 0,
               },
               {
-                label: t('Hero'),
-                value: 1,
-              },
-              {
                 label: t('Equipment'),
-                value: 2,
+                value: 1,
               },
             ]}
             onOptionChange={handleTypeOptionChange}
@@ -129,15 +160,19 @@ export default function Marketplace() {
       <Container>
         <Row>
           <SideBar>
-            <OptionsFilter />
+            <OptionsFilter checks={listCheck} />
           </SideBar>
           <Content>
-            {view === MarketView.SOCCER_BOX && <SoccerBox />}
-            {view === MarketView.HERO && <Hero />}
-            {view === MarketView.EQUIPMENT && <Equipment />}
+            {view === MarketView.HEROES && <Heroes col={4} />}
+            {view === MarketView.EQUIPMENT && <Heroes col={4} />}
+            <FlexPagination>
+              <Pagination currentPage={1} totalPage={65} />
+            </FlexPagination>
           </Content>
         </Row>
       </Container>
-    </BannerSoccer>
+    </StyledFlexWrapper>
   )
 }
+
+export default Buy

@@ -74,6 +74,11 @@ const StyledInput = styled(Input)`
   background-color: transparent;
   text-align: center;
 `
+const TextCheckBox = styled(Text)`
+  font-weight: 400;
+  font-size: 16px;
+  color: #ccd3ff;
+`
 
 interface CheckType {
   key: string
@@ -199,7 +204,7 @@ const OptionsFilter: React.FC<React.PropsWithChildren<OptionsFilterProps>> = ({
                 style={{ display: 'block', cursor: 'pointer', marginBottom: '24px' }}
               >
                 <Flex alignItems="center">
-                  <div style={{ flex: 'none', alignSelf: 'flex-start', paddingTop: '8px' }}>
+                  <div style={{ flex: 'none', alignSelf: 'flex-start' }}>
                     <Checkbox
                       id={check.key}
                       scale="sm"
@@ -207,7 +212,7 @@ const OptionsFilter: React.FC<React.PropsWithChildren<OptionsFilterProps>> = ({
                       onChange={() => handleSetAcknowledgeRisk(check.key)}
                     />
                   </div>
-                  <Text ml="8px">{check.content}</Text>
+                  <TextCheckBox ml="8px">{check.content}</TextCheckBox>
                 </Flex>
               </label>
             ))}

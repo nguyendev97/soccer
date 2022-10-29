@@ -4,7 +4,7 @@ export const breakpoints = {
   md: 852,
   lg: 968,
   xl: 1080,
-  xxl: 1200,
+  xxl: 1310,
 } as const
 
 export const mediaQueries = {

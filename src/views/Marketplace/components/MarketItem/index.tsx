@@ -50,7 +50,7 @@ const ItemPrice = styled.div`
     margin-left: auto;
   }
 `
-const ItemLendege = styled.div`
+const ItemLegend = styled.div`
   margin: 0 12px;
   @media (max-width: 768px) {
     margin: 0;
@@ -81,7 +81,7 @@ const LegendTextLevel = styled(Text)`
     font-size: 12px;
   }
 `
-const ItemLendegeText = styled(Text)`
+const ItemLegendText = styled(Text)`
   color: #ffffff;
   font-weight: 400;
   font-size: 14px;
@@ -215,34 +215,34 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
         {isMobile && <ItemPrice>{getButton(statusName)}</ItemPrice>}
       </Flex>
       <ItemProperties>
-        <ItemLendege>
-          {!isMobile && <ItemLendegeText>{t('POW')}</ItemLendegeText>}
+        <ItemLegend>
+          {!isMobile && <ItemLegendText>{t('POW')}</ItemLegendText>}
           <FlexLegendItem>
             <Image src={powImage} width="20px" alt="Ethw" className="properties-icon" />
-            <ItemLendegeText ml="8px">{pow}</ItemLendegeText>
+            <ItemLegendText ml="8px">{pow}</ItemLegendText>
           </FlexLegendItem>
-        </ItemLendege>
-        <ItemLendege>
-          {!isMobile && <ItemLendegeText>{t('SHO')}</ItemLendegeText>}
+        </ItemLegend>
+        <ItemLegend>
+          {!isMobile && <ItemLegendText>{t('SHO')}</ItemLegendText>}
           <FlexLegendItem>
             <Image src={shoImage} width="20px" alt="Ethw" className="properties-icon" />
-            <ItemLendegeText ml="8px">{sho}</ItemLendegeText>
+            <ItemLegendText ml="8px">{sho}</ItemLegendText>
           </FlexLegendItem>
-        </ItemLendege>
-        <ItemLendege>
-          {!isMobile && <ItemLendegeText>{t('SPE')}</ItemLendegeText>}
+        </ItemLegend>
+        <ItemLegend>
+          {!isMobile && <ItemLegendText>{t('SPE')}</ItemLegendText>}
           <FlexLegendItem>
             <Image src={speImage} width="20px" alt="Ethw" className="properties-icon" />
-            <ItemLendegeText ml="8px">{spe}</ItemLendegeText>
+            <ItemLegendText ml="8px">{spe}</ItemLegendText>
           </FlexLegendItem>
-        </ItemLendege>
-        <ItemLendege>
-          {!isMobile && <ItemLendegeText>{t('JMP')}</ItemLendegeText>}
+        </ItemLegend>
+        <ItemLegend>
+          {!isMobile && <ItemLegendText>{t('JMP')}</ItemLegendText>}
           <FlexLegendItem>
             <Image src={jmpImage} width="20px" alt="Ethw" className="properties-icon" />
-            <ItemLendegeText ml="8px">{jmp}</ItemLendegeText>
+            <ItemLegendText ml="8px">{jmp}</ItemLegendText>
           </FlexLegendItem>
-        </ItemLendege>
+        </ItemLegend>
       </ItemProperties>
       {!isMobile && (
         <ItemPrice>

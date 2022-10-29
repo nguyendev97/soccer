@@ -1341,7 +1341,7 @@ exports[`renders correctly 1`] = `
 
 @media screen and (min-width:576px) {
   .c55 {
-    width: 1200px;
+    width: 1310px;
   }
 }
 

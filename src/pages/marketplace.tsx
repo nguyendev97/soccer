@@ -1,7 +1,9 @@
-import Marketplace from '../views/Marketplace'
+// import Dashboard from '../views/Marketplace/Dashboard'
+import Buy from '../views/Marketplace/Buy'
+// import NftDetail from '../views/Marketplace/NftDetail'
 
 const MarketPage = () => {
-  return <Marketplace />
+  return <Buy />
 }
 
 export default MarketPage
