@@ -53,7 +53,6 @@ const ActivityHistory: React.FC<React.PropsWithChildren<ActivityHistoryProps>> =
   const [activitiesSlice, setActivitiesSlice] = useState<Activity[]>([])
   const [nftMetadata, setNftMetadata] = useState<NftToken[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [isInitialized, setIsInitialized] = useState(false)
   const [queryPage, setQueryPage] = useState(1)
   const { lastUpdated, setLastUpdated: refresh } = useLastUpdated()
   const { isMd } = useMatchBreakpoints()
@@ -77,7 +76,6 @@ const ActivityHistory: React.FC<React.PropsWithChildren<ActivityHistoryProps>> =
           maxPage: Math.ceil(activity.length / MAX_PER_PAGE) || 1,
         })
         setIsLoading(false)
-        setIsInitialized(true)
       } catch (error) {
         console.error('Failed to fetch collection activity', error)
       }

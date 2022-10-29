@@ -1,14 +1,9 @@
-import { ChainId, Currency, CurrencyAmount, JSBI, Pair, Price, Token, WNATIVE, WBNB } from '@pancakeswap/sdk'
-import { FAST_INTERVAL } from 'config/constants'
-import { BUSD, CAKE, USDC } from '@pancakeswap/tokens'
+import { Currency, JSBI, Price, WNATIVE } from '@pancakeswap/sdk'
+import { BUSD, USDC } from '@pancakeswap/tokens'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useMemo } from 'react'
-import useSWR from 'swr'
 // import getLpAddress from 'utils/getLpAddress'
 import { multiplyPriceByAmount } from 'utils/prices'
-import { isChainTestnet } from 'utils/wagmi'
-import { useProvider } from 'wagmi'
-import { usePairContract } from './useContract'
 import { PairState, usePairs } from './usePairs'
 
 /**
@@ -152,6 +147,7 @@ export const useBUSDCakeAmount = (amount: number): number | undefined => {
 }
 
 // @Note: only fetch from one pair
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const useCakeBusdPrice = ({ forceMainnet } = { forceMainnet: false }): Price<Currency, Currency> | undefined => {
   const { chainId } = useActiveWeb3React()
   // const isTestnet = !forceMainnet && isChainTestnet(chainId)
@@ -161,10 +157,11 @@ export const useCakeBusdPrice = ({ forceMainnet } = { forceMainnet: false }): Pr
 }
 
 // @Note: only fetch from one pair
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const useBNBBusdPrice = ({ forceMainnet } = { forceMainnet: false }): Price<Currency, Currency> | undefined => {
   const { chainId } = useActiveWeb3React()
-  const isTestnet = !forceMainnet && isChainTestnet(chainId)
+  // const isTestnet = !forceMainnet && isChainTestnet(chainId)
   // Return bsc testnet wbnb if chain is testnet
-  const wbnb: Token = isTestnet ? WBNB[ChainId.BSC_TESTNET] : WBNB[ChainId.BSC]
+  // const wbnb: Token = isTestnet ? WBNB[ChainId.BSC_TESTNET] : WBNB[ChainId.BSC]
   return new Price(BUSD[chainId], BUSD[chainId], '1', '1')
 }

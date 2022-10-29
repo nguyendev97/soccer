@@ -25,7 +25,7 @@ import Video from 'components/Video'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import VariousKickers from 'components/VariousKickers'
 import 'swiper/css/bundle'
-import { EffectCoverflow, Pagination, Navigation, Autoplay } from "swiper"
+import { EffectCoverflow, Navigation, Autoplay } from "swiper"
 import RegisterModal from '../components/RegisterModal'
 import { backgroundSoccerImage, borderImage, busdImage } from '../images'
 
@@ -36,9 +36,10 @@ import "swiper/css/navigation"
 const SPECIAL_TYPE = 1
 const refferalOwnerAddress = getRefferalOwnerAddress()
 
-const CARDS_COMMON = ['common/Ahmed Zain.png','common/Hannibal Mejbri.png','common/carcelen.png','common/Alejandro Brand.png','common/Harry Wilson.png','common/Luka Jovic.png','common/eisa ahmed palangi.png','common/Alphonso Davies.png','common/Thomas Partey.png','common/Chicharito.png','common/bdessamad Ezzalzouli.png']
-const CARDS_LEGEND = ['legend/Christian Pulisic.png','legend/Mbabu.png','legend/cavani.png','legend/sadio mane.png','legend/Shahab Zahedi.png','legend/lewandowski.png','legend/son heung min.png']
-const CARDS_RARE = ['rare/Frenkie de Jong.png','rare/MBABE.png','rare/harry kane.png','rare/neymar (1).png', 'rare/HALLAND.png','rare/Pogba.png','rare/luka modric.png','rare/ronaldo.png','rare/Layer 26.png','rare/Toni kroos.png','rare/messi.png','rare/sergio ramos.png']
+const CARDS_LEGEND = ['common/Ahmed Zain.png', 'common/Hannibal Mejbri.png', 'common/carcelen.png', 'common/Alejandro Brand.png', 'common/Harry Wilson.png', 'common/Luka Jovic.png', 'common/eisa ahmed palangi.png', 'common/Alphonso Davies.png', 'common/Thomas Partey.png', 'common/Chicharito.png', 'common/bdessamad Ezzalzouli.png']
+const CARDS_COMMON = ['legend/Christian Pulisic.png', 'legend/Mbabu.png', 'legend/cavani.png', 'legend/sadio mane.png', 'legend/Shahab Zahedi.png', 'legend/lewandowski.png', 'legend/son heung min.png']
+const CARDS_RARE = ['rare/messi.png', 'rare/neymar (1).png', 'rare/Pogba.png', 'rare/ronaldo.png', 'rare/sergio ramos.png', 'rare/Frenkie de Jong.png', 'rare/harry kane.png', 'rare/luka modric.png', 'rare/Layer 26.png', 'rare/Toni kroos.png']
+
 const SpecialBox = () => {
   const { isMobile } = useMatchBreakpoints()
   const router = useRouter()
@@ -190,10 +191,9 @@ const SpecialBox = () => {
                       "disableOnInteraction": false
                     }}
                     grabCursor
-                    // pagination
                     navigation
                     spaceBetween={8}
-                    modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
+                    modules={[EffectCoverflow, Navigation, Autoplay]}
                     slidesPerView={isMobile ? 2.1 : 2.3}>
                     {[...CARDS_RARE, ...CARDS_COMMON, ...CARDS_LEGEND].map((card) => {
                         return (

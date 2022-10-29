@@ -98,8 +98,9 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
     equipmentsContract
       .balanceOf(account)
       .then(res => setEquipmentBalances(res.toNumber()))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chainId, account])
-  console.log({playerBalances, equipmentBalances })
+  // console.log({playerBalances, equipmentBalances })
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
     onRequiresApproval: async () => {
       try {
@@ -130,7 +131,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
           .then((res) => {
             let amountCloned = cloneDeep(previousBalance)
             const balance = res.toNumber()
-            console.log({contract, previousBalance, balance})
+            // console.log({contract, previousBalance, balance})
             // eslint-disable-next-line prefer-const
             let newIds = []
             while (amountCloned < balance) {
@@ -140,7 +141,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
             return newIds
           })
           .then(async (newIds) => {
-            console.log({newIds})
+            // console.log({newIds})
             // eslint-disable-next-line prefer-const
             let tasks = []
             newIds.forEach((id) => {
