@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { Flex, Heading, Text, useToast, Input, useModal, AutoRenewIcon } from '@pancakeswap/uikit'
+import { Flex, Heading, Text, useToast, Input, useModal, AutoRenewIcon, Grid } from '@pancakeswap/uikit'
 import GradientButton from 'components/GradientButton'
 import CountDown from 'components/CountDown'
 import Page from 'components/Layout/Page'
@@ -22,11 +22,23 @@ import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { getRefferalOwnerAddress } from 'utils/addressHelpers'
 import Video from 'components/Video'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import VariousKickers from 'components/VariousKickers'
+import 'swiper/css/bundle'
+import { EffectCoverflow, Navigation, Autoplay } from "swiper"
 import RegisterModal from '../components/RegisterModal'
 import { backgroundSoccerImage, borderImage, busdImage } from '../images'
 
+import "swiper/css"
+import "swiper/css/effect-coverflow"
+import "swiper/css/navigation"
+
 const SPECIAL_TYPE = 1
 const refferalOwnerAddress = getRefferalOwnerAddress()
+
+const CARDS_LEGEND = ['common/Ahmed Zain.png', 'common/Hannibal Mejbri.png', 'common/carcelen.png', 'common/Alejandro Brand.png', 'common/Harry Wilson.png', 'common/Luka Jovic.png', 'common/eisa ahmed palangi.png', 'common/Alphonso Davies.png', 'common/Thomas Partey.png', 'common/Chicharito.png', 'common/bdessamad Ezzalzouli.png']
+const CARDS_COMMON = ['legend/Christian Pulisic.png', 'legend/Mbabu.png', 'legend/cavani.png', 'legend/sadio mane.png', 'legend/Shahab Zahedi.png', 'legend/lewandowski.png', 'legend/son heung min.png']
+const CARDS_RARE = ['rare/messi.png', 'rare/neymar (1).png', 'rare/Pogba.png', 'rare/ronaldo.png', 'rare/sergio ramos.png', 'rare/Frenkie de Jong.png', 'rare/harry kane.png', 'rare/luka modric.png', 'rare/Layer 26.png', 'rare/Toni kroos.png']
 
 const SpecialBox = () => {
   const { isMobile } = useMatchBreakpoints()
@@ -99,67 +111,103 @@ const SpecialBox = () => {
   const isNotEnoughBalance = userBusdBalance < priceOfBox * amount
 
   return (
+    <>
       <BannerSoccer src={backgroundSoccerImage?.src} isMobile={isMobile}>
         <PapeStyled>
-          <StyledFlexWrapper>
-            <Heading textAlign="center" fontWeight="500" style={{ color: '#fff', fontSize: isMobile ? '18px' : '26px' }}>
-              Soccer box contains various Heroes with certain drop rates.
-            </Heading>
-            <StyledSoccerBox>
-              <HeadingBorder src={borderImage?.src} isMobile={isMobile}>
-                Special box
-              </HeadingBorder>
-              <CountDown date="2022/11/10" />
-              <Video maxWidth="300px" maxHeight="300px" src="/videos/special.mp4" />
-              <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
-                <TextInfo style={{ marginRight: '20px' }}>
-                  Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />
-                </TextInfo>
-                <TextInfo>
-                  Remain: <TextCount>{remain}</TextCount>
-                </TextInfo>
-              </Flex>
-              
-              {account ? 
-                (<Flex flexDirection="column">
-                  <GradientButton
-                    endIcon={isApproving || isConfirming ? <AutoRenewIcon spin color="currentColor" /> : undefined}
-                    disabled={isApproving || isConfirming || isNotEnoughBalance}
-                    onClick={isApproved ? handleConfirm : handleApprove}
-                    fontSize="16px"
-                    fontWeight="700"
-                  >
-                    <Flex style={{ alignItems: 'center' }}>
-                      <Image src={busdImage} width="26px" />
-                      <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
-                        {isApproving && 'Approving'}
-                        {isConfirming && 'Confirming'}
-                        {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
-                      </Text>
-                    </Flex>
-                  </GradientButton>
-                  {isNotEnoughBalance ? <Text mt="2px" color="#ED4B9E" bold>Insufficient balance</Text> : null}
-                  {!isRegistered && <GradientButton
-                    mt="12px"
-                    disabled={refAddress === ''}
-                    onClick={onPresentRegisterModal}
-                    fontSize="16px"
-                    fontWeight="700"
-                  >
-                    Register & Earn rewards!
-                  </GradientButton>}
-                </Flex> 
-              ) : <ConnectWalletButton />}
+          <HeadingBorder mt="32px" width="100%" src={borderImage?.src} isMobile={isMobile}>
+            Special box
+          </HeadingBorder>
+          <Grid my="30px" gridGap="24px" gridTemplateColumns={['1fr', null, null, '3fr 2fr']}>
+            <StyledFlexWrapper>
+              <StyledSoccerBox p={['30px 0px', null, '30px']}>
+                <CountDown date="2022/11/29" />
+                <Video maxWidth="300px" maxHeight="300px" src="/videos/special.mp4" />
+                <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
+                  <TextInfo style={{ marginRight: '20px' }}>
+                    Amount: <InputAmout type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />
+                  </TextInfo>
+                  <TextInfo>
+                    Remain: <TextCount>{remain}</TextCount>
+                  </TextInfo>
+                </Flex>
+                
+                {account ? 
+                  (<Flex flexDirection="column">
+                    <GradientButton
+                      endIcon={isApproving || isConfirming ? <AutoRenewIcon spin color="currentColor" /> : undefined}
+                      disabled={isApproving || isConfirming || isNotEnoughBalance}
+                      onClick={isApproved ? handleConfirm : handleApprove}
+                      fontSize="16px"
+                      fontWeight="700"
+                    >
+                      <Flex style={{ alignItems: 'center' }}>
+                        <Image src={busdImage} width="26px" />
+                        <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
+                          {isApproving && 'Approving'}
+                          {isConfirming && 'Confirming'}
+                          {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
+                        </Text>
+                      </Flex>
+                    </GradientButton>
+                    {isNotEnoughBalance ? <Text mt="2px" color="#ED4B9E" bold>Insufficient balance</Text> : null}
+                    {!isRegistered && <GradientButton
+                      mt="12px"
+                      disabled={refAddress === ''}
+                      onClick={onPresentRegisterModal}
+                      fontSize="16px"
+                      fontWeight="700"
+                    >
+                      Register & Earn rewards!
+                    </GradientButton>}
+                  </Flex> 
+                ) : <ConnectWalletButton />}
 
-              <Flex alignItems="center" mt="12px">
-                <Text mr="8px">Your balance: </Text>
-                <Image src={busdImage} width="20px" height="20px" />
-                <Text bold color="#fff" ml="4px">{formatAmount(userBusdBalance)}</Text>
+                <Flex alignItems="center" mt="12px">
+                  <Text mr="8px">Your balance: </Text>
+                  <Image src={busdImage} width="20px" height="20px" />
+                  <Text bold color="#fff" ml="4px">{formatAmount(userBusdBalance)}</Text>
+                </Flex>
+              </StyledSoccerBox>
+            </StyledFlexWrapper>
+            <Flex flexDirection="column" justifyContent="space-between">
+              {/* {isMobile && <ReferralBox accountAddress={account} />} */}
+              <Flex mt={["32px", null, "0px"]} flexDirection="column">
+                <Text bold textAlign="center" style={{ fontSize: '18px' }} mb="12px">
+                  Soccer box contains various Heroes with certain drop rates.
+                </Text>
+                <VariousKickers rarities={[
+                  {rarity: "Common kicker", background: "rgba(68, 243, 107, 0.7)", percent: "17"},
+                  {rarity: "Rare kicker", background: "rgba(44, 66, 228, 0.7)", percent: "43"},
+                  {rarity: "Epic kicker", background: "rgba(118, 23, 183, 0.7)", percent: "30"},
+                  {rarity: "Legendary kicker", background: "rgba(255, 210, 59, 0.5)", percent: "10"}
+                ]} />
               </Flex>
-            </StyledSoccerBox>
-          </StyledFlexWrapper>
+              <Flex mt="32px" flexDirection="column">
+                <Text fontSize='18px' bold>CARDS</Text>
+                <Flex maxWidth={["350px", null, "450px"]} mt="12px">
+                  <Swiper
+                    autoplay={{
+                      "delay": 1000,
+                      "disableOnInteraction": false
+                    }}
+                    grabCursor
+                    navigation
+                    spaceBetween={8}
+                    modules={[EffectCoverflow, Navigation, Autoplay]}
+                    slidesPerView={isMobile ? 2.1 : 2.3}>
+                    {[...CARDS_RARE, ...CARDS_COMMON, ...CARDS_LEGEND].map((card) => {
+                        return (
+                          <SwiperSlide key={card}><img style={{ height: 250 }} src={`/images/cards/${card}`} alt="card" /></SwiperSlide>
+                        )
+                    })}
+                  </Swiper>
+                </Flex>
+              </Flex>
+            </Flex>
+          </Grid>
         </PapeStyled>
       </BannerSoccer>
+    </>
   )
 }
 
@@ -191,6 +239,7 @@ const StyledSoccerBox = styled(Flex)`
 `
 const HeadingBorder = styled(Heading)<{ src: string; isMobile: boolean }>`
   font-weight: 700;
+  text-align: center;
   font-size: ${({ isMobile }) => (isMobile ? '24px' : '36px')};
   color: #fff;
   text-transform: uppercase;
