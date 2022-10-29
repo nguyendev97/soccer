@@ -34,8 +34,11 @@ import "swiper/css/effect-coverflow"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 
-const CARDS_RARE = ['rare/MBABE.png', 'rare/HALLAND.png',]
-const EQUIPS = ["Layer 100.jpg","Layer 102.jpg","Layer 104.jpg","Layer 106.jpg","Layer 108.jpg","Layer 110.jpg","Layer 112.jpg","Layer 114.jpg","Layer 116.jpg","Layer 118.jpg","Layer 120.jpg","Layer 122.jpg","Layer 124.jpg","Layer 126.jpg","Layer 129.jpg","Layer 29 copy 2.jpg","Layer 33.jpg","Layer 47 copy 5.jpg","Layer 47 copy 7.jpg","Layer 47 copy 9.jpg","Layer 52 copy.jpg","Layer 60.jpg","Layer 62.jpg","Layer 63 copy.jpg","Layer 64.jpg","Layer 66.jpg","Layer 68 copy 2.jpg","Layer 68.jpg","Layer 70.jpg","Layer 72.jpg","Layer 74.jpg","Layer 76.jpg","Layer 78.jpg","Layer 80 copy.jpg","Layer 802.jpg","Layer 805.jpg","Layer 806.jpg","Layer 809.jpg","Layer 812 copy.jpg","Layer 814 copy.jpg","Layer 816.jpg","Layer 818.jpg","Layer 82.jpg","Layer 820.jpg","Layer 822.jpg","Layer 824.jpg","Layer 826.jpg","Layer 828.jpg","Layer 83.jpg","Layer 830.jpg","Layer 831.jpg","Layer 833.jpg","Layer 835.jpg","Layer 837.jpg","Layer 839 copy.jpg","Layer 84 copy.jpg","Layer 84.jpg","Layer 841.jpg","Layer 843 copy.jpg","Layer 845.jpg","Layer 847.jpg","Layer 849.jpg","Layer 851.jpg","Layer 853.jpg","Layer 855.jpg","Layer 857.jpg","Layer 859.jpg","Layer 86.jpg","Layer 861 copy.jpg","Layer 863 copy 2.jpg","Layer 863.jpg","Layer 865.jpg","Layer 867.jpg","Layer 870 copy.jpg","Layer 872.jpg","Layer 88.jpg","Layer 90.jpg","Layer 92.jpg","Layer 94.jpg","Layer 97.jpg"]
+const CARDS_RARE = ['MBABE.png', 'HALLAND.png',]
+const EQUIPS_COMMON = ["common/baker hat.jpg","common/chartreuse.jpg","common/chelse shoes.jpg","common/chemistry gloves.jpg","common/cover glasses.jpg","common/espa shoes.jpg","common/frog glasses.jpg","common/green hat.jpg","common/green shoes.jpg","common/green soldier.jpg","common/green tail.jpg","common/kai gloves.jpg","common/labor gloves.jpg","common/mon shoes.jpg","common/packing gloves.jpg","common/pilot hat.jpg","common/plastic gloves.jpg","common/sheriff hat.jpg","common/simple glass.jpg","common/simple gloves.jpg","common/sliper.jpg","common/sneaker shoes.jpg","common/thin glasses.jpg","common/tuxedo hat.jpg"]
+const EQUIPS_RARE =["rare/Layer 30.jpg","rare/aLien hat.jpg","rare/blue glasses.jpg","rare/blue gloves.jpg","rare/blue tail .jpg","rare/boad shoes.jpg","rare/brogue shoes.jpg","rare/captain hat.jpg","rare/chuk shoes.jpg","rare/cinema glasses.jpg","rare/cover gloves.jpg","rare/cyan glasses.jpg","rare/fedora hat.jpg","rare/ford shoes.jpg","rare/goalie gloves.jpg","rare/hobnailed.jpg","rare/insu gloves.jpg","rare/kan gloves.jpg","rare/kun gloves.jpg","rare/monk shoes.jpg","rare/spy glasses.jpg","rare/technology.jpg","rare/worker hat.jpg","rare/xmen glasses.jpg"]
+const EQUIPS_LEGEND =["legend/RED HAT.jpg","legend/af shoes.jpg","legend/dragonfly glasses.jpg","legend/explore glasses.jpg","legend/explore hat.jpg","legend/gold gloves.jpg","legend/moto hat.jpg","legend/movie glasses.jpg","legend/nike air shoes.jpg","legend/nike shoes.jpg","legend/red gloves.jpg","legend/ruby gloves.jpg","legend/super hat.jpg","legend/super shoes.jpg","legend/thanos gloves.jpg","legend/vr glasses.jpg"]
+const EQUIPS_EPIC =["epic/Layer 33.jpg","epic/Layer 37.jpg","epic/Layer 40.jpg","epic/Layer 43.jpg","epic/Layer 45.jpg","epic/Layer 46.jpg","epic/Layer 47 copy 14.jpg","epic/Layer 47 copy 15.jpg","epic/Layer 72.jpg","epic/Layer 79.jpg","epic/Layer 80.jpg","epic/Layer 82.jpg","epic/Layer 83.jpg","epic/Layer 84 copy.jpg","epic/derby shoes.jpg","epic/fire gloves.jpg","epic/sport shoes.jpg","epic/vapor shoes.jpg","epic/vas shoes.jpg","epic/violet gloves.jpg"]
 
 const HALLOWEEN_TYPE = 5
 const refferalOwnerAddress = getRefferalOwnerAddress()
@@ -196,9 +199,9 @@ const Halloween = () => {
                     spaceBetween={8}
                     modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
                     slidesPerView={isMobile ? 2.1 : 2.3}>
-                    {[...CARDS_RARE, ...EQUIPS.map(e => `equipments/${e}`)].map((card) => {
+                    {[...CARDS_RARE, ...EQUIPS_LEGEND, ...EQUIPS_EPIC, ...EQUIPS_RARE, ...EQUIPS_COMMON].map((card) => {
                         return (
-                          <SwiperSlide key={card}><img style={{ height: 250 }} src={`/images/cards/${card}`} alt="card" /></SwiperSlide>
+                          <SwiperSlide key={card}><img style={{ height: 250 }} src={`/images/cards/equipments/${card}`} alt="card" /></SwiperSlide>
                         )
                     })}
                   </Swiper>
