@@ -123,7 +123,7 @@ const People = () => {
       </Flex>}
       <ReferralItem rewards={rootRewards} address={selectedAccount} isChildren={false} level={0} totalRef={2} backgroundColor="#1D018D" />
       <ChildrenContent>
-        <StyledHeading>Referral income of {totalChildren} children</StyledHeading>
+        <StyledHeading>Referral income</StyledHeading>
         {isLoading
           ? <GridPlaceholder numItems={1} />
           : children.map(({ address, totalRefer, rewards }, index) => {
