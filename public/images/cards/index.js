@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 // directory path
-const dir = './equipments/epic'
+const dir = './halloween/equipments/rare legend'
 
 // list all files in the directory
 fs.readdir(dir, (err, files) => {
@@ -13,7 +13,7 @@ fs.readdir(dir, (err, files) => {
   // log them on console
   let arr = []
   files.forEach(file => {
-    arr.push(`"epic/${file}"`)
+    arr.push(`"halloween/equipments/rare legend/${file}"`)
   })
   console.log(arr.toString())
 })
