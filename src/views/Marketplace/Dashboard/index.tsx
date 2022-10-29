@@ -133,8 +133,8 @@ export const WrapperSelect = styled.div`
   margin-bottom: 15px;
 `
 export const FlexPagination = styled(Flex)`
-  justify-content: 'center';
-  margin-top: 40px;
+  justify-content: center;
+  margin-top: 20px;
   margin-bottom: 50px;
 `
 

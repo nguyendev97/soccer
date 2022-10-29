@@ -81,7 +81,7 @@ export const WrapperSelect = styled.div`
 `
 export const FlexPagination = styled(Flex)`
   justify-content: flex-end;
-  margin-top: 40px;
+  margin-top: 20px;
   margin-bottom: 50px;
   @media (max-width: 767px) {
     justify-content: center;
