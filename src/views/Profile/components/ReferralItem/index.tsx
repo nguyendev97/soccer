@@ -96,12 +96,13 @@ interface ItemProps extends BoxProps {
   backgroundColor?: string
   historyDate?: string
   rewards: any
-  address: string
+  address?: string
+  title?: string
 }
 
 const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   isChildren,
-  // level,
+  title,
   totalRef,
   backgroundColor,
   historyDate,
@@ -110,7 +111,7 @@ const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
   ...props
 }) => {
   const { isMobile } = useMatchBreakpoints()
-  const accountEllipsis = truncateHash(address)
+  const titleOrAddress = title || truncateHash(address)
   return (
     <FlexRowItem mb="8px" backgroundColor={backgroundColor} isChildren={isChildren} {...props}>
       {isChildren && (
@@ -136,7 +137,7 @@ const ReferralItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
                   </TextAddress>
                 </>
               )} */}
-              <TextAddress isChildren={isChildren}>{!isMobile ? address : accountEllipsis}</TextAddress>
+              <TextAddress isChildren={isChildren}>{titleOrAddress}</TextAddress>
             </>
           )}
         </ItemInfo>

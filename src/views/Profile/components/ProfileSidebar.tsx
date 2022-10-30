@@ -66,8 +66,7 @@ const ProfileSidebar: React.FC<React.PropsWithChildren<Props>> = ({ accountAddre
           <Link href={`/profile/${accountAddress.toLowerCase()}/people`}>{t('People')}</Link>
         </MenuItem>
         <MenuItem icon="histories" active={getActiveIndex(pathname, '/histories')}>
-          {/* <Link href={`/profile/${accountAddress.toLowerCase()}/histories`}>{t('Histories')}</Link> */}
-          <Link href={`/profile/${accountAddress.toLowerCase()}/inventory`}>{t('Histories (coming)')}</Link>
+          <Link href={`/profile/${accountAddress.toLowerCase()}/histories`}>{t('Histories')}</Link>
         </MenuItem>
       </WrapperMenuItems>
       <ReferralBox accountAddress={accountAddress} />
