@@ -33,7 +33,7 @@ const StyledHeading = styled(Heading)`
 `
 let skipMarked = []
 
-const pageSize = 2
+const pageSize = 10
 
 const People = () => {
   const { account, chainId } = useWeb3React()

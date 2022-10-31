@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Flex, Text } from '@pancakeswap/uikit'
+import { Flex, Text, Button } from '@pancakeswap/uikit'
 import { useCommContract } from 'hooks/useContract'
 import BigNumber from 'bignumber.js'
 import { getBalanceNumber } from 'utils/formatBalance'
@@ -24,8 +24,6 @@ const ChildrenContent = styled.div`
   margin-top: 30px;
 `
 
-let skipMarked = []
-
 const year = new Date().getFullYear()
 const month = new Date().getMonth() + 1
 const History = () => {
@@ -34,9 +32,6 @@ const History = () => {
   const [rewards, setRewards] = useState([])
   const [page, setPage] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
-  const [rootRewards, setRootRewards] = useState({
-    busd: 0
-  })
   const [selectedAccount, setSelectedAccount] = useState(account)
   const [history, setHistory] = useState([])
 
@@ -56,8 +51,6 @@ const History = () => {
 
       const from = differenceInDays(now, lastDateOfMonth)
       const to = differenceInDays(now, firstDateOfMonth)
-      if (!skipMarked.includes(selectedMonth)) {
-        skipMarked.push(selectedMonth)
         setIsLoading(true)
         commContract.getDays().then(async dayBn => {
           const day = dayBn.toNumber()
@@ -84,10 +77,9 @@ const History = () => {
             }
           }).filter(({ details: { busd }}) => busd !== 0))
         }).finally(() => setIsLoading(false))
-      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedAccount, page])
+  }, [selectedAccount, page, account])
 
   return (
     <StyledFlexWrapper>
@@ -100,6 +92,7 @@ const History = () => {
       </ChildrenContent>
       <Flex mt="12px" flexDirection="column" alignItems="center">
         <GradientButton onClick={() => setPage(page + 1)}>View previous ({new Date(year, month - page - 2).toLocaleString('en-US', {month: 'long'})})</GradientButton>
+        {page > 0 && <Button mt="12px" style={{ borderRadius: "10px" }} onClick={() => setPage(0)}>Back to current month</Button>}
       </Flex>
     </StyledFlexWrapper>
   )
