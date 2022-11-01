@@ -120,7 +120,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       )
     },
     onConfirm: () => {
-      return callWithEstimateGas(selectedBoxesOpenContract, 'open', [Date.now(), [type === HALLOWEEN ? HALLOWEEN_TYPE : SPECIAL_TYPE], [amountBoxes]], null, type === HALLOWEEN ? 500000 : null)
+      return callWithEstimateGas(selectedBoxesOpenContract, 'open', [Date.now(), [type === HALLOWEEN ? HALLOWEEN_TYPE : SPECIAL_TYPE], [amountBoxes]], null, amountBoxes * 100000)
     },
     onSuccess: async ({ receipt }) => {
 
