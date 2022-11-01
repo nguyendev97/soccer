@@ -20,6 +20,7 @@ out/
 build
 dist
 storybook-static
+fileload.js
 
 # misc
 .DS_Store

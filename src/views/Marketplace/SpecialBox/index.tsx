@@ -36,9 +36,10 @@ import "swiper/css/navigation"
 const SPECIAL_TYPE = 1
 const refferalOwnerAddress = getRefferalOwnerAddress()
 
-const CARDS_LEGEND = ['common/Ahmed Zain.png', 'common/Hannibal Mejbri.png', 'common/carcelen.png', 'common/Alejandro Brand.png', 'common/Harry Wilson.png', 'common/Luka Jovic.png', 'common/eisa ahmed palangi.png', 'common/Alphonso Davies.png', 'common/Thomas Partey.png', 'common/Chicharito.png', 'common/bdessamad Ezzalzouli.png']
-const CARDS_COMMON = ['legend/Christian Pulisic.png', 'legend/Mbabu.png', 'legend/cavani.png', 'legend/sadio mane.png', 'legend/Shahab Zahedi.png', 'legend/lewandowski.png', 'legend/son heung min.png']
-const CARDS_RARE = ['rare/messi.png', 'rare/neymar (1).png', 'rare/Pogba.png', 'rare/ronaldo.png', 'rare/sergio ramos.png', 'rare/Frenkie de Jong.png', 'rare/harry kane.png', 'rare/luka modric.png', 'rare/Layer 26.png', 'rare/Toni kroos.png']
+const CARDS_LEGEND = ["legend/SoccerCrypto-player-Pogba.png","legend/SoccerCrypto-player-messi.png","legend/SoccerCrypto-player-neymar.png","legend/SoccerCrypto-player-ronaldo.png"]
+const CARDS_COMMON = ["common/SoccerCrypto-player-1.png","common/SoccerCrypto-player-2.png","common/SoccerCrypto-player-Ahmed Zain.png","common/SoccerCrypto-player-Alejandro Brand.png","common/SoccerCrypto-player-Alphonso Davies.png","common/SoccerCrypto-player-Chicharito.png","common/SoccerCrypto-player-Hannibal Mejbri.png","common/SoccerCrypto-player-Harry Wilson.png","common/SoccerCrypto-player-Layer 39.png","common/SoccerCrypto-player-Luka Jovic.png","common/SoccerCrypto-player-Thomas Partey.png","common/SoccerCrypto-player-bdessamad Ezzalzouli.png","common/SoccerCrypto-player-carcelen.png","common/SoccerCrypto-player-eisa ahmed palangi.png"]
+const CARDS_RARE = ["rare/Shahab Zahedi.png","rare/SoccerCrypto-player-Christian Pulisic.png","rare/SoccerCrypto-player-Mbabu.png","rare/SoccerCrypto-player-cavani.png","rare/SoccerCrypto-player-lewandowski.png","rare/SoccerCrypto-player-minamino.png","rare/SoccerCrypto-player-sadio mane.png","rare/SoccerCrypto-player-son heung min.png"]
+const CARDS_EPIC = ["epic/SoccerCrypto-player-Frenkie de Jong.png","epic/SoccerCrypto-player-Lukaku.png","epic/SoccerCrypto-player-Toni kroos.png","epic/SoccerCrypto-player-harry kane.png","epic/SoccerCrypto-player-luka modric.png","epic/SoccerCrypto-player-sergio ramos.png"]
 
 const SpecialBox = () => {
   const { isMobile } = useMatchBreakpoints()
@@ -195,7 +196,7 @@ const SpecialBox = () => {
                     spaceBetween={8}
                     modules={[EffectCoverflow, Navigation, Autoplay]}
                     slidesPerView={isMobile ? 2.1 : 2.3}>
-                    {[...CARDS_RARE, ...CARDS_COMMON, ...CARDS_LEGEND].map((card) => {
+                    {[...CARDS_LEGEND, ...CARDS_EPIC, ...CARDS_RARE, ...CARDS_COMMON].map((card) => {
                         return (
                           <SwiperSlide key={card}><img style={{ height: 250 }} src={`/images/cards/${card}`} alt="card" /></SwiperSlide>
                         )
