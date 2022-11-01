@@ -37,7 +37,6 @@ const Kickers = () => {
         .then((res) => {
           const balance = res.toNumber()
           let balanceCloned = cloneDeep(balance)
-          
           // eslint-disable-next-line prefer-const
           let newIds = []
           while (balanceCloned > 0) {
