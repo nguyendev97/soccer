@@ -2,35 +2,29 @@ import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Flex } from '@pancakeswap/uikit'
 import sum from 'lodash/sum'
-import noop from 'lodash/noop'
 import Page from 'components/Layout/Page'
 import { useGetCollection } from 'state/nftMarket/hooks'
 import PageLoader from 'components/Loader/PageLoader'
 import fromPairs from 'lodash/fromPairs'
+import useNfts from 'hooks/useNfts'
+import { useWeb3React } from '@pancakeswap/wagmi'
 import MainNFTCard from './MainNFTCard'
 import { TwoColumnsContainer } from '../shared/styles'
 import PropertiesCard from '../shared/PropertiesCard'
 import DetailsCard from '../shared/DetailsCard'
 import useGetCollectionDistribution from '../../../hooks/useGetCollectionDistribution'
-import OwnerCard from './OwnerCard'
-import MoreFromThisCollection from '../shared/MoreFromThisCollection'
-import ActivityCard from './ActivityCard'
 import { useCompleteNft } from '../../../hooks/useCompleteNft'
-import ManageNFTsCard from '../shared/ManageNFTsCard'
 
 interface IndividualNFTPageProps {
   collectionAddress: string
   tokenId: string
 }
 
-const OwnerActivityContainer = styled(Flex)`
-  gap: 22px;
-`
-
 const IndividualNFTPage: React.FC<React.PropsWithChildren<IndividualNFTPageProps>> = ({
   collectionAddress,
   tokenId,
 }) => {
+  useNfts({ collectionAddress, tokenIds: [tokenId] })
   const collection = useGetCollection(collectionAddress)
   const { data: distributionData, isFetching: isFetchingDistribution } = useGetCollectionDistribution(collectionAddress)
   const { combinedNft: nft, isOwn: isOwnNft, isProfilePic, refetch } = useCompleteNft(collectionAddress, tokenId)
@@ -52,6 +46,8 @@ const IndividualNFTPage: React.FC<React.PropsWithChildren<IndividualNFTPageProps
     return {}
   }, [properties, isFetchingDistribution, distributionData])
 
+  
+
   if (!nft || !collection) {
     // Normally we already show a 404 page here if no nft, just put this checking here for safety.
 
@@ -64,16 +60,10 @@ const IndividualNFTPage: React.FC<React.PropsWithChildren<IndividualNFTPageProps
       <MainNFTCard nft={nft} isOwnNft={isOwnNft} nftIsProfilePic={isProfilePic} onSuccess={refetch} />
       <TwoColumnsContainer flexDirection={['column', 'column', 'column', 'column', 'row']}>
         <Flex flexDirection="column" width="100%">
-          <ManageNFTsCard collection={collection} tokenId={tokenId} onSuccess={isOwnNft ? refetch : noop} />
           <PropertiesCard properties={properties} rarity={attributesRarity} />
           <DetailsCard contractAddress={collectionAddress} ipfsJson={nft?.marketData?.metadataUrl} />
         </Flex>
-        <OwnerActivityContainer flexDirection="column" width="100%">
-          <OwnerCard nft={nft} isOwnNft={isOwnNft} nftIsProfilePic={isProfilePic} onSuccess={refetch} />
-          <ActivityCard nft={nft} />
-        </OwnerActivityContainer>
       </TwoColumnsContainer>
-      <MoreFromThisCollection collectionAddress={collectionAddress} currentTokenName={nft.name} />
     </Page>
   )
 }

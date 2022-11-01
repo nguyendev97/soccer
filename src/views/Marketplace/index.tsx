@@ -5,7 +5,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import SelectTabs, { OptionProps } from 'components/SelectTabs/SelectTabs'
 import SoccerBox from './SoccerBox'
-import Hero from './Hero'
+import Hero from './Kickers'
 import Equipment from './Equipment'
 import OptionsFilter from './components/Filters/OptionsFilter'
 
