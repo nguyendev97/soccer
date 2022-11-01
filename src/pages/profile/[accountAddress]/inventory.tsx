@@ -6,7 +6,7 @@ import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import SelectTabs, { OptionProps } from 'components/SelectTabs/SelectTabs'
 import { NftProfileLayout } from 'views/Profile'
 import SoccerBox from 'views/Marketplace/SoccerBox'
-import Hero from 'views/Marketplace/Kickers'
+import Hero from 'views/Marketplace/Players'
 import Equipment from 'views/Marketplace/Equipment'
 
 export enum MarketView {

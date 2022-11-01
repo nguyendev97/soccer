@@ -5,7 +5,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import SelectTabs, { OptionProps } from 'components/SelectTabs/SelectTabs'
 import SoccerBox from './SoccerBox'
-import Hero from './Kickers'
+import Players from './Players'
 import Equipment from './Equipment'
 import OptionsFilter from './components/Filters/OptionsFilter'
 
@@ -133,7 +133,7 @@ export default function Marketplace() {
           </SideBar>
           <Content>
             {view === MarketView.SOCCER_BOX && <SoccerBox />}
-            {view === MarketView.HERO && <Hero />}
+            {view === MarketView.HERO && <Players />}
             {view === MarketView.EQUIPMENT && <Equipment />}
           </Content>
         </Row>
