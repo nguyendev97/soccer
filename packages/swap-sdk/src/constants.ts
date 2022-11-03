@@ -10,6 +10,7 @@ export enum ChainId {
   GOERLI = 5,
   BSC = 56,
   BSC_TESTNET = 97,
+  SEPOLIA = 11155111
 }
 
 export enum TradeType {

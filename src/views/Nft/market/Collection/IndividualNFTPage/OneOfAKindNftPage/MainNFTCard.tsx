@@ -1,9 +1,7 @@
-import { BinanceIcon, Box, Button, Card, CardBody, Flex, Skeleton, Text, useModal } from '@pancakeswap/uikit'
+import { BinanceIcon, Box, Button, Card, CardBody, Flex, Text, useModal } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import { useBNBBusdPrice } from 'hooks/useBUSDPrice'
 
 import { NftToken } from 'state/nftMarket/types'
-import { multiplyPriceByAmount } from 'utils/prices'
 import { formatNumber } from 'utils/formatBalance'
 import NFTMedia from 'views/Nft/market/components/NFTMedia'
 import BuyModal from '../../../components/BuySellModals/BuyModal'
@@ -14,21 +12,17 @@ import { CollectionLink, Container } from '../shared/styles'
 interface MainNFTCardProps {
   nft: NftToken
   isOwnNft: boolean
-  nftIsProfilePic: boolean
   onSuccess: () => void
 }
 
 const MainNFTCard: React.FC<React.PropsWithChildren<MainNFTCardProps>> = ({
   nft,
   isOwnNft,
-  nftIsProfilePic,
   onSuccess,
 }) => {
   const { t } = useTranslation()
-  const bnbBusdPrice = useBNBBusdPrice()
 
   const currentAskPriceAsNumber = nft?.marketData?.currentAskPrice ? parseFloat(nft.marketData?.currentAskPrice) : 0
-  const priceInUsd = multiplyPriceByAmount(bnbBusdPrice, currentAskPriceAsNumber)
   const [onPresentBuyModal] = useModal(<BuyModal nftToBuy={nft} />)
   const [onPresentSellModal] = useModal(
     <SellModal variant={nft.marketData?.isTradable ? 'edit' : 'sell'} nftToSell={nft} onSuccessSale={onSuccess} />,
@@ -37,7 +31,6 @@ const MainNFTCard: React.FC<React.PropsWithChildren<MainNFTCardProps>> = ({
   const ownerButtons = (
     <Flex flexDirection={['column', 'column', 'row']}>
       <Button
-        disabled={nftIsProfilePic}
         minWidth="168px"
         mr="16px"
         width={['100%', null, 'max-content']}
@@ -71,24 +64,9 @@ const MainNFTCard: React.FC<React.PropsWithChildren<MainNFTCardProps>> = ({
                   <Text fontSize="24px" bold mr="4px">
                     {formatNumber(currentAskPriceAsNumber, 0, 5)}
                   </Text>
-                  {bnbBusdPrice ? (
-                    <Text color="textSubtle">{`(~${priceInUsd.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })} USD)`}</Text>
-                  ) : (
-                    <Skeleton width="64px" />
-                  )}
                 </Flex>
               ) : (
                 <Text>{t('Not for sale')}</Text>
-              )}
-              {nftIsProfilePic && (
-                <Text color="failure">
-                  {t(
-                    'This NFT is your profile picture, you must change it to some other NFT if you want to sell this one.',
-                  )}
-                </Text>
               )}
               {isOwnNft && ownerButtons}
               {!isOwnNft && (

@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { Flex, Grid, Box, Text, Button, BinanceIcon, ErrorIcon, useTooltip, Skeleton } from '@pancakeswap/uikit'
 import { multiplyPriceByAmount } from 'utils/prices'
 import { escapeRegExp } from 'utils'
-import { useBNBBusdPrice } from 'hooks/useBUSDPrice'
 import { useTranslation } from '@pancakeswap/localization'
 import { NftToken } from 'state/nftMarket/types'
 import { useGetCollection } from 'state/nftMarket/hooks'
@@ -43,9 +42,9 @@ const SetPriceStage: React.FC<React.PropsWithChildren<SetPriceStageProps>> = ({
   const { creatorFee = '', tradingFee = '' } = useGetCollection(nftToSell.collectionAddress) || {}
   const creatorFeeAsNumber = parseFloat(creatorFee)
   const tradingFeeAsNumber = parseFloat(tradingFee)
-  const bnbPrice = useBNBBusdPrice()
+  // const bnbPrice = useBNBBusdPrice()
   const priceAsFloat = parseFloat(price)
-  const priceInUsd = multiplyPriceByAmount(bnbPrice, priceAsFloat)
+  // const priceInUsd = multiplyPriceByAmount(bnbPrice, priceAsFloat)
 
   const priceIsOutOfRange = priceAsFloat > MAX_PRICE || priceAsFloat < MIN_PRICE
 
@@ -117,13 +116,13 @@ const SetPriceStage: React.FC<React.PropsWithChildren<SetPriceStageProps>> = ({
             />
           </Flex>
         </Flex>
-        <Flex alignItems="center" height="21px" justifyContent="flex-end">
+        {/* <Flex alignItems="center" height="21px" justifyContent="flex-end">
           {!Number.isNaN(priceInUsd) && (
             <Text fontSize="12px" color="textSubtle">
               {`$${priceInUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
             </Text>
           )}
-        </Flex>
+        </Flex> */}
         {priceIsOutOfRange && (
           <Text fontSize="12px" color="failure">
             {t('Allowed price range is between %minPrice% and %maxPrice% WBNB', {

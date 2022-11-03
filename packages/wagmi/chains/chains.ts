@@ -115,4 +115,27 @@ export const bscTest: Chain = {
   testnet: true,
 }
 
+export const sepolia: Chain = {
+  id: 11155111,
+  name: 'Sepolia',
+  network: 'eth-testnet',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Binance Chain Native Token',
+    symbol: 'BNB',
+  },
+  rpcUrls: {
+    public: 'https://rpc.sepolia.org/',
+    default: 'https://rpc.sepolia.org/',
+  },
+  blockExplorers: {
+    default: { name: 'BscScan', url: 'https://sepolia.etherscan.io' },
+  },
+  multicall: {
+    address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+    blockCreated: 17422483,
+  },
+  testnet: true,
+}
+
 export { rinkeby, mainnet, goerli }

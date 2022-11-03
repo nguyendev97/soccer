@@ -4,10 +4,9 @@ import IndividualNFTPage from './OneOfAKindNftPage'
 
 const IndividualNFTPageRouter = () => {
   const router = useRouter()
-  // For PancakeBunnies tokenId in url is really bunnyId
   const { collectionAddress, tokenId } = router.query
 
-  if (router.isFallback) {
+  if (router.isFallback || !collectionAddress) {
     return <PageLoader />
   }
 
