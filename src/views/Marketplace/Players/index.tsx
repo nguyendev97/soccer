@@ -5,9 +5,10 @@ import { useWeb3React } from '@pancakeswap/wagmi'
 import { useERC721 } from 'hooks/useContract'
 import { getPlayersAddress } from 'utils/addressHelpers'
 import cloneDeep from 'lodash/cloneDeep'
-import groupBy from 'lodash/groupBy'
 import GradientButton from 'components/GradientButton'
 import NextLink from 'next/link'
+import useNfts, { STAGE } from 'hooks/useNfts'
+import ReactPaginate from 'react-paginate'
 import MarketItem from '../components/MarketItem'
 // import SellingModal from '../components/SellingModal'
 
@@ -19,17 +20,58 @@ const StyledFlexContent = styled(Flex)`
   flex-direction: column;
 `
 
+const StyledReactPaginate = styled(ReactPaginate)`
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  a {
+    color: #fff;
+    display: block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 40px;
+    ${({ theme }) => theme.mediaQueries.md} {
+      width: 48px;
+      height: 48px;
+      font-size: 20px;
+      line-height: 48px;
+    }
+  }
+  a[aria-disabled='true'] {
+    cursor: not-allowed !important;
+  }
+  .selected a {
+    background: #452a7a;
+    border-radius: 4px;
+  }
+`
+
 const PAGE_SIZE = 10
 const Kickers = () => {
   const { account, chainId } = useWeb3React()
   const playersAddress = getPlayersAddress(chainId)
   const playersContract = useERC721(playersAddress)
-  const [nfts, setNfts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
+  const [tokenIds, setTokenIds] = useState([])
+  const [tokenIdsSelected, setTokenIdsSelected] = useState([])
   const currentSize = page * PAGE_SIZE
 
+  const { nfts, stage } = useNfts({ collectionAddress: playersAddress, tokenIds: tokenIdsSelected  })
   // const [onPresentSellingModal] = useModal(<SellingModal />)
+  
+  useEffect(() => {
+    const tempEnd = PAGE_SIZE * (page + 1)
+    const endSlice = Math.min(tempEnd, tokenIds.length)
+    setTokenIdsSelected([...tokenIds].slice(currentSize, endSlice))
+  }, [page, tokenIds, currentSize])
+
+  const handlePageClick = (event) => {
+    setPage(event.nextSelectedPage)
+  };
 
   useEffect(() => {
     if (account) {
@@ -54,27 +96,8 @@ const Kickers = () => {
             tasks.push(playersContract.tokenOfOwnerByIndex(account, id))
           })
           const res = await Promise.all(tasks)
-          const tokenIds = res.map((tokenId) => tokenId.toNumber())
-          tasks = []
-          tokenIds.forEach((id) => {
-            tasks.push(playersContract.tokenURI(id))
-          })
-          const tokenURIRes = await Promise.all(tasks)
-          tasks = []
-          tokenURIRes.forEach((uri) => {
-            const fetchMeta = async () => {
-              const uriRes = await fetch(uri)
-              if (uriRes.ok) {
-                const json = await uriRes.json()
-                return json
-              }
-              return null
-            }
-            tasks.push(fetchMeta())
-          })
-          const metas = await Promise.all(tasks)
+          setTokenIds(res.map((tokenId) => tokenId.toNumber()))
           setIsLoading(false)
-          setNfts(metas)
         })
     }
   }, [playersContract, account])
@@ -82,39 +105,41 @@ const Kickers = () => {
     <>
       <StyledFlexWrapper>
         <StyledFlexContent>
-          {isLoading && (
+          {isLoading || stage === STAGE.LOADING && (
             <Flex flexDirection="column" mb="12px">
-              <Skeleton height="100px" /> <Skeleton my="12px" height="100px" /> <Skeleton height="100px" />
+              <Skeleton height="100px" />
             </Flex>
           )}
           {!isLoading &&
-            nfts.slice(0, currentSize).map(({ imagePlayer, attributes, token_id: tokenId }) => {
-              const attributesMap: any = groupBy(attributes, 'key')
+            nfts.map(({ image, meta, tokenId }) => {
               return (
                 <NextLink href={`/nfts/collections/${playersAddress}/${tokenId}`}>
                   <MarketItem
                     key={tokenId}
-                    avatar={imagePlayer}
+                    avatar={image.thumbnail}
                     code={`#${tokenId}`}
-                    ratity={attributesMap.Rarity[0].value as string}
-                    level={`level ${attributesMap.Level[0].value as string}`}
-                    pow={attributesMap.POW[0].value as string}
-                    sho={attributesMap.SHO[0].value as string}
-                    spe={attributesMap.SPE[0].value as string}
-                    jmp={attributesMap.JMP[0].value as string}
+                    ratity={meta.Rarity.value as string}
+                    level={`level ${meta.Level.value as string}`}
+                    pow={meta.POW.value as string}
+                    sho={meta.SHO.value as string}
+                    spe={meta.SPE.value as string}
+                    jmp={meta.JMP.value as string}
                     price="513.436"
                     statusName="inWallet"
                   />
                 </NextLink>
               )
             })}
-          <Flex flexDirection="column" alignItems="center">
-            {nfts.length - currentSize > 0 && (
-              <GradientButton onClick={() => setPage(page + 1)}>
-                Load More ({nfts.length - currentSize} left)
-              </GradientButton>
-            )}
-          </Flex>
+          <StyledReactPaginate
+            breakLabel="..."
+            nextLabel=">"
+            onClick={handlePageClick}
+            pageRangeDisplayed={5}
+            forcePage={page}
+            pageCount={Math.ceil(tokenIds.length / PAGE_SIZE)}
+            previousLabel="<"
+            renderOnZeroPageCount={null}
+          />
         </StyledFlexContent>
       </StyledFlexWrapper>
     </>

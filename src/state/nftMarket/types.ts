@@ -76,7 +76,7 @@ export interface NftToken {
   updatedAt?: string // API updatedAt
   marketData?: TokenMarketData
   location?: NftLocation
-  meta?: Record<string, string | number>
+  meta?: Record<string, any>
 }
 
 export interface NftFilter {

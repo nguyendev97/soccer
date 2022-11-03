@@ -1,5 +1,7 @@
 import {
   Cake,
+  Erc20,
+  Erc20Bytes32,
   Erc721collection,
   Multicall,
   Weth,

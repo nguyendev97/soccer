@@ -26,6 +26,12 @@ const useNfts = ({ collectionAddress, tokenIds } : IndividualNFTPageProps) => {
   const [nfts, setNfts] = useState<NftToken[]>([])
   const { chainId } = useWeb3React()
   const [stage, setStage] = useState<STAGE>(STAGE.INI)
+  
+  useEffect(() => {
+    if (tokenIds.length) {
+      setStage(STAGE.INI)
+    }
+  }, [tokenIds])
 
   useEffect(() => {
     const fetchNfts = async () => {
@@ -74,7 +80,8 @@ const useNfts = ({ collectionAddress, tokenIds } : IndividualNFTPageProps) => {
         }
       }))
     }
-    if (chainId && stage === STAGE.INI) {
+
+    if (chainId && stage === STAGE.INI && tokenIds.length > 0) {
       fetchNfts()
     }
   }, [chainId, collectionAddress, tokenIds, stage])
