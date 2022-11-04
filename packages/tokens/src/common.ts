@@ -92,7 +92,7 @@ export const BUSD_TESTNET = new Token(
 
 export const BUSD_SEPOLIA = new Token(
   ChainId.SEPOLIA,
-  '0x4aa236cf4516c7c94789bf2266fbf033387ff4ae',
+  '0x902f2B80f39020E77CB209397CaeE97C2F64eFD5',
   18,
   'BUSD',
   'Binance USD',

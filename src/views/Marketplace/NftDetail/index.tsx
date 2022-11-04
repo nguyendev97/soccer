@@ -232,7 +232,7 @@ const TabStarts = () => {
   )
 }
 const NftDetail = () => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const tabsInfo = [
     {
       title: 'Stats',

@@ -48,8 +48,8 @@ const SwiperBanner: React.FC<React.PropsWithChildren<ItemProps>> = ({ banners, .
         spaceBetween={0}
         slidesPerView={1}
         pagination={{ clickable: true }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log('slide change')}
+        // onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log('slide change')}
       >
         {banners.length > 0 &&
           banners.map((item) => (
