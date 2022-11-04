@@ -90,6 +90,15 @@ export const BUSD_TESTNET = new Token(
   'https://www.paxos.com/busd/',
 )
 
+export const BUSD_SEPOLIA = new Token(
+  ChainId.SEPOLIA,
+  '0x4aa236cf4516c7c94789bf2266fbf033387ff4ae',
+  18,
+  'BUSD',
+  'Binance USD',
+  'https://www.paxos.com/busd/',
+)
+
 export const BUSD_ETH = new Token(
   ChainId.ETHEREUM,
   '0x4Fabb145d64652a948d72533023f6E7A623C7C53',
@@ -123,6 +132,7 @@ export const BUSD: Record<ChainId, Token> = {
   [ChainId.GOERLI]: BUSD_GOERLI,
   [ChainId.BSC]: BUSD_BSC,
   [ChainId.BSC_TESTNET]: BUSD_TESTNET,
+  [ChainId.SEPOLIA]: BUSD_SEPOLIA,
 }
 
 export const CAKE = {
