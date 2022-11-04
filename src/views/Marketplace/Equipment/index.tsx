@@ -5,8 +5,10 @@ import { useWeb3React } from '@pancakeswap/wagmi'
 import { useERC721 } from 'hooks/useContract'
 import { getEquipmentsAddress } from 'utils/addressHelpers'
 import cloneDeep from 'lodash/cloneDeep'
-import groupBy from 'lodash/groupBy'
-import GradientButton from 'components/GradientButton'
+import { useRouter } from 'next/router'
+import useNfts, { STAGE } from 'hooks/useNfts'
+import ReactPaginate from 'react-paginate'
+import NextLink from 'next/link'
 import MarketItem from '../components/MarketItem'
 
 const StyledFlexWrapper = styled(Flex)`
@@ -19,24 +21,39 @@ const StyledFlexContent = styled(Flex)`
 
 const PAGE_SIZE = 10
 const Equipment = () => {
-  
+  const router = useRouter()
+  const { accountAddress } = router.query
   const { account, chainId } = useWeb3React()
-  const playersAddress = getEquipmentsAddress(chainId)
-  const playersContract = useERC721(playersAddress)
-  const [nfts, setNfts] = useState([])
+  const erc721Address = getEquipmentsAddress(chainId)
+  const erc721Contract = useERC721(erc721Address)
   const [isLoading, setIsLoading] = useState(false)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
+  const [tokenIds, setTokenIds] = useState([])
+  const [tokenIdsSelected, setTokenIdsSelected] = useState([])
   const currentSize = page * PAGE_SIZE
 
+  const { nfts, stage } = useNfts({ collectionAddress: erc721Address, tokenIds: tokenIdsSelected  })
+
   useEffect(() => {
-    if (account) {
+    const tempEnd = PAGE_SIZE * (page + 1)
+    const endSlice = Math.min(tempEnd, tokenIds.length)
+    setTokenIdsSelected([...tokenIds].slice(currentSize, endSlice))
+  }, [page, tokenIds, currentSize])
+
+  const handlePageClick = (event) => {
+    setPage(event.nextSelectedPage)
+  };
+  
+  const selectedAccount = accountAddress as string || account
+
+  useEffect(() => {
+    if (selectedAccount) {
       setIsLoading(true)
-      playersContract
-        .balanceOf(account)
+      erc721Contract
+        .balanceOf(selectedAccount)
         .then((res) => {
           const balance = res.toNumber()
           let balanceCloned = cloneDeep(balance)
-          
           // eslint-disable-next-line prefer-const
           let newIds = []
           while (balanceCloned > 0) {
@@ -49,57 +66,54 @@ const Equipment = () => {
           // eslint-disable-next-line prefer-const
           let tasks = []
           newIds.forEach((id) => {
-            tasks.push(playersContract.tokenOfOwnerByIndex(account, id))
+            tasks.push(erc721Contract.tokenOfOwnerByIndex(selectedAccount, id))
           })
           const res = await Promise.all(tasks)
-          const tokenIds = res.map((tokenId) => tokenId.toNumber())
-          tasks = []
-          tokenIds.forEach((id) => {
-            tasks.push(playersContract.tokenURI(id))
-          })
-          const tokenURIRes = await Promise.all(tasks)
-          tasks = []
-          tokenURIRes.forEach(uri => {
-            const fetchMeta = async () => {
-              const uriRes = await fetch(uri)
-              if (uriRes.ok) {
-                const json = await uriRes.json()
-                return json
-              }
-              return null
-            }
-            tasks.push(fetchMeta())
-          })
-          const metas = await Promise.all(tasks)
+          setTokenIds(res.map((tokenId) => tokenId.toNumber()))
           setIsLoading(false)
-          setNfts(metas)
         })
     }
-  }, [playersContract, account])
+  }, [erc721Contract, selectedAccount])
+
   return (
     <>
       <StyledFlexWrapper>
         <StyledFlexContent>
-        {isLoading && <Skeleton height="50" />}
-        {!isLoading && nfts.slice(0, currentSize).map(({ imagePlayer, attributes, token_id: tokenId }) => {
-          const attributesMap: any = groupBy(attributes, 'key')
-          return <MarketItem
-            key={tokenId}
-            avatar={imagePlayer}
-            code={`#${tokenId}`}
-            ratity={attributesMap.Rarity[0].value as string}
-            level={`level ${attributesMap.Level[0].value as string}`}
-            pow={attributesMap.POW[0].value as string}
-            sho={attributesMap.SHO[0].value as string}
-            spe={attributesMap.SPE[0].value as string}
-            jmp={attributesMap.JMP[0].value as string}
-            price="513.436"
-            statusName="inWallet"
-          />
-        })}
-        <Flex flexDirection="column" alignItems="center">
-          {nfts.length - currentSize > 0 && <GradientButton onClick={() => setPage(page + 1)}>Load More ({nfts.length - currentSize} left)</GradientButton>}
-        </Flex>
+          {isLoading || stage === STAGE.LOADING && (
+            <Flex flexDirection="column" mb="12px">
+              <Skeleton height="100px" />
+            </Flex>
+          )}
+          {!isLoading &&
+              nfts.map(({ image, meta, tokenId }) => {
+                return (
+                  <NextLink href={`/nfts/collections/${erc721Address}/${tokenId}`}>
+                    <MarketItem
+                      key={tokenId}
+                      avatar={image.thumbnail}
+                      code={`#${tokenId}`}
+                      ratity={meta.Rarity.value as string}
+                      level={`level ${meta.Level.value as string}`}
+                      pow={meta.POW.value as string}
+                      sho={meta.SHO.value as string}
+                      spe={meta.SPE.value as string}
+                      jmp={meta.JMP.value as string}
+                      price="513.436"
+                      statusName="inWallet"
+                    />
+                  </NextLink>
+                )
+              })}
+            <StyledReactPaginate
+              breakLabel="..."
+              nextLabel=">"
+              onClick={handlePageClick}
+              pageRangeDisplayed={5}
+              forcePage={page}
+              pageCount={Math.ceil(tokenIds.length / PAGE_SIZE)}
+              previousLabel="<"
+              renderOnZeroPageCount={null}
+            />
         </StyledFlexContent>
       </StyledFlexWrapper>
     </>
@@ -107,3 +121,32 @@ const Equipment = () => {
 }
 
 export default Equipment
+
+const StyledReactPaginate = styled(ReactPaginate)`
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  a {
+    color: #fff;
+    display: block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 40px;
+    ${({ theme }) => theme.mediaQueries.md} {
+      width: 48px;
+      height: 48px;
+      font-size: 20px;
+      line-height: 48px;
+    }
+  }
+  a[aria-disabled='true'] {
+    cursor: not-allowed !important;
+  }
+  .selected a {
+    background: #452a7a;
+    border-radius: 4px;
+  }
+`
