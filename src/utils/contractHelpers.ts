@@ -32,12 +32,9 @@ import {
   getTradingCompetitionAddressMoD,
   getBunnySpecialXmasAddress,
   getICakeAddress,
-  getPotteryDrawAddress,
   getZapAddress,
   getCakeFlexibleSideVaultAddress,
   getPredictionsV1Address,
-  getBCakeFarmBoosterAddress,
-  getBCakeFarmBoosterProxyFactoryAddress,
   getBoxSaleAddress,
   getBoxesOpenAddress,
   getRefferalAddress,
@@ -82,12 +79,9 @@ import nftSaleAbi from 'config/abi/nftSale.json'
 import pancakeSquadAbi from 'config/abi/pancakeSquad.json'
 import erc721CollectionAbi from 'config/abi/erc721collection.json'
 import potteryVaultAbi from 'config/abi/potteryVaultAbi.json'
-import potteryDrawAbi from 'config/abi/potteryDrawAbi.json'
 import zapAbi from 'config/abi/zap.json'
 import iCakeAbi from 'config/abi/iCake.json'
 import cakePredictionsAbi from 'config/abi/cakePredictions.json'
-import bCakeFarmBoosterAbi from 'config/abi/bCakeFarmBooster.json'
-import bCakeFarmBoosterProxyFactoryAbi from 'config/abi/bCakeFarmBoosterProxyFactory.json'
 import bCakeProxyAbi from 'config/abi/bCakeProxy.json'
 import boxSaleAbi from 'config/abi/boxSale.json'
 import erc1155Abi from 'config/abi/erc1155.json'
@@ -131,11 +125,8 @@ import type {
   ICake,
   TradingCompetitionMoD,
   PotteryVaultAbi,
-  PotteryDrawAbi,
   Zap,
   PredictionsV1,
-  BCakeFarmBooster,
-  BCakeFarmBoosterProxyFactory,
   BCakeProxy,
 } from 'config/abi/types'
 import { ChainId } from '@pancakeswap/sdk'
@@ -318,28 +309,8 @@ export const getPotteryVaultContract = (address: string, signer?: Signer | Provi
   return getContract({ abi: potteryVaultAbi, address, signer }) as PotteryVaultAbi
 }
 
-export const getPotteryDrawContract = (signer?: Signer | Provider) => {
-  return getContract({ abi: potteryDrawAbi, address: getPotteryDrawAddress(), signer }) as PotteryDrawAbi
-}
-
 export const getZapContract = (signer?: Signer | Provider) => {
   return getContract({ abi: zapAbi, address: getZapAddress(), signer }) as Zap
-}
-
-export const getIfoCreditAddressContract = (signer?: Signer | Provider) => {
-  return getContract({ abi: iCakeAbi, address: getICakeAddress(), signer }) as ICake
-}
-
-export const getBCakeFarmBoosterContract = (signer?: Signer | Provider) => {
-  return getContract({ abi: bCakeFarmBoosterAbi, address: getBCakeFarmBoosterAddress(), signer }) as BCakeFarmBooster
-}
-
-export const getBCakeFarmBoosterProxyFactoryContract = (signer?: Signer | Provider) => {
-  return getContract({
-    abi: bCakeFarmBoosterProxyFactoryAbi,
-    address: getBCakeFarmBoosterProxyFactoryAddress(),
-    signer,
-  }) as BCakeFarmBoosterProxyFactory
 }
 
 export const getBCakeProxyContract = (proxyContractAddress: string, signer?: Signer | Provider) => {

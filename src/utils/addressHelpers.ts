@@ -102,23 +102,12 @@ export const getNftSaleAddress = () => {
 export const getPancakeSquadAddress = () => {
   return getAddress(addresses.pancakeSquad)
 }
-export const getPotteryDrawAddress = () => {
-  return getAddress(addresses.potteryDraw)
-}
 
 export const getZapAddress = () => {
   return getAddress(addresses.zap)
 }
 export const getICakeAddress = () => {
   return getAddress(addresses.iCake)
-}
-
-export const getBCakeFarmBoosterAddress = () => {
-  return getAddress(addresses.bCakeFarmBooster)
-}
-
-export const getBCakeFarmBoosterProxyFactoryAddress = () => {
-  return getAddress(addresses.bCakeFarmBoosterProxyFactory)
 }
 
 export const getBoxSaleAddress = (chainId?: number) => {

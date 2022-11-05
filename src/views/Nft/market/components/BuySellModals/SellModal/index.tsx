@@ -1,4 +1,5 @@
 import { parseUnits } from '@ethersproject/units'
+import { BUSD } from '@pancakeswap/tokens'
 import { ContextApi, useTranslation } from '@pancakeswap/localization'
 import { InjectedModalProps, useToast } from '@pancakeswap/uikit'
 import { useWeb3React } from '@pancakeswap/wagmi'
@@ -88,7 +89,7 @@ const SellModal: React.FC<React.PropsWithChildren<SellModalProps>> = ({
   const [confirmedTxHash, setConfirmedTxHash] = useState('')
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()
   const { reader: collectionContractReader, signer: collectionContractSigner } = useErc721CollectionContract(
@@ -194,9 +195,11 @@ const SellModal: React.FC<React.PropsWithChildren<SellModalProps>> = ({
           nftToSell.tokenId,
         ])
       }
-      const methodName = variant === 'sell' ? 'createAskOrder' : 'modifyAskOrder'
+      const isSellStage = variant === 'sell'
+      const methodName = isSellStage ? 'createAskOrder' : 'modifyAskOrder'
       const askPrice = parseUnits(price)
-      return callWithGasPrice(nftMarketContract, methodName, [nftToSell.collectionAddress, nftToSell.tokenId, askPrice])
+      const params = isSellStage ? [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, nftToSell.hash, BUSD[chainId]?.address] : [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, nftToSell.hash, BUSD[chainId]?.address]
+      return callWithGasPrice(nftMarketContract, methodName, params)
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(getToastText(variant, stage, t), <ToastDescriptionWithTx txHash={receipt.transactionHash} />)

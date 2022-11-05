@@ -14,8 +14,6 @@ import { useMemo } from 'react'
 import { getMulticallAddress, getZapAddress } from 'utils/addressHelpers'
 import {
   getAnniversaryAchievementContract,
-  getBCakeFarmBoosterContract,
-  getBCakeFarmBoosterProxyFactoryContract,
   getBCakeProxyContract,
   getBep20Contract,
   getBunnyFactoryContract,
@@ -32,7 +30,6 @@ import {
   getPancakeBunniesContract,
   getPancakeSquadContract,
   getPointCenterIfoContract,
-  getPotteryDrawContract,
   getPotteryVaultContract,
   getProfileContract,
   getHalloweenBoxesOpenContract,
@@ -219,23 +216,8 @@ export const usePotterytVaultContract = (address) => {
   return useMemo(() => getPotteryVaultContract(address, signer), [address, signer])
 }
 
-export const usePotterytDrawContract = () => {
-  const { data: signer } = useSigner()
-  return useMemo(() => getPotteryDrawContract(signer), [signer])
-}
-
 export function useZapContract(withSignerIfPossible = true) {
   return useContract<Zap>(getZapAddress(), zapAbi, withSignerIfPossible)
-}
-
-export function useBCakeFarmBoosterContract(withSignerIfPossible = true) {
-  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getBCakeFarmBoosterContract(providerOrSigner), [providerOrSigner])
-}
-
-export function useBCakeFarmBoosterProxyFactoryContract(withSignerIfPossible = true) {
-  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getBCakeFarmBoosterProxyFactoryContract(providerOrSigner), [providerOrSigner])
 }
 
 export function useBCakeProxyContract(proxyContractAddress: string, withSignerIfPossible = true) {

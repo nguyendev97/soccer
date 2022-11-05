@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { FetchStatus } from 'config/constants/types'
 import { useCallback } from 'react'
@@ -6,8 +7,16 @@ import { getNftsMarketData, getNftsOnChainMarketData } from 'state/nftMarket/hel
 import { NftLocation, TokenMarketData } from 'state/nftMarket/types'
 import { useProfile } from 'state/profile/hooks'
 import useSWR from 'swr'
-import useNfts, { STAGE } from 'hooks/useNfts'
+import { multicallv2 } from 'utils/multicall'
+import erc721Abi from 'config/abi/erc721.json'
+import keyBy from 'lodash/keyBy'
+import { getPlayersAddress, getEquipmentsAddress } from 'utils/addressHelpers'
 import { NOT_ON_SALE_SELLER } from 'config/constants'
+
+const COLLECTIONS_NAME = {
+  [getPlayersAddress()]: 'Kickers',
+  [getEquipmentsAddress()]: 'Equipments'
+}
 
 const useNftOwn = (collectionAddress: string, tokenId: string, marketData?: TokenMarketData) => {
   const { account } = useWeb3React()
@@ -50,8 +59,55 @@ const useNftOwn = (collectionAddress: string, tokenId: string, marketData?: Toke
   )
 }
 
-export const useCompleteNft = (collectionAddress: string, tokenId: string) => {
-  const { nfts: [nft], stage } = useNfts({ collectionAddress, tokenIds: [tokenId] })
+export const useCompleteNft = (collectionAddress: string, tokenId: string, chainId: number) => {
+  const { data: nft, mutate } = useSWR(
+    collectionAddress && tokenId ? ['nft', collectionAddress, tokenId] : null,
+    async () => {
+      const tokenURICalls = [tokenId].map(id => {
+        return { address: collectionAddress, name: 'tokenURI', params: [Number(id)] }
+      })
+      
+      const callsResult = await multicallv2({
+        abi: erc721Abi,
+        calls: tokenURICalls,
+        options: { requireSuccess: false },
+        chainId,
+      })
+      let hashes = []
+      let tasks = []
+      callsResult.forEach(([uri]) => {
+        const hash = uri.split('/').at(-1)
+        hashes.push(hash)
+        const fetchMeta = async () => {
+          const uriRes = await fetch(uri)
+          if (uriRes.ok) {
+            const json = await uriRes.json()
+            return json
+          }
+          return null
+        }
+        tasks.push(fetchMeta())
+      })
+      const metas = await Promise.all(tasks)
+
+      return(metas.map(({ name, description, image, attributes }, index) => {
+        const meta: any = keyBy(attributes, 'key')
+        return {
+          tokenId,
+          name,
+          hash: hashes[index],
+          description,
+          collectionName: COLLECTIONS_NAME[collectionAddress] || '',
+          collectionAddress,
+          image: {
+            original: image,
+            thumbnail: image
+          },
+          meta
+        }
+      })[0])
+    },
+  )
 
   const { data: marketData, mutate: refetchNftMarketData } = useSWR(
     collectionAddress && tokenId ? ['nft', 'marketData', collectionAddress, tokenId] : null,
@@ -73,14 +129,16 @@ export const useCompleteNft = (collectionAddress: string, tokenId: string) => {
   const { data: nftOwn, mutate: refetchNftOwn, status } = useNftOwn(collectionAddress, tokenId, marketData)
 
   const refetch = useCallback(async () => {
+    await mutate()
     await refetchNftMarketData()
     await refetchNftOwn()
-  }, [refetchNftMarketData, refetchNftOwn])
+  }, [mutate, refetchNftMarketData, refetchNftOwn])
 
   return {
     combinedNft: nft ? { ...nft, marketData, location: nftOwn?.location ?? NftLocation.WALLET } : undefined,
     isOwn: nftOwn?.isOwn || false,
-    isLoading: status !== FetchStatus.Fetched || stage !== STAGE.FULFILLED,
+    isProfilePic: nftOwn?.nftIsProfilePic || false,
+    isLoading: status !== FetchStatus.Fetched,
     refetch,
   }
 }

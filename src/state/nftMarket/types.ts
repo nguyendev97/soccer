@@ -70,6 +70,7 @@ export interface NftToken {
   description: string
   collectionName: string
   collectionAddress: string
+  hash?: string
   image: Image
   attributes?: NftAttribute[]
   createdAt?: string // API createdAt

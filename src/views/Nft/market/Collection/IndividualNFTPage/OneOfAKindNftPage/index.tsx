@@ -9,13 +9,15 @@ import { useCompleteNft } from '../../../hooks/useCompleteNft'
 interface IndividualNFTPageProps {
   collectionAddress: string
   tokenId: string
+  chainId: number
 }
 
 const IndividualNFTPage: React.FC<React.PropsWithChildren<IndividualNFTPageProps>> = ({
   collectionAddress,
   tokenId,
+  chainId
 }) => {
-  const { combinedNft: nft, isOwn: isOwnNft, refetch } = useCompleteNft(collectionAddress, tokenId)
+  const { combinedNft: nft, isOwn: isOwnNft, refetch } = useCompleteNft(collectionAddress, tokenId, chainId)
 
   if (!nft) {
     return <PageLoader />

@@ -128,10 +128,6 @@ export default {
     56: '0x0a8901b0E25DEb55A87524f0cC164E9644020EBA',
     97: '0xfC0c3F11fDA72Cb9A56F28Ec8D44C0ae4B3ABF86',
   },
-  potteryDraw: {
-    56: '0x01871991587d5671f3A2d4E2BcDC22F4E026396e',
-    97: '0xDB9D365b50E62fce747A90515D2bd1254A16EbB9',
-  },
   // TODO: multi
   zap: {
     56: '0xD4c4a7C55c9f7B3c48bafb6E8643Ba79F42418dF',
@@ -139,14 +135,6 @@ export default {
   },
   iCake: {
     56: '0x3C458828D1622F5f4d526eb0d24Da8C4Eb8F07b1',
-    97: '',
-  },
-  bCakeFarmBooster: {
-    56: '0xE4FAa3Ef5A9708C894435B0F39c2B440936A3A52',
-    97: '',
-  },
-  bCakeFarmBoosterProxyFactory: {
-    56: '0x2C36221bF724c60E9FEE3dd44e2da8017a8EF3BA',
     97: '',
   },
   boxHalloweenSale: {
