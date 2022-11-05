@@ -186,7 +186,7 @@ const SellModal: React.FC<React.PropsWithChildren<SellModalProps>> = ({
     },
     onConfirm: () => {
       if (stage === SellingStage.CONFIRM_REMOVE_FROM_MARKET) {
-        return callWithGasPrice(nftMarketContract, 'cancelAskOrder', [nftToSell.collectionAddress, nftToSell.tokenId])
+        return callWithGasPrice(nftMarketContract, 'cancelAskOrder', [nftToSell.collectionAddress, nftToSell.tokenId, nftToSell.hash])
       }
       if (stage === SellingStage.CONFIRM_TRANSFER) {
         return callWithGasPrice(collectionContractSigner, 'safeTransferFrom(address,address,uint256)', [
@@ -198,7 +198,9 @@ const SellModal: React.FC<React.PropsWithChildren<SellModalProps>> = ({
       const isSellStage = variant === 'sell'
       const methodName = isSellStage ? 'createAskOrder' : 'modifyAskOrder'
       const askPrice = parseUnits(price)
-      const params = isSellStage ? [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, nftToSell.hash, BUSD[chainId]?.address] : [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, nftToSell.hash, BUSD[chainId]?.address]
+      const sellingParams = [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, nftToSell.hash, BUSD[chainId]?.address]
+      const editParams = [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, BUSD[chainId]?.address]
+      const params = isSellStage ? sellingParams : editParams
       return callWithGasPrice(nftMarketContract, methodName, params)
     },
     onSuccess: async ({ receipt }) => {

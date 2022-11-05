@@ -11,7 +11,7 @@ const IndividualNFTPageRouter = () => {
   if (router.isFallback || !collectionAddress || !chainId) {
     return <PageLoader />
   }
-  console.log({ collectionAddress, tokenId })
+  
   return <IndividualNFTPage chainId={chainId} collectionAddress={String(collectionAddress)} tokenId={String(tokenId)} />
 }
 

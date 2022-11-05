@@ -148,19 +148,21 @@ export const usePancakeSquadContract = () => {
 
 export const useNftMarketContract = () => {
   const { data: signer } = useSigner()
-  return useMemo(() => getNftMarketContract(signer), [signer])
+  const { chainId } = useActiveChainId()
+  return useMemo(() => getNftMarketContract(signer, chainId), [signer, chainId])
 }
 
 export const useErc721CollectionContract = (
   collectionAddress: string,
 ): { reader: Erc721collection; signer: Erc721collection } => {
   const { data: signer } = useSigner()
+  const { chainId } = useActiveChainId()
   return useMemo(
     () => ({
-      reader: getErc721CollectionContract(null, collectionAddress),
-      signer: getErc721CollectionContract(signer, collectionAddress),
+      reader: getErc721CollectionContract(null, collectionAddress, chainId),
+      signer: getErc721CollectionContract(signer, collectionAddress, chainId),
     }),
-    [signer, collectionAddress],
+    [signer, collectionAddress, chainId],
   )
 }
 

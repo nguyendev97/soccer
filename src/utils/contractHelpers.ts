@@ -292,8 +292,8 @@ export const getAnniversaryAchievementContract = (signer?: Signer | Provider) =>
   }) as AnniversaryAchievement
 }
 
-export const getNftMarketContract = (signer?: Signer | Provider) => {
-  return getContract({ abi: nftMarketAbi, address: getNftMarketAddress(), signer }) as NftMarket
+export const getNftMarketContract = (signer?: Signer | Provider, chainId?: number) => {
+  return getContract({ abi: nftMarketAbi, address: getNftMarketAddress(chainId), signer, chainId }) as NftMarket
 }
 export const getNftSaleContract = (signer?: Signer | Provider) => {
   return getContract({ abi: nftSaleAbi, address: getNftSaleAddress(), signer }) as NftSale
@@ -301,8 +301,8 @@ export const getNftSaleContract = (signer?: Signer | Provider) => {
 export const getPancakeSquadContract = (signer?: Signer | Provider) => {
   return getContract({ abi: pancakeSquadAbi, address: getPancakeSquadAddress(), signer }) as PancakeSquad
 }
-export const getErc721CollectionContract = (signer?: Signer | Provider, address?: string) => {
-  return getContract({ abi: erc721CollectionAbi, address, signer }) as Erc721collection
+export const getErc721CollectionContract = (signer?: Signer | Provider, address?: string, chainId?: number) => {
+  return getContract({ abi: erc721CollectionAbi, address, signer, chainId }) as Erc721collection
 }
 
 export const getPotteryVaultContract = (address: string, signer?: Signer | Provider) => {
