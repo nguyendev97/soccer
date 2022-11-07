@@ -6,12 +6,14 @@ import {
   NftToken,
   Collection,
 } from 'state/nftMarket/types'
+import { useWeb3React } from '@pancakeswap/wagmi'
 import { useGetNftFilters, useGetNftOrdering, useGetNftShowOnlyOnSale, useGetCollection } from 'state/nftMarket/hooks'
 import { FetchStatus } from 'config/constants/types'
 import {
   fetchNftsFiltered,
   getMarketDataForTokenIds,
   getNftApi,
+  getNftsApi,
   getNftsFromCollectionApi,
   getNftsMarketData,
 } from 'state/nftMarket/helpers'
@@ -40,6 +42,7 @@ const fetchMarketDataNfts = async (
   settings: ItemListingSettings,
   page: number,
   tokenIdsFromFilter: string[],
+  chainId?: number
 ): Promise<NftToken[]> => {
   const whereClause = tokenIdsFromFilter
     ? {
@@ -55,15 +58,16 @@ const fetchMarketDataNfts = async (
     settings.direction,
     page * REQUEST_SIZE,
   )
-
-  const apiRequestPromises = subgraphRes.map((marketNft) => getNftApi(collection.address, marketNft.tokenId))
-  const apiResponses = await Promise.all(apiRequestPromises)
+  // console.log({subgraphRes})
+  // const apiRequestPromises = subgraphRes.map((marketNft) => getNftApi(collection.address, marketNft.tokenId))
+  const apiResponses = await getNftsApi(collection.address, subgraphRes.map(marketNft => marketNft.tokenId), chainId)
+  
   const newNfts: NftToken[] = apiResponses.reduce((acc, apiNft) => {
     if (apiNft) {
       acc.push({
         ...apiNft,
         collectionAddress: collection.address,
-        collectionName: apiNft.collection.name,
+        collectionName: '',
         marketData: subgraphRes.find((marketNft) => marketNft.tokenId === apiNft.tokenId),
       })
     }
@@ -177,11 +181,13 @@ const fetchAllNfts = async (
 }
 
 export const useCollectionNfts = (collectionAddress: string) => {
+  const { chainId } = useWeb3React()
   const fetchedNfts = useRef<NftToken[]>([])
   const fallbackMode = useRef(false)
   const fallbackModePage = useRef(0)
   const isLastPage = useRef(false)
   const collection = useGetCollection(collectionAddress)
+
   const { field, direction } = useGetNftOrdering(collectionAddress)
   const showOnlyNftsOnSale = useGetNftShowOnlyOnSale(collectionAddress)
   const nftFilters = useGetNftFilters(collectionAddress)
@@ -230,8 +236,9 @@ export const useCollectionNfts = (collectionAddress: string) => {
       const settings: ItemListingSettings = JSON.parse(settingsJson)
       const tokenIdsFromFilter = await fetchTokenIdsFromFilter(collection?.address, settings)
       let newNfts: NftToken[] = []
+
       if (settings.showOnlyNftsOnSale) {
-        newNfts = await fetchMarketDataNfts(collection, settings, page, tokenIdsFromFilter)
+        newNfts = await fetchMarketDataNfts(collection, settings, page, tokenIdsFromFilter, chainId)
       } else {
         const {
           nfts: allNewNfts,

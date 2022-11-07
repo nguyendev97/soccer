@@ -111,23 +111,10 @@ export interface NftAttribute {
 export interface Collection {
   id: string
   address: string
-  name: string
-  createdAt?: string
-  description?: string
-  symbol: string
-  active: boolean
-  totalVolumeBNB: string
-  numberTokensListed: string
-  tradingFee: string
-  creatorFee: string
-  owner: string
+  name?: string
+  totalVolumeBNB?: string
+  numberTokensListed?: string
   totalSupply: string
-  verified: boolean
-  avatar: string
-  banner: {
-    large: string
-    small: string
-  }
   attributes?: NftAttribute[]
 }
 

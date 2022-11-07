@@ -31,7 +31,6 @@ import {
   getTradingCompetitionAddressMobox,
   getTradingCompetitionAddressMoD,
   getBunnySpecialXmasAddress,
-  getICakeAddress,
   getZapAddress,
   getCakeFlexibleSideVaultAddress,
   getPredictionsV1Address,
@@ -80,7 +79,6 @@ import pancakeSquadAbi from 'config/abi/pancakeSquad.json'
 import erc721CollectionAbi from 'config/abi/erc721collection.json'
 import potteryVaultAbi from 'config/abi/potteryVaultAbi.json'
 import zapAbi from 'config/abi/zap.json'
-import iCakeAbi from 'config/abi/iCake.json'
 import cakePredictionsAbi from 'config/abi/cakePredictions.json'
 import bCakeProxyAbi from 'config/abi/bCakeProxy.json'
 import boxSaleAbi from 'config/abi/boxSale.json'
@@ -122,7 +120,6 @@ import type {
   CakeVaultV2,
   CakeFlexibleSideVaultV2,
   TradingCompetitionMobox,
-  ICake,
   TradingCompetitionMoD,
   PotteryVaultAbi,
   Zap,

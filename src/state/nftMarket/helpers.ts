@@ -14,6 +14,8 @@ import { formatBigNumber } from 'utils/formatBalance'
 import { getNftMarketAddress } from 'utils/addressHelpers'
 import nftMarketAbi from 'config/abi/nftMarket.json'
 import fromPairs from 'lodash/fromPairs'
+import keyBy from 'lodash/keyBy'
+
 import {
   ApiCollection,
   ApiCollections,
@@ -56,7 +58,7 @@ export const getCollectionsApi = async (): Promise<ApiCollectionsResponse> => {
   return null
 }
 
-const fetchCollectionsTotalSupply = async (collections: ApiCollection[]): Promise<number[]> => {
+const fetchCollectionsTotalSupply = async (collections): Promise<number[]> => {
   const totalSupplyCalls = collections
     .filter((collection) => collection?.address)
     .map((collection) => ({
@@ -70,7 +72,12 @@ const fetchCollectionsTotalSupply = async (collections: ApiCollection[]): Promis
       options: { requireSuccess: false },
     })
     const totalSupply = totalSupplyRaw.flat()
-    return totalSupply.map((totalCount) => (totalCount ? totalCount.toNumber() : 0))
+    return totalSupply.map((totalCount) => {
+      if (totalCount) {
+        return formatBigNumber(totalCount)
+      }
+      return 0
+    })
   }
   return []
 }
@@ -104,20 +111,17 @@ export const getCollections = async (): Promise<Record<string, Collection>> => {
  */
 export const getCollection = async (collectionAddress: string): Promise<Record<string, Collection> | null> => {
   try {
-    const [collection, collectionMarket] = await Promise.all([
-      getCollectionApi(collectionAddress),
-      getCollectionSg(collectionAddress),
-    ])
-
-    const collectionsTotalSupply = await fetchCollectionsTotalSupply([collection])
-    const totalSupplyFromApi = Number(collection?.totalSupply) || 0
+    const collectionMarket = await getCollectionSg(collectionAddress)
+    const collectionsTotalSupply = await fetchCollectionsTotalSupply([{ address: collectionAddress }])
     const totalSupplyFromOnChain = collectionsTotalSupply[0]
-    const collectionApiDataCombinedOnChain = {
-      ...collection,
-      totalSupply: Math.max(totalSupplyFromApi, totalSupplyFromOnChain).toString(),
+    const result = {
+      [collectionAddress]: {
+        ...collectionMarket,
+        address: collectionAddress,
+        totalSupply: totalSupplyFromOnChain.toString(),
+      }
     }
-
-    return combineCollectionData([collectionApiDataCombinedOnChain], [collectionMarket])
+    return result
   } catch (error) {
     console.error('Unable to fetch data:', error)
     return null
@@ -197,6 +201,59 @@ export const getNftApi = async (
 
   console.error(`API: Can't fetch NFT token ${tokenId} in ${collectionAddress}`, res.status)
   return null
+}
+
+/**
+ * Fetch a single NFT using the API
+ * @param collectionAddress
+ * @param tokenId
+ * @returns NFT from API
+ */
+ export const getNftsApi = async (
+  collectionAddress: string,
+  tokenIds: string[],
+  chainId: number
+) => {
+  const tokenURICalls = tokenIds.map(id => {
+    return { address: collectionAddress, name: 'tokenURI', params: [Number(id)] }
+  })
+  
+  const callsResult = await multicallv2({
+    abi: erc721Abi,
+    calls: tokenURICalls,
+    options: { requireSuccess: false },
+    chainId,
+  })
+
+  // eslint-disable-next-line prefer-const
+  let tasks = []
+  callsResult.forEach(([uri]) => {
+    const fetchMeta = async () => {
+      const uriRes = await fetch(uri)
+      if (uriRes.ok) {
+        const json = await uriRes.json()
+        return json
+      }
+      return null
+    }
+    tasks.push(fetchMeta())
+  })
+  const metas = await Promise.all(tasks)
+
+  return (metas.map(({ name, description, image, attributes }, index) => {
+    const meta: any = keyBy(attributes, 'key')
+    return {
+      tokenId: tokenIds[index],
+      name,
+      description,
+      collectionAddress,
+      image: {
+        original: image,
+        thumbnail: image
+      },
+      meta
+    }
+  }))
 }
 
 /**

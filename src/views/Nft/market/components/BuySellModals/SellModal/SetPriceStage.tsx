@@ -3,7 +3,7 @@ import { Flex, Grid, Box, Text, Button, BinanceIcon, ErrorIcon, useTooltip, Skel
 import { escapeRegExp } from 'utils'
 import { useTranslation } from '@pancakeswap/localization'
 import { NftToken } from 'state/nftMarket/types'
-import { useGetCollection } from 'state/nftMarket/hooks'
+// import { useGetCollection } from 'state/nftMarket/hooks'
 import { Divider } from '../shared/styles'
 import { GreyedOutContainer, BnbAmountCell, RightAlignedInput, FeeAmountCell } from './styles'
 
@@ -38,8 +38,9 @@ const SetPriceStage: React.FC<React.PropsWithChildren<SetPriceStageProps>> = ({
   const adjustedPriceIsTheSame = variant === 'adjust' && parseFloat(currentPrice) === parseFloat(price)
   const priceIsValid = !price || Number.isNaN(parseFloat(price)) || parseFloat(price) <= 0
 
-  const { creatorFee = '', tradingFee = '' } = useGetCollection(nftToSell.collectionAddress) || {}
-  const creatorFeeAsNumber = parseFloat(creatorFee)
+  // const { creatorFee = '', tradingFee = '' } = useGetCollection(nftToSell.collectionAddress) || {}
+  // const creatorFeeAsNumber = parseFloat(creatorFee)
+  const tradingFee = '0.5'
   const tradingFeeAsNumber = parseFloat(tradingFee)
   // const bnbPrice = useBNBBusdPrice()
   const priceAsFloat = parseFloat(price)
@@ -60,9 +61,6 @@ const SetPriceStage: React.FC<React.PropsWithChildren<SetPriceStageProps>> = ({
           'When selling NFTs from this collection, a portion of the BNB paid will be diverted before reaching the seller:',
         )}
       </Text>
-      {creatorFeeAsNumber > 0 && (
-        <Text>{t('%percentage%% royalties to the collection owner', { percentage: creatorFee })}</Text>
-      )}
       <Text>{t('%percentage%% trading fee will be used to buy & burn CAKE', { percentage: tradingFee })}</Text>
     </>,
     { placement: 'auto' },
@@ -131,11 +129,11 @@ const SetPriceStage: React.FC<React.PropsWithChildren<SetPriceStageProps>> = ({
           </Text>
         )}
         <Flex mt="8px">
-          {Number.isFinite(creatorFeeAsNumber) && Number.isFinite(tradingFeeAsNumber) ? (
+          {Number.isFinite(tradingFeeAsNumber) ? (
             <>
               <Text small color="textSubtle" mr="8px">
                 {t('Seller pays %percentage%% platform fee on sale', {
-                  percentage: creatorFeeAsNumber + tradingFeeAsNumber,
+                  percentage: tradingFeeAsNumber,
                 })}
               </Text>
               <span ref={targetRef}>
@@ -151,8 +149,8 @@ const SetPriceStage: React.FC<React.PropsWithChildren<SetPriceStageProps>> = ({
           <Text small color="textSubtle">
             {t('Platform fee if sold')}
           </Text>
-          {Number.isFinite(creatorFeeAsNumber) && Number.isFinite(tradingFeeAsNumber) ? (
-            <FeeAmountCell bnbAmount={priceAsFloat} creatorFee={creatorFeeAsNumber} tradingFee={tradingFeeAsNumber} />
+          {Number.isFinite(tradingFeeAsNumber) ? (
+            <FeeAmountCell bnbAmount={priceAsFloat} creatorFee={0} tradingFee={tradingFeeAsNumber} />
           ) : (
             <Skeleton width={40} />
           )}
