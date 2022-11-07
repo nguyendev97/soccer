@@ -103,6 +103,7 @@ const BuyModal: React.FC<React.PropsWithChildren<BuyModalProps>> = ({ nftToBuy, 
         nftToBuy.collectionAddress,
         nftToBuy.tokenId,
         payAmount,
+        nftToBuy.hash
       ])
     },
     onSuccess: async ({ receipt }) => {

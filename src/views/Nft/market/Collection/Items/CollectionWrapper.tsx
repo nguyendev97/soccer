@@ -7,17 +7,17 @@ import Filters from './Filters'
 import CollectionNfts from './CollectionNfts'
 
 interface CollectionWrapperProps {
-  collection: Collection
+  collectionAddress: string
 }
 
-const CollectionWrapper: React.FC<React.PropsWithChildren<CollectionWrapperProps>> = ({ collection }) => {
+const CollectionWrapper: React.FC<React.PropsWithChildren<CollectionWrapperProps>> = ({ collectionAddress }) => {
   return (
     <Box py="32px">
-      <Container px={[0, null, '24px']}>
+      {/* <Container px={[0, null, '24px']}>
         <Filters address={collection?.address || ''} attributes={collection?.attributes} />
-      </Container>
+      </Container> */}
       <Container>
-        <CollectionNfts collection={collection} />
+        <CollectionNfts collectionAddress={collectionAddress} />
       </Container>
       {createPortal(<ScrollToTopButton />, document.body)}
     </Box>

@@ -7,12 +7,12 @@ import { CollectibleLinkCard } from '../../components/CollectibleCard'
 import { useCollectionNfts } from '../../hooks/useCollectionNfts'
 
 interface CollectionNftsProps {
-  collection: Collection
+  collectionAddress: string
 }
 
-const CollectionNfts: React.FC<React.PropsWithChildren<CollectionNftsProps>> = ({ collection }) => {
-  const { address: collectionAddress } = collection || {}
+const CollectionNfts: React.FC<React.PropsWithChildren<CollectionNftsProps>> = ({ collectionAddress }) => {
   const { t } = useTranslation()
+  console.log({collectionAddress})
   const { nfts, isFetchingNfts, page, setPage, resultSize, isLastPage } = useCollectionNfts(collectionAddress)
 
   const handleLoadMore = useCallback(() => {

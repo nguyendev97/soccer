@@ -3,8 +3,6 @@ import { PageMeta } from 'components/Layout/Page'
 import dynamic from 'next/dynamic'
 import { NextRouter, useRouter } from 'next/router'
 import { useMemo } from 'react'
-import { useGetCollection } from 'state/nftMarket/hooks'
-import Header from './Header'
 import Items from './Items'
 
 const Traits = dynamic(() => import('./Traits'), {
@@ -18,14 +16,8 @@ const getHashFromRouter = (router: NextRouter) => router.asPath.match(/#([a-z0-9
 
 const Collection = () => {
   const router = useRouter()
-  const collectionAddress = router.query.collectionAddress as string
-  const collection = useGetCollection(collectionAddress)
 
   const hash = useMemo(() => getHashFromRouter(router)?.[0], [router])
-
-  if (!collection) {
-    return <PageLoader />
-  }
 
   let content = <Items />
 
@@ -40,7 +32,6 @@ const Collection = () => {
   return (
     <>
       <PageMeta />
-      <Header collection={collection} />
       {content}
     </>
   )
