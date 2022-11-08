@@ -63,9 +63,10 @@ export const useCompleteNft = (collectionAddress: string, tokenId: string, chain
   const { data: nft, mutate } = useSWR(
     collectionAddress && tokenId ? ['nft', collectionAddress, tokenId] : null,
     async () => {
-      const tokenURICalls = [tokenId].map(id => {
-        return { address: collectionAddress, name: 'tokenURI', params: [Number(id)] }
-      })
+      const tokenURICalls = [
+        { address: collectionAddress, name: 'tokenURI', params: [Number(tokenId)] },
+        { address: collectionAddress, name: 'ownerOf', params: [Number(tokenId)] }
+      ]
       
       const callsResult = await multicallv2({
         abi: erc721Abi,
@@ -73,39 +74,35 @@ export const useCompleteNft = (collectionAddress: string, tokenId: string, chain
         options: { requireSuccess: false },
         chainId,
       })
-      let hashes = []
-      let tasks = []
-      callsResult.forEach(([uri]) => {
-        const hash = uri.split('/').at(-1)
-        hashes.push(hash)
-        const fetchMeta = async () => {
-          const uriRes = await fetch(uri)
-          if (uriRes.ok) {
-            const json = await uriRes.json()
-            return json
-          }
-          return null
-        }
-        tasks.push(fetchMeta())
-      })
-      const metas = await Promise.all(tasks)
 
-      return(metas.map(({ name, description, image, attributes }, index) => {
-        const meta: any = keyBy(attributes, 'key')
-        return {
-          tokenId,
-          name,
-          hash: hashes[index],
-          description,
-          collectionName: COLLECTIONS_NAME[collectionAddress] || '',
-          collectionAddress,
-          image: {
-            original: image,
-            thumbnail: image
-          },
-          meta
+      const [owner] = callsResult[1]
+      const [uri] = callsResult[0]
+      const hash = uri.split('/').at(-1)
+      const fetchMeta = async () => {
+        const uriRes = await fetch(uri)
+        if (uriRes.ok) {
+          const json = await uriRes.json()
+          return json
         }
-      })[0])
+        return null
+      }
+      const { name, description, image, attributes, imagePlayer } = await fetchMeta()
+
+      const meta: any = keyBy(attributes, 'key')
+      return {
+        tokenId,
+        name,
+        hash,
+        description,
+        owner,
+        collectionName: COLLECTIONS_NAME[collectionAddress] || '',
+        collectionAddress,
+        image: {
+          original: image,
+          thumbnail: imagePlayer
+        },
+        meta
+      }
     },
   )
 
