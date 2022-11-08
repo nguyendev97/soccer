@@ -102,11 +102,10 @@ const BuyModal: React.FC<React.PropsWithChildren<BuyModalProps>> = ({ nftToBuy, 
       const params = [
         nftToBuy.collectionAddress,
         nftToBuy.tokenId,
-        payAmount,
         nftToBuy.hash
       ]
       // console.log({params})
-      return callWithGasPrice(nftMarketContract, 'buyTokenUsingWBNB', params)
+      return callWithGasPrice(nftMarketContract, 'buyTokenUsingBNB', params, { value: payAmount })
     },
     onSuccess: async ({ receipt }) => {
       setConfirmedTxHash(receipt.transactionHash)
