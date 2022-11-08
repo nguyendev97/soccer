@@ -1,5 +1,6 @@
 import { parseUnits } from '@ethersproject/units'
-import { BUSD } from '@pancakeswap/tokens'
+// import { WBNB } from '@pancakeswap/sdk'
+import { BUSD, WBNB } from '@pancakeswap/tokens'
 import { ContextApi, useTranslation } from '@pancakeswap/localization'
 import { InjectedModalProps, useToast } from '@pancakeswap/uikit'
 import { useWeb3React } from '@pancakeswap/wagmi'
@@ -198,8 +199,8 @@ const SellModal: React.FC<React.PropsWithChildren<SellModalProps>> = ({
       const isSellStage = variant === 'sell'
       const methodName = isSellStage ? 'createAskOrder' : 'modifyAskOrder'
       const askPrice = parseUnits(price)
-      const sellingParams = [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, nftToSell.hash, BUSD[chainId]?.address]
-      const editParams = [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, BUSD[chainId]?.address]
+      const sellingParams = [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, nftToSell.hash, WBNB[chainId]?.address]
+      const editParams = [nftToSell.collectionAddress, nftToSell.tokenId, askPrice, WBNB[chainId]?.address]
       const params = isSellStage ? sellingParams : editParams
       return callWithGasPrice(nftMarketContract, methodName, params)
     },

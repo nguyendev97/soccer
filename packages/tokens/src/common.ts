@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@pancakeswap/sdk'
+import { ChainId, Token, WBNB as WBNB_SDK } from '@pancakeswap/sdk'
 
 export const CAKE_MAINNET = new Token(
   ChainId.BSC,
@@ -126,6 +126,15 @@ export const BUSD_GOERLI = new Token(
   'https://www.paxos.com/busd/',
 )
 
+export const WBNB_SEPOLIA = new Token(
+  ChainId.SEPOLIA,
+  '0x902f2B80f39020E77CB209397CaeE97C2F64eFD5',
+  18,
+  'BUSD',
+  'Binance USD',
+  'https://www.paxos.com/busd/',
+)
+
 export const BUSD: Record<ChainId, Token> = {
   [ChainId.ETHEREUM]: BUSD_ETH,
   [ChainId.RINKEBY]: BUSD_RINKEBY,
@@ -133,6 +142,13 @@ export const BUSD: Record<ChainId, Token> = {
   [ChainId.BSC]: BUSD_BSC,
   [ChainId.BSC_TESTNET]: BUSD_TESTNET,
   [ChainId.SEPOLIA]: BUSD_SEPOLIA,
+}
+
+export const WBNB = {
+  [ChainId.ETHEREUM]: WBNB_SDK[ChainId.ETHEREUM],
+  [ChainId.BSC]:  WBNB_SDK[ChainId.BSC],
+  [ChainId.BSC_TESTNET]:  WBNB_SDK[ChainId.BSC_TESTNET],
+  [ChainId.SEPOLIA]: WBNB_SEPOLIA,
 }
 
 export const CAKE = {
