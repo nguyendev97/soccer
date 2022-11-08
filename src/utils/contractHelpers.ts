@@ -143,8 +143,8 @@ export const getContract = ({
   return new Contract(address, abi, signerOrProvider)
 }
 
-export const getBep20Contract = (address: string, signer?: Signer | Provider) => {
-  return getContract({ abi: bep20Abi, address, signer }) as Erc20
+export const getBep20Contract = (address: string, chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: bep20Abi, address, signer, chainId }) as Erc20
 }
 export const getErc721Contract = (address: string, chainId?: number, signer?: Signer | Provider) => {
   return getContract({ abi: erc721Abi, address, signer, chainId }) as Erc721

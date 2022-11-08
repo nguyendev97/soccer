@@ -56,8 +56,9 @@ import { IPancakePair } from '../config/abi/types/IPancakePair'
 import { useActiveChainId } from './useActiveChainId'
 
 export const useERC20 = (address: string, withSignerIfPossible = true) => {
+  const { chainId } = useActiveChainId()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getBep20Contract(address, providerOrSigner), [address, providerOrSigner])
+  return useMemo(() => getBep20Contract(address, chainId, providerOrSigner), [address, providerOrSigner, chainId])
 }
 
 /**
