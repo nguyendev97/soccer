@@ -94,17 +94,19 @@ const BuyModal: React.FC<React.PropsWithChildren<BuyModalProps>> = ({ nftToBuy, 
     },
     onConfirm: () => {
       const payAmount = Number.isNaN(nftPrice) ? Zero : parseUnits(nftToBuy?.marketData?.currentAskPrice)
-      if (paymentCurrency === PaymentCurrency.BNB) {
-        return callWithGasPrice(nftMarketContract, 'buyTokenUsingBNB', [nftToBuy.collectionAddress, nftToBuy.tokenId], {
-          value: payAmount,
-        })
-      }
-      return callWithGasPrice(nftMarketContract, 'buyTokenUsingWBNB', [
+      // if (paymentCurrency === PaymentCurrency.BNB) {
+      //   return callWithGasPrice(nftMarketContract, 'buyTokenUsingBNB', [nftToBuy.collectionAddress, nftToBuy.tokenId], {
+      //     value: payAmount,
+      //   })
+      // }
+      const params = [
         nftToBuy.collectionAddress,
         nftToBuy.tokenId,
         payAmount,
         nftToBuy.hash
-      ])
+      ]
+      console.log({params})
+      return callWithGasPrice(nftMarketContract, 'buyTokenUsingBUSD', params)
     },
     onSuccess: async ({ receipt }) => {
       setConfirmedTxHash(receipt.transactionHash)
@@ -117,7 +119,7 @@ const BuyModal: React.FC<React.PropsWithChildren<BuyModalProps>> = ({ nftToBuy, 
   })
 
   const continueToNextStage = () => {
-    if (paymentCurrency === PaymentCurrency.WBNB && !isApproved) {
+    if (!isApproved) {
       setStage(BuyingStage.APPROVE_AND_CONFIRM)
     } else {
       setStage(BuyingStage.CONFIRM)
