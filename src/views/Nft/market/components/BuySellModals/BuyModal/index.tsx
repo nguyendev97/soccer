@@ -1,7 +1,6 @@
 import { MaxUint256, Zero } from '@ethersproject/constants'
 import { formatEther, parseUnits } from '@ethersproject/units'
 import { TranslateFunction, useTranslation } from '@pancakeswap/localization'
-import { ChainId } from '@pancakeswap/sdk'
 import { bscTokens, WBNB } from '@pancakeswap/tokens'
 import { InjectedModalProps, useToast } from '@pancakeswap/uikit'
 import { useWeb3React } from '@pancakeswap/wagmi'
@@ -35,7 +34,7 @@ interface BuyModalProps extends InjectedModalProps {
 }
 
 // NFT WBNB in testnet contract is different
-const TESTNET_WBNB_NFT_ADDRESS = '0x094616f0bdfb0b526bd735bf66eca0ad254ca81f'
+// const TESTNET_WBNB_NFT_ADDRESS = '0x094616f0bdfb0b526bd735bf66eca0ad254ca81f'
 
 const BuyModal: React.FC<React.PropsWithChildren<BuyModalProps>> = ({ nftToBuy, onDismiss }) => {
   const [stage, setStage] = useState(BuyingStage.REVIEW)
@@ -48,7 +47,7 @@ const BuyModal: React.FC<React.PropsWithChildren<BuyModalProps>> = ({ nftToBuy, 
 
   const { account, chainId } = useWeb3React()
   const wbnbAddress = WBNB[chainId]?.address
-  console.log({wbnbAddress, WBNB})
+  // console.log({wbnbAddress, WBNB})
   const wbnbContractReader = useERC20(wbnbAddress, false)
   const wbnbContractApprover = useERC20(wbnbAddress)
   const nftMarketContract = useNftMarketContract()
@@ -106,7 +105,7 @@ const BuyModal: React.FC<React.PropsWithChildren<BuyModalProps>> = ({ nftToBuy, 
         payAmount,
         nftToBuy.hash
       ]
-      console.log({params})
+      // console.log({params})
       return callWithGasPrice(nftMarketContract, 'buyTokenUsingWBNB', params)
     },
     onSuccess: async ({ receipt }) => {
