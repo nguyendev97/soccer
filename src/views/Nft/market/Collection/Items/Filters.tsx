@@ -27,31 +27,31 @@ const GridContainer = styled(Grid)`
     'filterByTitle .'
     'attributeFilters attributeFilters'
     '. sortByTitle'
-    'filterByControls sortByControls';
+    'sortByControls .';
   ${({ theme }) => theme.mediaQueries.sm} {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas:
       'filterByTitle . .'
       'attributeFilters attributeFilters attributeFilters'
       '. . sortByTitle'
-      'filterByControls . sortByControls';
+      '. . sortByControls';
   }
   ${({ theme }) => theme.mediaQueries.md} {
     grid-template-columns: 2fr 5fr 1fr;
     grid-template-areas:
       'filterByTitle . .'
-      'filterByControls attributeFilters attributeFilters'
+      'attributeFilters attributeFilters .'
       '. . sortByTitle'
       '. . sortByControls';
   }
   ${({ theme }) => theme.mediaQueries.lg} {
-    grid-template-columns: 1.3fr 5fr 1fr;
+    grid-template-columns: 3.3fr 5fr 1fr;
     grid-template-areas:
       'filterByTitle . sortByTitle'
-      'filterByControls attributeFilters sortByControls';
+      'attributeFilters . sortByControls';
   }
   ${({ theme }) => theme.mediaQueries.xxl} {
-    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-columns: 2fr 5fr 1fr;
   }
 `
 
@@ -110,12 +110,6 @@ const Filters: React.FC<React.PropsWithChildren<FiltersProps>> = ({ address, att
       <FilterByTitle textTransform="uppercase" color="textSubtle" fontSize="12px" bold>
         {t('Filter by')}
       </FilterByTitle>
-      <FilterByControls>
-        <ButtonMenu scale="sm" activeIndex={activeButtonIndex} onItemClick={onActiveButtonChange}>
-          <ButtonMenuItem>{t('All')}</ButtonMenuItem>
-          <ButtonMenuItem>{t('On Sale')}</ButtonMenuItem>
-        </ButtonMenu>
-      </FilterByControls>
       <SortByTitle fontSize="12px" textTransform="uppercase" color="textSubtle" fontWeight={600} mb="4px">
         {t('Sort By')}
       </SortByTitle>

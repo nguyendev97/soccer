@@ -119,6 +119,12 @@ export const getCollection = async (collectionAddress: string): Promise<Record<s
         ...collectionMarket,
         address: collectionAddress,
         totalSupply: totalSupplyFromOnChain.toString(),
+        attributes: [
+          {traitType: "Rarity", value: "Legend", displayType: "Legend"},
+          {traitType: "Rarity", value: "Epic", displayType: "Epic"},
+          {traitType: "Rarity", value: "Rare", displayType: "Rare"},
+          {traitType: "Rarity", value: "Common", displayType: "Common"}
+        ]
       }
     }
     return result

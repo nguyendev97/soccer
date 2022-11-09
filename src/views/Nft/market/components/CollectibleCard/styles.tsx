@@ -30,7 +30,7 @@ interface BNBAmountLabelProps extends FlexProps {
 export const BNBAmountLabel: React.FC<React.PropsWithChildren<BNBAmountLabelProps>> = ({ amount, ...props }) => (
   <Flex alignItems="center" {...props}>
     <BinanceIcon width="16px" mx="4px" />
-    <Text fontWeight="600">
+    <Text fontSize="16px" color="#FFFFFF" fontWeight="600">
       {amount.toLocaleString(undefined, {
         minimumFractionDigits: 0,
         maximumFractionDigits: 5,
@@ -50,7 +50,7 @@ export const CostLabel: React.FC<React.PropsWithChildren<CostLabelProps>> = ({ c
   return (
     <Flex alignItems="center" {...props}>
       {priceInUsd > 0 && (
-        <Text fontSize="12px" color="textSubtle">{`($${priceInUsd.toLocaleString(undefined, {
+        <Text fontSize="16px" color="#FFFFFF">{`($${priceInUsd.toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })})`}</Text>
@@ -66,7 +66,7 @@ interface MetaRowProps extends FlexProps {
 
 export const MetaRow: React.FC<React.PropsWithChildren<MetaRowProps>> = ({ title, children, ...props }) => (
   <Flex alignItems="center" justifyContent="space-between" {...props}>
-    <Text fontSize="12px" color="textSubtle" maxWidth="120px" ellipsis title={title}>
+    <Text fontSize="16px" color="#FFFFFF" maxWidth="120px" ellipsis title={title}>
       {title}
     </Text>
     <Box>{children}</Box>
