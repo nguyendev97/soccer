@@ -1,9 +1,10 @@
 import { useCallback } from 'react'
-import { BunnyPlaceholderIcon, AutoRenewIcon, Button, Flex, Grid, Text } from '@pancakeswap/uikit'
+import { BunnyPlaceholderIcon, AutoRenewIcon, Button, Flex, Grid, Text, Box } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import GridPlaceholder from '../../components/GridPlaceholder'
 import { CollectibleLinkCard } from '../../components/CollectibleCard'
 import { useCollectionNfts } from '../../hooks/useCollectionNfts'
+import SortSelect from './SortSelect'
 
 interface CollectionNftsProps {
   collectionAddress: string
@@ -23,13 +24,19 @@ const CollectionNfts: React.FC<React.PropsWithChildren<CollectionNftsProps>> = (
 
   return (
     <>
-      {resultSize && (
-        <Flex p="16px">
+      <Flex py="16px" justifyContent="space-between">
+        <Flex >
           <Text bold>
-            {resultSize} {t('Results')}
+            {resultSize || 0} {t('Results')}
           </Text>
         </Flex>
-      )}
+        <Flex alignItems="center">
+          <Box>
+            <SortSelect collectionAddress={collectionAddress} />
+          </Box>
+        </Flex>
+      </Flex>
+      
       {nfts.length > 0 ? (
         <>
           <Grid

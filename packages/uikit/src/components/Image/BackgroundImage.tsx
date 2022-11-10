@@ -7,7 +7,7 @@ import Placeholder from "./Placeholder";
 
 const StyledBackgroundImage = styled(Wrapper)`
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
 `;
 

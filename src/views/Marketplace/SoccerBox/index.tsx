@@ -15,18 +15,6 @@ const StyledFlexWrapper = styled.div`
 export const Container = styled.div`
   margin: 0 auto;
 `
-export const Row = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`
-export const Col4 = styled.div`
-  width: calc(100% / 4);
-  padding: 0 12px;
-  @media (max-width: 768px) {
-    width: 50%;
-    margin-bottom: 15px;
-  }
-`
 
 const SPECIAL_TYPE = 1
 const HALLOWEEN_TYPE = 5
@@ -38,7 +26,7 @@ const SoccerBox = () => {
   const boxesAddress = getBoxesAddress(chainId)
   const boxesContract = useERC1155(boxesAddress)
   const currentBlock = useCurrentBlock()
-
+  
   useEffect(() => {
     if (account) {
       boxesContract.balanceOf(account, SPECIAL_TYPE).then((res) => {

@@ -191,6 +191,7 @@ export const useCollectionNfts = (collectionAddress: string) => {
   const { field, direction } = useGetNftOrdering(collectionAddress)
   const showOnlyNftsOnSale = useGetNftShowOnlyOnSale(collectionAddress)
   const nftFilters = useGetNftFilters(collectionAddress)
+
   const [itemListingSettings, setItemListingSettings] = useState<ItemListingSettings>({
     field,
     direction,
@@ -236,7 +237,6 @@ export const useCollectionNfts = (collectionAddress: string) => {
       const settings: ItemListingSettings = JSON.parse(settingsJson)
       const tokenIdsFromFilter = await fetchTokenIdsFromFilter(collection?.address, settings)
       let newNfts: NftToken[] = []
-
       if (settings.showOnlyNftsOnSale) {
         newNfts = await fetchMarketDataNfts(collection, settings, page, tokenIdsFromFilter, chainId)
       } else {

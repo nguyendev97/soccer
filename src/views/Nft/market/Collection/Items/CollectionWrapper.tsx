@@ -1,10 +1,10 @@
 import { createPortal } from 'react-dom'
-import { Box } from '@pancakeswap/uikit'
+import { Box, Grid } from '@pancakeswap/uikit'
 import Container from 'components/Layout/Container'
 import ScrollToTopButton from 'components/ScrollToTopButton/ScrollToTopButtonV2'
 import styled from 'styled-components'
 import { Collection } from 'state/nftMarket/types'
-import Filters from './Filters'
+import SideFilter from './Filters/OptionsFilter'
 import CollectionNfts from './CollectionNfts'
 
 interface CollectionWrapperProps {
@@ -15,12 +15,14 @@ const CollectionWrapper: React.FC<React.PropsWithChildren<CollectionWrapperProps
   return (
     <ContainerStyled py="32px">
       <Container px={[0, null, '24px']}>
-        <Filters address={collection?.address || ''} attributes={collection?.attributes} />
+        <Grid gridTemplateColumns={["1fr", null, "1fr 3fr"]} gridColumnGap="16px" gridRowGap="8px">
+          <SideFilter collectionAddress={collection?.address} />
+          <Container px='0px'>
+            <CollectionNfts collectionAddress={collection?.address} />
+          </Container>
+          {createPortal(<ScrollToTopButton />, document.body)}
+        </Grid>
       </Container>
-      <Container>
-        <CollectionNfts collectionAddress={collection?.address} />
-      </Container>
-      {createPortal(<ScrollToTopButton />, document.body)}
     </ContainerStyled>
   )
 }
