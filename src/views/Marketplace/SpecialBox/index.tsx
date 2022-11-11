@@ -121,7 +121,7 @@ const SpecialBox = () => {
           <Grid my="30px" gridGap="24px" gridTemplateColumns={['1fr', null, null, '3fr 2fr']}>
             <StyledFlexWrapper>
               <StyledSoccerBox p={['30px 0px', null, '30px']}>
-                <CountDown date="2022/11/12" />
+                <CountDown date="2022/11/18" />
                 <Video maxWidth="300px" maxHeight="300px" src="/videos/special.mp4" />
                 <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
                   <TextInfo style={{ marginRight: '20px' }}>
