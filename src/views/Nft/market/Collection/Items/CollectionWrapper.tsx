@@ -4,7 +4,7 @@ import Container from 'components/Layout/Container'
 import ScrollToTopButton from 'components/ScrollToTopButton/ScrollToTopButtonV2'
 import styled from 'styled-components'
 import { Collection } from 'state/nftMarket/types'
-import SideFilter from './Filters/OptionsFilter'
+import SideFilter from './SideFilters'
 import CollectionNfts from './CollectionNfts'
 
 interface CollectionWrapperProps {
