@@ -4,7 +4,7 @@ import Container from 'components/Layout/Container'
 import ScrollToTopButton from 'components/ScrollToTopButton/ScrollToTopButtonV2'
 import styled from 'styled-components'
 import { Collection } from 'state/nftMarket/types'
-import SideFilter from './SideFilters'
+import SideFilters from './SideFilters'
 import CollectionNfts from './CollectionNfts'
 
 interface CollectionWrapperProps {
@@ -16,7 +16,7 @@ const CollectionWrapper: React.FC<React.PropsWithChildren<CollectionWrapperProps
     <ContainerStyled py="32px">
       <Container px={[0, null, '24px']}>
         <Grid gridTemplateColumns={["1fr", null, "1fr 3fr"]} gridColumnGap="16px" gridRowGap="8px">
-          <SideFilter collectionAddress={collection?.address} />
+          <SideFilters collectionAddress={collection?.address} />
           <Container px='0px'>
             <CollectionNfts collectionAddress={collection?.address} />
           </Container>
