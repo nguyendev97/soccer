@@ -925,8 +925,13 @@ export const getLatestListedNfts = async (first: number): Promise<TokenMarketDat
 export const fetchNftsFiltered = async (
   collectionAddress: string,
   filters: Record<string, string | number>,
-): Promise<ApiTokenFilterResponse> => {
-  const res = await fetch(`${API_NFT}/collections/${collectionAddress}/filter?${stringify(filters)}`)
+) => {
+  const res = await fetch(`${API_NFT}/collections/${collectionAddress.toLowerCase()}?${stringify(filters)}`, {
+    method: 'POST', // or 'PUT'
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+    }})
 
   if (res.ok) {
     const data = await res.json()

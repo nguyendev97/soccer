@@ -62,12 +62,12 @@ export const BnbAmountCell: React.FC<React.PropsWithChildren<BnbAmountCellProps>
           maximumFractionDigits: 5,
         })}`}</Text>
       </Flex>
-      <Text small color="textSubtle" textAlign="right">
+      {/* <Text small color="textSubtle" textAlign="right">
         {`($${usdAmount.toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })})`}
-      </Text>
+      </Text> */}
     </Flex>
   )
 }

@@ -17,7 +17,7 @@ const CollectionWrapper: React.FC<React.PropsWithChildren<CollectionWrapperProps
       <Container px={[0, null, '24px']}>
         <Grid gridTemplateColumns={["1fr", null, "1fr 3fr"]} gridColumnGap="16px" gridRowGap="8px">
           <SideFilters collectionAddress={collection?.address} />
-          <Container px='0px'>
+          <Container width="100%" px='0px'>
             <CollectionNfts collectionAddress={collection?.address} />
           </Container>
           {createPortal(<ScrollToTopButton />, document.body)}

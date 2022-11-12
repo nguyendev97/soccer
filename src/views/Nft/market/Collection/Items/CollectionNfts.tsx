@@ -24,7 +24,7 @@ const CollectionNfts: React.FC<React.PropsWithChildren<CollectionNftsProps>> = (
 
   return (
     <>
-      <Flex py="16px" justifyContent="space-between">
+      <Flex mb="16px" justifyContent="space-between" alignItems="center">
         <Flex >
           <Text bold>
             {resultSize || 0} {t('Results')}

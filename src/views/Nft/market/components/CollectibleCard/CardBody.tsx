@@ -2,7 +2,7 @@ import { Box, CardBody, Flex, Text } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import { useBNBBusdPrice } from 'hooks/useBUSDPrice'
 import styled from 'styled-components'
-import { CostLabel, MetaRow } from './styles'
+import { BNBAmountLabel, MetaRow } from './styles'
 import LocationTag from './LocationTag'
 import { CollectibleCardProps } from './types'
 
@@ -40,7 +40,7 @@ const CollectibleCardBody: React.FC<React.PropsWithChildren<CollectibleCardProps
       <Box pt="8px">
         {currentAskPrice && (
           <MetaRow flexDirection="column" alignItems="flex-start" title={isUserNft ? t('Your price') : t('Asking price')}>
-            <CostLabel cost={currentAskPrice} bnbBusdPrice={bnbBusdPrice} />
+            <BNBAmountLabel amount={currentAskPrice}  />
           </MetaRow>
         )}
       </Box>

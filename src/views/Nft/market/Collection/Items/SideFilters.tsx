@@ -214,10 +214,10 @@ const SideFilters: React.FC<React.PropsWithChildren<SideFiltersProps>> = ({
   return (
     <FlexWrapper {...props}>
       <FlexContent>
-        <StyledFlexClear>
+        {/* <StyledFlexClear>
           <HeadingTitle style={{ marginBottom: 0 }}>{t('Filter')}</HeadingTitle>
           <ButtonClear>{t('Clear Filter')}</ButtonClear>
-        </StyledFlexClear>
+        </StyledFlexClear> */}
         {/* <RowOptions>
           <HeadingTitle>{t('Type')}</HeadingTitle>
           <RowContent>
@@ -275,7 +275,7 @@ const SideFilters: React.FC<React.PropsWithChildren<SideFiltersProps>> = ({
             <StyledButton>{t('Max')}</StyledButton>
           </RowContent>
         </RowOptions> */}
-        <RowOptions style={{ borderBottom: 0, marginBottom: 0, paddingBottom: 0 }}>
+        {/* <RowOptions style={{ borderBottom: 0, marginBottom: 0, paddingBottom: 0 }}>
           <HeadingTitle>{t('Level')}</HeadingTitle>
           <RowContent>
             <InputRow>
@@ -295,7 +295,7 @@ const SideFilters: React.FC<React.PropsWithChildren<SideFiltersProps>> = ({
               <StyledInput value={currentMin} />
             </InputRow>
           </RowContent>
-        </RowOptions>
+        </RowOptions> */}
       </FlexContent>
     </FlexWrapper>
   )

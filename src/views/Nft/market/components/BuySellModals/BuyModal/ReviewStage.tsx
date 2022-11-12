@@ -61,7 +61,7 @@ const ReviewStage: React.FC<React.PropsWithChildren<ReviewStageProps>> = ({
           </Flex>
         </Flex>
         <BorderedBox>
-          <Text small color="textSubtle">
+          {/* <Text small color="textSubtle">
             {t('Pay with')}
           </Text>
           <ButtonMenu
@@ -72,7 +72,7 @@ const ReviewStage: React.FC<React.PropsWithChildren<ReviewStageProps>> = ({
           >
             <ButtonMenuItem>BNB</ButtonMenuItem>
             <ButtonMenuItem>WBNB</ButtonMenuItem>
-          </ButtonMenu>
+          </ButtonMenu> */}
           <Text small color="textSubtle">
             {t('Total payment')}
           </Text>
@@ -101,7 +101,7 @@ const ReviewStage: React.FC<React.PropsWithChildren<ReviewStageProps>> = ({
             </Text>
           </Message>
         )}
-        <Flex alignItems="center">
+        {/* <Flex alignItems="center">
           <Text my="16px" mr="4px">
             {t('Convert between BNB and WBNB for free')}:
           </Text>
@@ -115,7 +115,7 @@ const ReviewStage: React.FC<React.PropsWithChildren<ReviewStageProps>> = ({
           >
             {t('Convert')}
           </Button>
-        </Flex>
+        </Flex> */}
       </Flex>
       <Divider />
       <Flex px="24px" pb="24px" flexDirection="column">

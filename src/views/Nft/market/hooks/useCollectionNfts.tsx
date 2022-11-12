@@ -34,7 +34,7 @@ const fetchTokenIdsFromFilter = async (address: string, settings: ItemListingSet
   const filterObject: Record<string, NftAttribute> = settings.nftFilters
   const attrParams = fromPairs(Object.values(filterObject).map((attr) => [attr.traitType, attr.value]))
   const attrFilters = !isEmpty(attrParams) ? await fetchNftsFiltered(address, attrParams) : null
-  return attrFilters ? Object.values(attrFilters.data).map((apiToken) => apiToken.tokenId) : null
+  return attrFilters ? attrFilters.map((apiToken) => apiToken.tokenId) : null
 }
 
 const fetchMarketDataNfts = async (
