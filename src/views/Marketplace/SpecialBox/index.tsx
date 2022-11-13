@@ -83,8 +83,7 @@ const SpecialBox = () => {
     // Get amount of remaining boxes
     boxSaleContract.remains(SPECIAL_TYPE).then((res) => {
       const diff = dateDiffIndays(fromDate)
-      const fakeBought = diff * 99
-      console.log({fakeBought})
+      const fakeBought = diff * 999
       setRemain(res.toNumber() - fakeBought)
     })
 
