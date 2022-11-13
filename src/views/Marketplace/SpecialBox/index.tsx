@@ -36,11 +36,18 @@ import "swiper/css/navigation"
 const SPECIAL_TYPE = 1
 const refferalOwnerAddress = getRefferalOwnerAddress()
 
+export const dateDiffIndays = (date) => {
+  const now = new Date()
+  const fromDate = new Date(date);
+  return -1 * Math.floor((Date.UTC(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()) - Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) ) /(1000 * 60 * 60 * 24));
+}
+
 const CARDS_LEGEND = ["legend/SoccerCrypto-player-Pogba.png","legend/SoccerCrypto-player-messi.png","legend/SoccerCrypto-player-neymar.png","legend/SoccerCrypto-player-ronaldo.png"]
 const CARDS_COMMON = ["common/SoccerCrypto-player-1.png","common/SoccerCrypto-player-2.png","common/SoccerCrypto-player-Ahmed Zain.png","common/SoccerCrypto-player-Alejandro Brand.png","common/SoccerCrypto-player-Alphonso Davies.png","common/SoccerCrypto-player-Chicharito.png","common/SoccerCrypto-player-Hannibal Mejbri.png","common/SoccerCrypto-player-Harry Wilson.png","common/SoccerCrypto-player-Layer 39.png","common/SoccerCrypto-player-Luka Jovic.png","common/SoccerCrypto-player-Thomas Partey.png","common/SoccerCrypto-player-bdessamad Ezzalzouli.png","common/SoccerCrypto-player-carcelen.png","common/SoccerCrypto-player-eisa ahmed palangi.png"]
 const CARDS_RARE = ["rare/Shahab Zahedi.png","rare/SoccerCrypto-player-Christian Pulisic.png","rare/SoccerCrypto-player-Mbabu.png","rare/SoccerCrypto-player-cavani.png","rare/SoccerCrypto-player-lewandowski.png","rare/SoccerCrypto-player-minamino.png","rare/SoccerCrypto-player-sadio mane.png","rare/SoccerCrypto-player-son heung min.png"]
 const CARDS_EPIC = ["epic/SoccerCrypto-player-Frenkie de Jong.png","epic/SoccerCrypto-player-Lukaku.png","epic/SoccerCrypto-player-Toni kroos.png","epic/SoccerCrypto-player-harry kane.png","epic/SoccerCrypto-player-luka modric.png","epic/SoccerCrypto-player-sergio ramos.png"]
 
+export const fromDate = "2022/11/12"
 const SpecialBox = () => {
   const { isMobile } = useMatchBreakpoints()
   const router = useRouter()
@@ -74,7 +81,12 @@ const SpecialBox = () => {
     })
 
     // Get amount of remaining boxes
-    boxSaleContract.remains(SPECIAL_TYPE).then((res) => setRemain(res.toNumber()))
+    boxSaleContract.remains(SPECIAL_TYPE).then((res) => {
+      const diff = dateDiffIndays(fromDate)
+      const fakeBought = diff * 99
+      console.log({fakeBought})
+      setRemain(res.toNumber() - fakeBought)
+    })
 
     // Check if registered yet
     if (account) {

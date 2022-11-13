@@ -245,7 +245,7 @@ const SideFilters: React.FC<React.PropsWithChildren<SideFiltersProps>> = ({
           </RowContent>
         </RowOptions> */}
         <RowOptions>
-          <HeadingTitle>{t('Ratity')}</HeadingTitle>
+          <HeadingTitle>{t('Rarity')}</HeadingTitle>
           <RowContent>
             {rarities.map((check) => (
               <label

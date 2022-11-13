@@ -25,6 +25,7 @@ import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { getRefferalOwnerAddress } from 'utils/addressHelpers'
 import Video from 'components/Video'
+import { dateDiffIndays, fromDate } from '../SpecialBox'
 import VariousKickers from 'components/VariousKickers'
 import RegisterModal from '../components/RegisterModal'
 import { backgroundSoccerImage, borderImage, busdImage } from '../images'
@@ -74,7 +75,12 @@ const Halloween = () => {
     })
 
     // Get amount of remaining boxes
-    boxSaleContract.remains(HALLOWEEN_TYPE).then((res) => setRemain(res.toNumber()))
+    boxSaleContract.remains(HALLOWEEN_TYPE).then((res) => {
+      const diff = dateDiffIndays(fromDate)
+      const fakeBought = diff * 99
+      console.log({fakeBought})
+      setRemain(res.toNumber() - fakeBought)
+    })
 
     // Check if registered yet
     if (account) {
