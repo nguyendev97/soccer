@@ -1,7 +1,8 @@
-import { Box, CardBody, Flex, Text } from '@pancakeswap/uikit'
+import { Box, CardBody, Flex, Text, useModal, Button } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
-import { useBNBBusdPrice } from 'hooks/useBUSDPrice'
 import styled from 'styled-components'
+import BuyModal from '../BuySellModals/BuyModal'
+import SellModal from '../BuySellModals/SellModal'
 import { BNBAmountLabel, MetaRow } from './styles'
 import LocationTag from './LocationTag'
 import { CollectibleCardProps } from './types'
@@ -19,12 +20,30 @@ const PlayerImgStyled = styled.img`
 
 const CollectibleCardBody: React.FC<React.PropsWithChildren<CollectibleCardProps>> = ({
   nft,
-  nftLocation,
   currentAskPrice,
   isUserNft,
 }) => {
   const { t } = useTranslation()
-  const bnbBusdPrice = useBNBBusdPrice()
+  const [onPresentBuyModal] = useModal(<BuyModal nftToBuy={nft} />)
+  const [onPresentSellModal] = useModal(
+    <SellModal variant={nft.marketData?.isTradable ? 'edit' : 'sell'} nftToSell={nft} onSuccessSale={null} />,
+  )
+
+  const ownerButtons = (
+    <Flex flexDirection={['column', 'column', 'row']}>
+      <Button
+        scale="sm"
+        disabled={!nft.marketData?.isTradable}
+        width='max-content'
+        onClick={event => {
+          event.preventDefault()
+          onPresentSellModal()
+        }}
+      >
+        {nft.marketData?.isTradable ? t('Adjust price') : t('List for sale')}
+      </Button>
+    </Flex>
+  )
 
   return (
     <CardStyled p="16px">
@@ -35,15 +54,30 @@ const CollectibleCardBody: React.FC<React.PropsWithChildren<CollectibleCardProps
             {nft?.collectionName}
           </Text>
         )}
-        {nftLocation && <LocationTag nftLocation={nftLocation} />}
       </Flex>
-      <Box pt="8px">
-        {currentAskPrice && (
-          <MetaRow flexDirection="column" alignItems="flex-start" title={isUserNft ? t('Your price') : t('Asking price')}>
-            <BNBAmountLabel amount={currentAskPrice}  />
-          </MetaRow>
+      <Flex pt="8px" justifyContent="space-between" alignItems="flex-end">
+        <Box>
+          {currentAskPrice && (
+            <MetaRow flexDirection="column" alignItems="flex-start" title={isUserNft ? t('Your price') : t('Asking price')}>
+              <BNBAmountLabel amount={currentAskPrice}  />
+            </MetaRow>
+          )}
+        </Box>
+        {isUserNft && ownerButtons}
+        {!isUserNft && (
+          <Button
+            scale="sm"
+            disabled={!nft.marketData?.isTradable}
+            width='max-content'
+            onClick={event => {
+              event.preventDefault()
+              onPresentBuyModal()
+            }}
+          >
+            {t('Buy')}
+          </Button>
         )}
-      </Box>
+      </Flex>
     </CardStyled>
   )
 }
