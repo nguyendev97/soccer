@@ -64,6 +64,22 @@ const config: (
       fillIcon: SwapFillIcon,
       items: [],
     },
+    {
+      label: t('Marketplace'),
+      href: '/boxes/halloween',
+      icon: SwapIcon,
+      fillIcon: SwapFillIcon,
+      items: [
+        {
+          label: t('Players'),
+          href: '/farms',
+        },
+        {
+          label: t('Equipments'),
+          href: '/pools',
+        },
+      ],
+    },
   ].map((item) => addMenuItemSupported(item, chainId))
 
 export default config

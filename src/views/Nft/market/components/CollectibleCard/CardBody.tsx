@@ -40,7 +40,7 @@ const CollectibleCardBody: React.FC<React.PropsWithChildren<CollectibleCardProps
           onPresentSellModal()
         }}
       >
-        {nft.marketData?.isTradable ? t('Adjust price') : t('List for sale')}
+        {nft.marketData?.isTradable ? t('Adjust') : t('List for sale')}
       </Button>
     </Flex>
   )
