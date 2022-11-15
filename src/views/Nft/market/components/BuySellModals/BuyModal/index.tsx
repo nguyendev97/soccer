@@ -118,11 +118,11 @@ const BuyModal: React.FC<React.PropsWithChildren<BuyModalProps>> = ({ nftToBuy, 
   })
 
   const continueToNextStage = () => {
-    if (!isApproved) {
-      setStage(BuyingStage.APPROVE_AND_CONFIRM)
-    } else {
+    // if (!isApproved) {
+    //   setStage(BuyingStage.APPROVE_AND_CONFIRM)
+    // } else {
       setStage(BuyingStage.CONFIRM)
-    }
+    // }
   }
 
   const goBack = () => {

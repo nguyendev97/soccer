@@ -13,7 +13,7 @@ interface CollectionNftsProps {
 const CollectionNfts: React.FC<React.PropsWithChildren<CollectionNftsProps>> = ({ collectionAddress }) => {
   const { t } = useTranslation()
   const { nfts, isFetchingNfts, page, setPage, resultSize, isLastPage } = useCollectionNfts(collectionAddress)
-
+  console.log({nfts})
   const handleLoadMore = useCallback(() => {
     setPage(page + 1)
   }, [setPage, page])

@@ -58,10 +58,9 @@ const fetchMarketDataNfts = async (
     settings.direction,
     page * REQUEST_SIZE,
   )
-  // console.log({subgraphRes})
   // const apiRequestPromises = subgraphRes.map((marketNft) => getNftApi(collection.address, marketNft.tokenId))
   const apiResponses = await getNftsApi(collection.address, subgraphRes.map(marketNft => marketNft.tokenId), chainId)
-  
+
   const newNfts: NftToken[] = apiResponses.reduce((acc, apiNft) => {
     if (apiNft) {
       acc.push({
@@ -158,9 +157,10 @@ const fetchAllNfts = async (
         : await getNftApi(collection.address, id)
       if (apiMetadata) {
         const marketData = nftsMarket.find((nft) => nft.tokenId === id)
-
+        console.log({apiMetadata})
         return {
           tokenId: id,
+          // hash: apiMetadata.hash,
           name: apiMetadata.name,
           description: apiMetadata.description,
           collectionName: apiMetadata.collection.name,
@@ -253,6 +253,7 @@ export const useCollectionNfts = (collectionAddress: string) => {
           fallbackMode.current,
           fallbackModePage.current,
         )
+        console.log({allNewNfts})
         newNfts = allNewNfts
         fallbackMode.current = newFallbackMode
         fallbackModePage.current = newFallbackPage

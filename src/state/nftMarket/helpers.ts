@@ -249,6 +249,7 @@ export const getNftApi = async (
   return (metas.map(({ name, description, image, attributes }, index) => {
     const meta: any = keyBy(attributes, 'key')
     return {
+      hash: callsResult[index][0].split('/').at(-1),
       tokenId: tokenIds[index],
       name,
       description,
