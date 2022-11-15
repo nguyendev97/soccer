@@ -72,11 +72,11 @@ const config: (
       items: [
         {
           label: t('Players'),
-          href: '/farms',
+          href: '/nfts/collections/0xFDBcAF35b55c0B8969b7B1265a405f87896380c1',
         },
         {
           label: t('Equipments'),
-          href: '/pools',
+          href: '/nfts/collections/0x4EB1917B335cCbe44529D702Efcff33392896003',
         },
       ],
     },
