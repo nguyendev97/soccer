@@ -64,10 +64,10 @@ const useNfts = ({ collectionAddress, tokenIds } : IndividualNFTPageProps) => {
 
       setStage(STAGE.FULFILLED)
 
-      setNfts(metas.map(({ token_id: tokenId, name, description, image, attributes }) => {
+      setNfts(metas.map(({ name, description, image, attributes }, index) => {
         const meta: any = keyBy(attributes, 'key')
         return {
-          tokenId,
+          tokenId: tokenIds[index],
           name,
           description,
           collectionName: COLLECTIONS_NAME[collectionAddress] || '',
