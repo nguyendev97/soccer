@@ -115,7 +115,7 @@ export const importNfts = async (data) => {
 export const updateImportNfts = async (requestId) => {
   const authorization = localStorage.getItem(TOKEN_KEY)
   const res = await fetch(`${API_NFT}/import/${requestId}`, {
-    method: 'POST', // or 'PUT'
+    method: 'PUT', // or 'PUT'
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
