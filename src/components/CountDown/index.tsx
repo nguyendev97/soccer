@@ -78,7 +78,7 @@ const CountDown: React.FC<React.PropsWithChildren<Props>> = ({ date }) => {
       </ColTimer>
       <ColTimer>
         <TimeCount isMobile={isMobile}>{hours}</TimeCount>
-        <TimeType isMobile={isMobile}>Times</TimeType>
+        <TimeType isMobile={isMobile}>Hours</TimeType>
       </ColTimer>
       <ColTimer style={{ marginLeft: '5px', marginRight: '5px ' }}>
         <TimeCount isMobile={isMobile}>:</TimeCount>
