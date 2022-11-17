@@ -177,5 +177,9 @@ export default {
   comm: {
     56: '0xe87c10452b14BFC3Bf7dF867dE35323A93bbc5c9',
     97: '0x006495e4629e51a87734BE68B6dbBA7f2675dC28'
+  },
+  importNFT: {
+    56: '0xe87c10452b14BFC3Bf7dF867dE35323A93bbc5c9',
+    97: '0xfA4A43BCD6Eab9A08F923Bd25a4e6D54bB8886a5'
   }
 }

@@ -73,7 +73,7 @@ const Equipment = () => {
           setIsLoading(false)
         })
     }
-  }, [erc721Contract, selectedAccount])
+  }, [selectedAccount])
 
   return (
     <>
@@ -89,6 +89,7 @@ const Equipment = () => {
                 return (
                   <NextLink href={`/nfts/collections/${erc721Address}/${tokenId}`}>
                     <MarketItem
+                      tokenId={tokenId}
                       key={tokenId}
                       avatar={image.thumbnail}
                       code={`#${tokenId}`}

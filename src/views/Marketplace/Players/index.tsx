@@ -100,7 +100,7 @@ const Kickers = () => {
           setIsLoading(false)
         })
     }
-  }, [playersContract, account])
+  }, [account])
   return (
     <>
       <StyledFlexWrapper>
@@ -115,6 +115,7 @@ const Kickers = () => {
               return (
                 <NextLink href={`/nfts/collections/${playersAddress}/${tokenId}`}>
                   <MarketItem
+                    tokenId={tokenId}
                     key={tokenId}
                     avatar={image.thumbnail}
                     code={`#${tokenId}`}

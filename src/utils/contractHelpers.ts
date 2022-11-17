@@ -40,9 +40,11 @@ import {
   getCommAddress,
   getHalloweenBoxesOpenAddress,
   getHalloweenBoxSaleAddress,
+  getImportNFTAddress,
 } from 'utils/addressHelpers'
 
 // ABI
+import importNFTABI from 'config/abi/importNFT.json'
 import profileABI from 'config/abi/pancakeProfile.json'
 import pancakeBunniesAbi from 'config/abi/pancakeBunnies.json'
 import bunnyFactoryAbi from 'config/abi/bunnyFactory.json'
@@ -336,4 +338,8 @@ export const getRefferalContract = (chainId?: number, signer?: Signer | Provider
 
 export const getCommContract = (chainId?: number, signer?: Signer | Provider) => {
   return getContract({ abi: commAbi, address: getCommAddress(chainId), signer })
+}
+
+export const getImportNFTContract = (chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: importNFTABI, address: getImportNFTAddress(chainId), signer })
 }

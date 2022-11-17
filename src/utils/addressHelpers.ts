@@ -149,3 +149,7 @@ export const getEquipmentsAddress = (chainId?: number) => {
 export const getCommAddress = (chainId?: number) => {
   return getAddress(addresses.comm, chainId)
 }
+
+export const getImportNFTAddress = (chainId?: number) => {
+  return getAddress(addresses.importNFT, chainId)
+}

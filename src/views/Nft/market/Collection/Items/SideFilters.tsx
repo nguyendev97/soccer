@@ -106,14 +106,14 @@ interface SideFiltersProps extends BoxProps {
 
 const RARITIES = [
   {
-    key: 'Epic',
-    value: false,
-    content: 'Epic'
-  },
-  {
     key: 'Legend',
     value: false,
     content: 'Legend'
+  },
+  {
+    key: 'Epic',
+    value: false,
+    content: 'Epic'
   },
   {
     key: 'Rare',
@@ -214,36 +214,6 @@ const SideFilters: React.FC<React.PropsWithChildren<SideFiltersProps>> = ({
   return (
     <FlexWrapper {...props}>
       <FlexContent>
-        {/* <StyledFlexClear>
-          <HeadingTitle style={{ marginBottom: 0 }}>{t('Filter')}</HeadingTitle>
-          <ButtonClear>{t('Clear Filter')}</ButtonClear>
-        </StyledFlexClear> */}
-        {/* <RowOptions>
-          <HeadingTitle>{t('Type')}</HeadingTitle>
-          <RowContent>
-            <Select
-              options={[
-                {
-                  label: t('All'),
-                  value: 'all',
-                },
-                {
-                  label: t('Type 1'),
-                  value: 'type1',
-                },
-                {
-                  label: t('Type 2'),
-                  value: 'type2',
-                },
-                {
-                  label: t('Type 3'),
-                  value: 'type3',
-                },
-              ]}
-              onOptionChange={handleTypeOptionChange}
-            />
-          </RowContent>
-        </RowOptions> */}
         <RowOptions>
           <HeadingTitle>{t('Rarity')}</HeadingTitle>
           <RowContent>
@@ -268,34 +238,6 @@ const SideFilters: React.FC<React.PropsWithChildren<SideFiltersProps>> = ({
             ))}
           </RowContent>
         </RowOptions>
-        {/* <RowOptions>
-          <HeadingTitle>{t('Level')}</HeadingTitle>
-          <RowContent style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <StyledButton variant="secondary">{t('Min')}</StyledButton>
-            <StyledButton>{t('Max')}</StyledButton>
-          </RowContent>
-        </RowOptions> */}
-        {/* <RowOptions style={{ borderBottom: 0, marginBottom: 0, paddingBottom: 0 }}>
-          <HeadingTitle>{t('Level')}</HeadingTitle>
-          <RowContent>
-            <InputRow>
-              <StyledLabel>{t('POW >=')}</StyledLabel>
-              <StyledInput value={currentMin} />
-            </InputRow>
-            <InputRow>
-              <StyledLabel>{t('SHO >=')}</StyledLabel>
-              <StyledInput value={currentMin} />
-            </InputRow>
-            <InputRow>
-              <StyledLabel>{t('SPE >=')}</StyledLabel>
-              <StyledInput value={currentMin} />
-            </InputRow>
-            <InputRow>
-              <StyledLabel>{t('JMP >=')}</StyledLabel>
-              <StyledInput value={currentMin} />
-            </InputRow>
-          </RowContent>
-        </RowOptions> */}
       </FlexContent>
     </FlexWrapper>
   )

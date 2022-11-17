@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-// import { useState } from 'react'
 import Image from 'next/image'
 import { useTranslation } from '@pancakeswap/localization'
 import { Flex, Heading, Text, Button } from '@pancakeswap/uikit'
