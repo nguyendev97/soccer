@@ -77,7 +77,7 @@ const Halloween = () => {
     // Get amount of remaining boxes
     boxSaleContract.remains(HALLOWEEN_TYPE).then((res) => {
       const diff = dateDiffIndays(fromDate)
-      const fakeBought = 4000 + 2500
+      const fakeBought = 4000
       setRemain(res.toNumber() - fakeBought)
     })
 
