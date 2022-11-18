@@ -51,68 +51,68 @@ export default Airdrop
 
 const SLEGEND = 6
 
-const AirdropSection = () => {
-  return (
-    <SectionWrapper>
-      <SectionTitle>AIRDROP</SectionTitle>
-      {/* TOKEN */}
-      <AirdropWrapper>
-        <AirdropTitle>AIRDROP TOKEN</AirdropTitle>
-        <AirdropContent>
-          <AirdropWrapperData>
-            <DataItem>
-              <DataTitle>Amount:</DataTitle> 1000 Slots
-            </DataItem>
-            <DataItem>
-              <DataTitle>Remain:</DataTitle>
-            </DataItem>
+// const AirdropSection = () => {
+//   return (
+//     <SectionWrapper>
+//       <SectionTitle>AIRDROP</SectionTitle>
+//       {/* TOKEN */}
+//       <AirdropWrapper>
+//         <AirdropTitle>AIRDROP TOKEN</AirdropTitle>
+//         <AirdropContent>
+//           <AirdropWrapperData>
+//             <DataItem>
+//               <DataTitle>Amount:</DataTitle> 1000 Slots
+//             </DataItem>
+//             <DataItem>
+//               <DataTitle>Remain:</DataTitle>
+//             </DataItem>
 
-            <DataItem>
-              <DataTitle>Reward:</DataTitle> 100
-              <Image
-                src={coin2xImage}
-                width={isMobile ? '18px' : '20px'}
-                height={isMobile ? '18px' : '20px'}
-                alt="coin"
-              />
-            </DataItem>
-          </AirdropWrapperData>
-          <CountDownWrapper>
-            <CountDown date="2022/12/18" />
-          </CountDownWrapper>
-        </AirdropContent>
-      </AirdropWrapper>
-      <GradientButton>Claim</GradientButton>
-      {/* BOX */}
-      <AirdropWrapper>
-        <AirdropTitle>AIRDROP FREE BOX</AirdropTitle>
-        <AirdropContent>
-          <AirdropWrapperData>
-            <DataItem>
-              <DataTitle>Amount:</DataTitle> 1000 Slots
-            </DataItem>
-            <DataItem>
-              <DataTitle>Remain:</DataTitle>
-            </DataItem>
-            <DataItem>
-              <DataTitle>Reward:</DataTitle> 1
-              <Image
-                src="/images/quest-box.png"
-                width={isMobile ? '18px' : '20px'}
-                height={isMobile ? '18px' : '20px'}
-                alt="coin"
-              />
-            </DataItem>
-          </AirdropWrapperData>
-          <CountDownWrapper>
-            <CountDown date="2022/12/18" />
-          </CountDownWrapper>
-        </AirdropContent>
-      </AirdropWrapper>
-      <GradientButton>Claim</GradientButton>
-    </SectionWrapper>
-  )
-}
+//             <DataItem>
+//               <DataTitle>Reward:</DataTitle> 100
+//               <Image
+//                 src={coin2xImage}
+//                 width={isMobile ? '18px' : '20px'}
+//                 height={isMobile ? '18px' : '20px'}
+//                 alt="coin"
+//               />
+//             </DataItem>
+//           </AirdropWrapperData>
+//           <CountDownWrapper>
+//             <CountDown date="2022/12/18" />
+//           </CountDownWrapper>
+//         </AirdropContent>
+//       </AirdropWrapper>
+//       <GradientButton>Claim</GradientButton>
+//       {/* BOX */}
+//       <AirdropWrapper>
+//         <AirdropTitle>AIRDROP FREE BOX</AirdropTitle>
+//         <AirdropContent>
+//           <AirdropWrapperData>
+//             <DataItem>
+//               <DataTitle>Amount:</DataTitle> 1000 Slots
+//             </DataItem>
+//             <DataItem>
+//               <DataTitle>Remain:</DataTitle>
+//             </DataItem>
+//             <DataItem>
+//               <DataTitle>Reward:</DataTitle> 1
+//               <Image
+//                 src="/images/quest-box.png"
+//                 width={isMobile ? '18px' : '20px'}
+//                 height={isMobile ? '18px' : '20px'}
+//                 alt="coin"
+//               />
+//             </DataItem>
+//           </AirdropWrapperData>
+//           <CountDownWrapper>
+//             <CountDown date="2022/12/18" />
+//           </CountDownWrapper>
+//         </AirdropContent>
+//       </AirdropWrapper>
+//       <GradientButton>Claim</GradientButton>
+//     </SectionWrapper>
+//   )
+// }
 
 const QuestBoxSection = () => {
   const { toastSuccess } = useToast()
