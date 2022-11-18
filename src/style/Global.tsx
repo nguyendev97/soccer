@@ -25,6 +25,20 @@ const GlobalStyle = createGlobalStyle`
       transform: rotate(359deg);
     }
   }
+
+  @keyframes floating-y {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
 `
 
 export default GlobalStyle
