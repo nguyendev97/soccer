@@ -1,23 +1,19 @@
-import { Button, SearchIcon, useMatchBreakpoints } from '@pancakeswap/uikit'
-import CountDown from 'components/CountDown'
-import SearchInput from 'components/SearchInput'
+import { Button } from '@pancakeswap/uikit'
+
 import VariousKickers from 'components/VariousKickers'
 import Image from 'next/image'
 import styled from 'styled-components'
 import { coin2xImage } from 'views/Marketplace/images'
+import { Wrapper } from '../Airdrop/styles'
 
 const DailyQuest = () => {
   return (
     <Wrapper>
       <StyledNotify>Your Quest Point: 0</StyledNotify>
-
+      {/* Section */}
       <CheckInSection />
-
       <QuestBoxSection />
-
-      <SearchSection />
-
-      <CompetitionSection />
+      <QuestSection />
     </Wrapper>
   )
 }
@@ -25,83 +21,46 @@ const DailyQuest = () => {
 export default DailyQuest
 
 const CheckInSection = () => {
-  const { isMobile } = useMatchBreakpoints()
   return (
     <SectionWrapper>
       <SectionTitle>AIRDROP</SectionTitle>
+      <SectionDesc>Claim daily free quest points 3 days in a row to get more reward!</SectionDesc>
       {/* TOKEN */}
-      <AirdropWrapper>
-        <AirdropTitle>AIRDROP TOKEN</AirdropTitle>
-        <AirdropContent>
-          <AirdropWrapperData>
-            <DataItem>
-              <DataTitle>Amount:</DataTitle> 1000 Slots
-            </DataItem>
+      <GradientBox>
+        <h3>Daily Free Quests Point</h3>
+        <p>+1.43</p>
+      </GradientBox>
+      <GradientButton>Claim now</GradientButton>
 
-            <DataItem>
-              <DataTitle>Remain:</DataTitle>
-            </DataItem>
-
-            <DataItem>
-              <DataTitle>Reward:</DataTitle> 100
-              <Image
-                src={coin2xImage}
-                width={isMobile ? '18px' : '20px'}
-                height={isMobile ? '18px' : '20px'}
-                alt="coin"
-              />
-            </DataItem>
-          </AirdropWrapperData>
-          <CountDownWrapper>
-            <CountDown date="2022/12/18" />
-          </CountDownWrapper>
-        </AirdropContent>
-      </AirdropWrapper>
-      <GradientButton
-        style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px', margin: '20px auto' }}
-      >
-        Claim
-      </GradientButton>
-
-      {/* BOX */}
-      <AirdropWrapper>
-        <AirdropTitle>AIRDROP FREE BOX</AirdropTitle>
-        <AirdropContent>
-          <AirdropWrapperData>
-            <DataItem>
-              <DataTitle>Amount:</DataTitle> 1000 Slots
-            </DataItem>
-
-            <DataItem>
-              <DataTitle>Remain:</DataTitle>
-            </DataItem>
-
-            <DataItem>
-              <DataTitle>Reward:</DataTitle> 1
-              <Image
-                src="/images/quest-box.png"
-                width={isMobile ? '18px' : '20px'}
-                height={isMobile ? '18px' : '20px'}
-                alt="coin"
-              />
-            </DataItem>
-          </AirdropWrapperData>
-          <CountDownWrapper>
-            <CountDown date="2022/12/18" />
-          </CountDownWrapper>
-        </AirdropContent>
-      </AirdropWrapper>
-      <GradientButton
-        style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px', margin: '20px auto' }}
-      >
-        Claim
-      </GradientButton>
+      <TimelineWrapper style={{ marginTop: 60 }}>
+        <Timeline position={0 / (pointArray.length - 1)} />
+        {pointArray.map(({ position, active, reward }) => (
+          <DayWrapper position={position / (pointArray.length - 1)} key={position}>
+            {reward && (
+              <Reward>
+                <Number>{reward}</Number>
+                <Image src={coin2xImage} width={16} height={16} alt="coin" />
+              </Reward>
+            )}
+            <Point active={active} />
+            <Day>{`Day ${position}`}</Day>
+          </DayWrapper>
+        ))}
+        {/* Example */}
+        {/* Timeline position 0/3 = 0%; 1/3 = 33%; 2/3 = 66%; 3/3 = 100% */}
+        {/* <Timeline position={1 / 3} /> */}
+      </TimelineWrapper>
     </SectionWrapper>
   )
 }
 
+const pointArray = [
+  { position: 0, active: true },
+  { position: 1, active: false },
+  { position: 2, active: false, reward: 843.56 },
+]
+
 const QuestBoxSection = () => {
-  const { isMobile } = useMatchBreakpoints()
   return (
     <SectionWrapper style={{ maxWidth: '900px', margin: '0 auto 40px' }}>
       <SectionTitle>QUEST BOX</SectionTitle>
@@ -124,45 +83,53 @@ const QuestBoxSection = () => {
         />
       </BoxContent>
 
-      <GradientButton
-        style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px', margin: '20px auto' }}
-      >
-        Claim Box
-      </GradientButton>
+      <GradientButton>Claim Box</GradientButton>
     </SectionWrapper>
   )
 }
 
-const SearchSection = () => {
+const QuestSection = () => {
   return (
     <SectionWrapper style={{ maxWidth: '900px', margin: '0 auto 40px' }}>
-      <SectionTitle>SEARCH</SectionTitle>
-      <SectionDesc>Complete quests to increase your rank!</SectionDesc>
-      <SearchWrapper>
-        <SearchInput onChange={() => console.log('')} />
-        <SearchIcon className="search-icon" />
-      </SearchWrapper>
+      <SectionTitle>QUEST</SectionTitle>
+      <SectionDesc>Complete quests to earn quest points</SectionDesc>
+
+      <DeadlineWrapper>
+        <img src="/images/clock.svg" alt="clock" />
+        <span>Expires in</span>
+        <Timer>01d 23h 42m</Timer>
+      </DeadlineWrapper>
+
+      <LineTitle>Quest Reward</LineTitle>
+
+      <QuestWrapper>
+        <p style={{ marginBottom: 24 }}>Quest Stage</p>
+        <TimelineWrapper style={{ marginTop: 60 }}>
+          <Timeline position={0 / (pointArray.length - 1)} />
+          {questArray.map(({ position, active, reward }) => (
+            <DayWrapper position={position / 4} key={position}>
+              {reward && (
+                <Reward>
+                  <Number>{reward}</Number>
+                  <Image src={coin2xImage} width={16} height={16} alt="coin" />
+                </Reward>
+              )}
+              <Point active={active} />
+              <Day style={{ opacity: 0 }}>{`Day ${position}`}</Day>
+            </DayWrapper>
+          ))}
+        </TimelineWrapper>
+      </QuestWrapper>
+      <LineTitle>Quest Stage # 1</LineTitle>
     </SectionWrapper>
   )
 }
 
-const CompetitionSection = () => {
-  return (
-    <SectionWrapper style={{ maxWidth: '900px', margin: 'auto' }}>
-      <SectionTitle>QUEST COMPETITION</SectionTitle>
-      <SectionDesc>Complete quests to increase your rank!</SectionDesc>
-    </SectionWrapper>
-  )
-}
-
-const Wrapper = styled.div`
-  margin-top: 63px;
-  background-color: #130355;
-
-  @media (max-width: 576px) {
-    margin-top: 27px;
-  }
-`
+const questArray = [
+  { position: 1, active: false, reward: 843.56 },
+  { position: 2, active: false, reward: 843.56 },
+  { position: 3, active: false, reward: 843.56 },
+]
 const StyledNotify = styled.div`
   width: 100%;
   padding: 20px 0;
@@ -193,43 +160,6 @@ const SectionDesc = styled.p`
   text-align: center;
   margin-bottom: 30px;
 `
-const AirdropWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  gap: 18px;
-  width: 545px;
-  height: 183px;
-  border: 1px solid #9197ba;
-  border-radius: 10px;
-  margin-top: 40px;
-
-  @media (max-width: 576px) {
-    width: auto;
-    height: auto;
-  }
-`
-const AirdropTitle = styled.h3`
-  font-size: 24px;
-  line-height: 160%;
-  color: #e5e5e5;
-`
-const AirdropContent = styled.div`
-  display: flex;
-  gap: 20px;
-
-  @media (max-width: 576px) {
-    flex-direction: column;
-  }
-`
-const AirdropWrapperData = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 15px;
-`
 const DataItem = styled.div`
   display: flex;
   align-items: center;
@@ -255,6 +185,7 @@ const GradientButton = styled(Button)`
   font-weight: 700;
   height: 44px;
   width: 220px;
+  margin: 20px auto;
 `
 const BoxContent = styled.div`
   max-width: 700px;
@@ -288,4 +219,121 @@ const SearchWrapper = styled.div`
     top: 10px;
     right: 4px;
   }
+`
+
+const GradientBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  width: 289px;
+  height: 98px;
+  border: 1px solid #00cc83;
+  filter: drop-shadow(1px 2px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 10px;
+
+  text-align: center;
+  color: #ccd3ff;
+  p {
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 160%;
+  }
+`
+
+const TimelineWrapper = styled.div`
+  position: relative;
+  width: 348px;
+  height: 0px;
+  border: 0.5px solid #9197ba;
+  margin: 30px 0;
+`
+
+const Timeline = styled.div<{ position: number }>`
+  position: absolute;
+  top: -1px;
+  left: 0;
+  border: 1px solid #36dbff;
+  width: calc(${({ position }) => position * 100}%);
+`
+const DayWrapper = styled.div<{ position: number }>`
+  position: absolute;
+  top: -4px;
+  left: calc(${({ position }) => position * 100}% - 4px);
+`
+const Day = styled.p`
+  font-size: 14px;
+  line-height: 160%;
+  color: #ccd3ff;
+  white-space: nowrap;
+  margin-left: -10px;
+`
+const Point = styled.div<{ active: boolean }>`
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: ${({ active }) => (active ? '#36DBFF' : '#9197BA')};
+  transform: scale(${({ active }) => (active ? 1.3 : 1)});
+`
+const Number = styled.p`
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 160%;
+  color: #ccd3ff;
+`
+const Reward = styled.div`
+  position: absolute;
+  width: 60px;
+  height: 46px;
+  bottom: 40px;
+  left: 5px;
+  transform: translateX(-50%);
+  background: #1d018d;
+  border-radius: 6px;
+  text-align: center;
+`
+const DeadlineWrapper = styled.div`
+  padding: 4px 12px;
+  width: 239px;
+  height: 37px;
+  background: #0e0049;
+  border-radius: 6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+const Timer = styled.span`
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 160%;
+  color: #00cc83;
+`
+const LineTitle = styled.div`
+  position: relative;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 160%;
+  color: #ffffff;
+
+  ::before,
+  ::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 184.5px;
+    height: 0px;
+    border-top: 0.5px solid #9197ba;
+  }
+  ::before {
+    right: calc(100% + 20px);
+  }
+  ::after {
+    left: calc(100% + 20px);
+  }
+`
+const QuestWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
 `
