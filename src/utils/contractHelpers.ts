@@ -41,9 +41,11 @@ import {
   getHalloweenBoxesOpenAddress,
   getHalloweenBoxSaleAddress,
   getImportNFTAddress,
+  getOpenSLegendAddress,
 } from 'utils/addressHelpers'
 
 // ABI
+import openSLegendABI from 'config/abi/openSLegend.json'
 import importNFTABI from 'config/abi/importNFT.json'
 import profileABI from 'config/abi/pancakeProfile.json'
 import pancakeBunniesAbi from 'config/abi/pancakeBunnies.json'
@@ -342,4 +344,8 @@ export const getCommContract = (chainId?: number, signer?: Signer | Provider) =>
 
 export const getImportNFTContract = (chainId?: number, signer?: Signer | Provider) => {
   return getContract({ abi: importNFTABI, address: getImportNFTAddress(chainId), signer })
+}
+
+export const getOpenSLegendContract = (chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: openSLegendABI, address: getOpenSLegendAddress(chainId), signer })
 }

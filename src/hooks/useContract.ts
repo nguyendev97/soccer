@@ -40,6 +40,7 @@ import {
   getCommContract,
   getHalloweenBoxSaleContract,
   getImportNFTContract,
+  getOpenSLegendContract,
 } from 'utils/contractHelpers'
 import { useSigner } from 'wagmi'
 
@@ -272,4 +273,10 @@ export const useImportNFTContract = (withSignerIfPossible = true) => {
   const { chainId } = useActiveWeb3React()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
   return useMemo(() => getImportNFTContract(chainId, providerOrSigner), [providerOrSigner, chainId])
+}
+
+export const useOpenSLegendContract = (withSignerIfPossible = true) => {
+  const { chainId } = useActiveWeb3React()
+  const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
+  return useMemo(() => getOpenSLegendContract(chainId, providerOrSigner), [providerOrSigner, chainId])
 }

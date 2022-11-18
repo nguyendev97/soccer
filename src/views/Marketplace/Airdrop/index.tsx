@@ -1,9 +1,17 @@
-import { SearchIcon, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { useState, useEffect } from 'react'
+import { SearchIcon, useToast } from '@pancakeswap/uikit'
 import CountDown from 'components/CountDown'
 import SearchInput from 'components/SearchInput'
 import VariousKickers from 'components/VariousKickers'
 import Image from 'next/image'
+import { useWeb3React } from '@pancakeswap/wagmi'
+import { useOpenSLegendContract, useERC1155 } from 'hooks/useContract'
+import { getSLegendBoxAddress } from 'utils/addressHelpers'
 import { coin2xImage } from 'views/Marketplace/images'
+import { callWithEstimateGas } from 'utils/calls'
+import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
+import { ToastDescriptionWithTx } from 'components/Toast'
+import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import CompetitionTable from './CompetitionTable'
 import {
   AirdropContent,
@@ -28,10 +36,10 @@ import {
 const Airdrop = () => {
   return (
     <Wrapper>
-      <StyledNotify>Claim box Successfully!</StyledNotify>
+      {/* <StyledNotify>Claim box Successfully!</StyledNotify> */}
 
       {/* Section */}
-      <AirdropSection />
+      {/* <AirdropSection /> */}
       <QuestBoxSection />
       <SearchSection />
       <CompetitionSection />
@@ -41,8 +49,9 @@ const Airdrop = () => {
 
 export default Airdrop
 
+const SLEGEND = 6
+
 const AirdropSection = () => {
-  const { isMobile } = useMatchBreakpoints()
   return (
     <SectionWrapper>
       <SectionTitle>AIRDROP</SectionTitle>
@@ -106,6 +115,52 @@ const AirdropSection = () => {
 }
 
 const QuestBoxSection = () => {
+  const { toastSuccess } = useToast()
+  const [sLegendBoxAmount, setSLegendBoxAmount] = useState(0)
+  const { account, chainId } = useWeb3React()
+  const sLegendBoxAddress = getSLegendBoxAddress(chainId)
+  const openSLegendContract = useOpenSLegendContract()
+  const sLegendBoxContract = useERC1155(sLegendBoxAddress)
+
+  const { callWithGasPrice } = useCallWithGasPrice()
+
+  useEffect(() => {
+    if (account) {
+      sLegendBoxContract.balanceOf(account, SLEGEND).then(res => setSLegendBoxAmount(res.toNumber()))
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account])
+
+  console.log({sLegendBoxAmount})
+
+  const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
+    onRequiresApproval: async () => {
+      try {
+        const approvedForContract = await sLegendBoxContract.isApprovedForAll(account, openSLegendContract.address)
+        return !approvedForContract
+      } catch (error) {
+        return true
+      }
+    },
+    onApprove: () => {
+      return callWithGasPrice(sLegendBoxContract, 'setApprovalForAll', [openSLegendContract.address, true])
+    },
+    onApproveSuccess: async ({ receipt }) => {
+      toastSuccess(
+        'Contract approved - You can now open boxes!',
+        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
+      )
+    },
+    onConfirm: () => {
+      return callWithEstimateGas(openSLegendContract, 'open', [Date.now(), [SLEGEND], [sLegendBoxAmount]], null, sLegendBoxAmount * 10000)
+    },
+    onSuccess: async ({ receipt }) => {
+      toastSuccess(
+        `Opened ${sLegendBoxAmount} box(es) just now`,
+        <ToastDescriptionWithTx txHash={receipt.transactionHash} />,
+      )
+    }
+  })
   return (
     <SectionWrapper style={{ maxWidth: '900px', margin: '0 auto 40px' }}>
       <SectionTitle>QUEST BOX</SectionTitle>
@@ -119,14 +174,14 @@ const QuestBoxSection = () => {
         </BoxShowCase>
         <VariousKickers
           rarities={[
-            { rarity: 'Common kicker', background: 'rgba(68, 243, 107, 0.7)', percent: '17' },
-            { rarity: 'Rare kicker', background: 'rgba(44, 66, 228, 0.7)', percent: '43' },
-            { rarity: 'Epic kicker', background: 'rgba(118, 23, 183, 0.7)', percent: '30' },
-            { rarity: 'Legendary kicker', background: 'rgba(255, 210, 59, 0.5)', percent: '10' },
+            { rarity: 'Common kicker', background: 'rgba(68, 243, 107, 0.7)', percent: '5' },
+            { rarity: 'Rare kicker', background: 'rgba(44, 66, 228, 0.7)', percent: '10' },
+            { rarity: 'Epic kicker', background: 'rgba(118, 23, 183, 0.7)', percent: '45' },
+            { rarity: 'Legendary kicker', background: 'rgba(255, 210, 59, 0.5)', percent: '40' },
           ]}
         />
       </BoxContent>
-      <GradientButton>Claim Box</GradientButton>
+      <GradientButton disabled={sLegendBoxAmount < 1 || isApproving || isConfirming} onClick={!isApproved ? handleApprove : handleConfirm}>{isApproving || isConfirming ? 'Loading ...' : isApproved ? `Open now! [${sLegendBoxAmount}]` : 'Approve'}</GradientButton>
     </SectionWrapper>
   )
 }

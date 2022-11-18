@@ -153,3 +153,11 @@ export const getCommAddress = (chainId?: number) => {
 export const getImportNFTAddress = (chainId?: number) => {
   return getAddress(addresses.importNFT, chainId)
 }
+
+export const getOpenSLegendAddress = (chainId?: number) => {
+  return getAddress(addresses.openSLegend, chainId)
+}
+
+export const getSLegendBoxAddress = (chainId?: number) => {
+  return getAddress(addresses.sLegendBox, chainId)
+}
