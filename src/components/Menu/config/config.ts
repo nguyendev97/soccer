@@ -51,8 +51,8 @@ const config: (
       items: [],
     },
     {
-      label: t('Special box'),
-      href: '/boxes/special',
+      label: t('IDO Token'),
+      href: 'https://www.pinksale.finance/launchpad/0x377E188f42e3ea6C34b58924dB9daCEE848F5828?chain=BSC',
       icon: SwapIcon,
       fillIcon: SwapFillIcon,
       items: [],
