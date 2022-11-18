@@ -1,23 +1,46 @@
-import { Button, SearchIcon, useMatchBreakpoints } from '@pancakeswap/uikit'
-import CountDown from 'components/CountDown'
-import SearchInput from 'components/SearchInput'
 import VariousKickers from 'components/VariousKickers'
 import Image from 'next/image'
-import styled from 'styled-components'
 import { coin2xImage } from 'views/Marketplace/images'
+import {
+  BoxContent,
+  BoxShowCase,
+  BoxWrapper,
+  GradientButton,
+  SectionDesc,
+  SectionTitle,
+  SectionWrapper,
+  StyledNotify,
+  Wrapper,
+} from '../Airdrop/styles'
+import {
+  Day,
+  DayWrapper,
+  DeadlineWrapper,
+  GradientBox,
+  LineTitle,
+  Number,
+  Point,
+  QuestContent,
+  QuestImageWrapper,
+  QuestReward,
+  QuestStage,
+  QuestWrapper,
+  RangeInput,
+  RangeInputWrapper,
+  Reward,
+  Timeline,
+  TimelineWrapper,
+  Timer,
+} from './styles'
 
 const DailyQuest = () => {
   return (
     <Wrapper>
       <StyledNotify>Your Quest Point: 0</StyledNotify>
-
+      {/* Section */}
       <CheckInSection />
-
       <QuestBoxSection />
-
-      <SearchSection />
-
-      <CompetitionSection />
+      <QuestSection />
     </Wrapper>
   )
 }
@@ -25,83 +48,43 @@ const DailyQuest = () => {
 export default DailyQuest
 
 const CheckInSection = () => {
-  const { isMobile } = useMatchBreakpoints()
   return (
     <SectionWrapper>
       <SectionTitle>AIRDROP</SectionTitle>
+      <SectionDesc>Claim daily free quest points 3 days in a row to get more reward!</SectionDesc>
       {/* TOKEN */}
-      <AirdropWrapper>
-        <AirdropTitle>AIRDROP TOKEN</AirdropTitle>
-        <AirdropContent>
-          <AirdropWrapperData>
-            <DataItem>
-              <DataTitle>Amount:</DataTitle> 1000 Slots
-            </DataItem>
+      <GradientBox>
+        <h3>Daily Free Quests Point</h3>
+        <p>+1.43</p>
+      </GradientBox>
+      <GradientButton>Claim now</GradientButton>
 
-            <DataItem>
-              <DataTitle>Remain:</DataTitle>
-            </DataItem>
-
-            <DataItem>
-              <DataTitle>Reward:</DataTitle> 100
-              <Image
-                src={coin2xImage}
-                width={isMobile ? '18px' : '20px'}
-                height={isMobile ? '18px' : '20px'}
-                alt="coin"
-              />
-            </DataItem>
-          </AirdropWrapperData>
-          <CountDownWrapper>
-            <CountDown date="2022/12/18" />
-          </CountDownWrapper>
-        </AirdropContent>
-      </AirdropWrapper>
-      <GradientButton
-        style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px', margin: '20px auto' }}
-      >
-        Claim
-      </GradientButton>
-
-      {/* BOX */}
-      <AirdropWrapper>
-        <AirdropTitle>AIRDROP FREE BOX</AirdropTitle>
-        <AirdropContent>
-          <AirdropWrapperData>
-            <DataItem>
-              <DataTitle>Amount:</DataTitle> 1000 Slots
-            </DataItem>
-
-            <DataItem>
-              <DataTitle>Remain:</DataTitle>
-            </DataItem>
-
-            <DataItem>
-              <DataTitle>Reward:</DataTitle> 1
-              <Image
-                src="/images/quest-box.png"
-                width={isMobile ? '18px' : '20px'}
-                height={isMobile ? '18px' : '20px'}
-                alt="coin"
-              />
-            </DataItem>
-          </AirdropWrapperData>
-          <CountDownWrapper>
-            <CountDown date="2022/12/18" />
-          </CountDownWrapper>
-        </AirdropContent>
-      </AirdropWrapper>
-      <GradientButton
-        style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px', margin: '20px auto' }}
-      >
-        Claim
-      </GradientButton>
+      <TimelineWrapper style={{ marginTop: 60 }}>
+        <Timeline position={0 / (pointArray.length - 1)} />
+        {pointArray.map(({ position, active, reward }) => (
+          <DayWrapper position={position / (pointArray.length - 1)} key={position}>
+            {reward && (
+              <Reward>
+                <Number>{reward}</Number>
+                <Image src={coin2xImage} width={16} height={16} alt="coin" />
+              </Reward>
+            )}
+            <Point active={active} />
+            <Day>{`Day ${position}`}</Day>
+          </DayWrapper>
+        ))}
+      </TimelineWrapper>
     </SectionWrapper>
   )
 }
 
+const pointArray = [
+  { position: 0, active: true },
+  { position: 1, active: false },
+  { position: 2, active: false, reward: 843.56 },
+]
+
 const QuestBoxSection = () => {
-  const { isMobile } = useMatchBreakpoints()
   return (
     <SectionWrapper style={{ maxWidth: '900px', margin: '0 auto 40px' }}>
       <SectionTitle>QUEST BOX</SectionTitle>
@@ -124,168 +107,75 @@ const QuestBoxSection = () => {
         />
       </BoxContent>
 
-      <GradientButton
-        style={{ fontSize: '16px', fontWeight: 700, marginLeft: isMobile ? 0 : '20px', margin: '20px auto' }}
-      >
-        Claim Box
-      </GradientButton>
+      <GradientButton>Claim Box</GradientButton>
     </SectionWrapper>
   )
 }
 
-const SearchSection = () => {
+const QuestSection = () => {
   return (
     <SectionWrapper style={{ maxWidth: '900px', margin: '0 auto 40px' }}>
-      <SectionTitle>SEARCH</SectionTitle>
-      <SectionDesc>Complete quests to increase your rank!</SectionDesc>
-      <SearchWrapper>
-        <SearchInput onChange={() => console.log('')} />
-        <SearchIcon className="search-icon" />
-      </SearchWrapper>
+      <SectionTitle>QUEST</SectionTitle>
+      <SectionDesc>Complete quests to earn quest points</SectionDesc>
+
+      <DeadlineWrapper>
+        <img src="/images/clock.svg" alt="clock" />
+        <span>Expires in</span>
+        <Timer>01d 23h 42m</Timer>
+      </DeadlineWrapper>
+
+      <LineTitle>Quest Reward</LineTitle>
+      <QuestReward>
+        <p style={{ marginBottom: 24 }}>Quest Stage</p>
+        <TimelineWrapper style={{ marginTop: 60 }}>
+          <Timeline position={1 / 4} />
+          {questArray.map(({ position, active, reward }) => (
+            <DayWrapper position={position / 4} key={position}>
+              {reward && (
+                <Reward>
+                  <Number>{reward}</Number>
+                  <Image src={coin2xImage} width={16} height={16} alt="coin" />
+                </Reward>
+              )}
+              <Point active={active} />
+              <Day style={{ opacity: 0 }}>{`Day ${position}`}</Day>
+            </DayWrapper>
+          ))}
+        </TimelineWrapper>
+      </QuestReward>
+      <LineTitle>
+        Quest Stage <span style={{ color: '#36DBFF' }}># 1</span>
+      </LineTitle>
+
+      {/* Carousel here */}
+      <QuestStage>
+        <QuestItem icon="/icons/playlist.svg" title="Watch video" desc="Complete quests to earn quest points" />
+        <QuestItem icon="/icons/facebook.svg" title="Follow fanpage" desc="Complete quests to earn quest points" />
+      </QuestStage>
     </SectionWrapper>
   )
 }
 
-const CompetitionSection = () => {
+const QuestItem = ({ icon, title, desc }) => {
   return (
-    <SectionWrapper style={{ maxWidth: '900px', margin: 'auto' }}>
-      <SectionTitle>QUEST COMPETITION</SectionTitle>
-      <SectionDesc>Complete quests to increase your rank!</SectionDesc>
-    </SectionWrapper>
+    <QuestWrapper>
+      <QuestImageWrapper>
+        <img src={icon} alt="" />
+      </QuestImageWrapper>
+      <QuestContent>
+        <h4>{title}</h4>
+        <p>{desc}</p>
+        <RangeInputWrapper>
+          <RangeInput type="range" min={0} max={1} />
+          0/1
+        </RangeInputWrapper>
+      </QuestContent>
+    </QuestWrapper>
   )
 }
 
-const Wrapper = styled.div`
-  margin-top: 63px;
-  background-color: #130355;
-
-  @media (max-width: 576px) {
-    margin-top: 27px;
-  }
-`
-const StyledNotify = styled.div`
-  width: 100%;
-  padding: 20px 0;
-  background: #1d018d;
-  text-align: center;
-
-  line-height: 160%;
-  color: #e5e5e5;
-`
-const SectionWrapper = styled.section`
-  background-color: #160461;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 0;
-  margin-bottom: 40px;
-  color: #fff;
-`
-const SectionTitle = styled.h2`
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 160%;
-  color: #ffffff;
-  text-align: center;
-`
-const SectionDesc = styled.p`
-  color: #9197ba;
-  text-align: center;
-  margin-bottom: 30px;
-`
-const AirdropWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  gap: 18px;
-  width: 545px;
-  height: 183px;
-  border: 1px solid #9197ba;
-  border-radius: 10px;
-  margin-top: 40px;
-
-  @media (max-width: 576px) {
-    width: auto;
-    height: auto;
-  }
-`
-const AirdropTitle = styled.h3`
-  font-size: 24px;
-  line-height: 160%;
-  color: #e5e5e5;
-`
-const AirdropContent = styled.div`
-  display: flex;
-  gap: 20px;
-
-  @media (max-width: 576px) {
-    flex-direction: column;
-  }
-`
-const AirdropWrapperData = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 15px;
-`
-const DataItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #fff;
-`
-const DataTitle = styled.span`
-  color: #9197ba;
-`
-const CountDownWrapper = styled.div`
-  height: 103px;
-  padding: 12px;
-  background: #1d018d;
-  border-radius: 10px;
-  * {
-    margin: 0;
-  }
-`
-const GradientButton = styled(Button)`
-  background: linear-gradient(103.59deg, #00cc83 26.67%, #36dbff 74.7%);
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-weight: 700;
-  height: 44px;
-  width: 220px;
-`
-const BoxContent = styled.div`
-  max-width: 700px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-
-  @media (max-width: 576px) {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    padding: 0 20px;
-  }
-`
-const BoxShowCase = styled.div`
-  width: 100%;
-`
-const BoxWrapper = styled.div`
-  animation-delay: 2s;
-  animation: floating-y 7s ease-in-out infinite;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`
-const SearchWrapper = styled.div`
-  margin-top: 10px;
-  position: relative;
-  .search-icon {
-    position: absolute;
-    top: 10px;
-    right: 4px;
-  }
-`
+const questArray = [
+  { position: 1, active: true, reward: 843.56 },
+  { position: 2, active: false, reward: 843.56 },
+  { position: 3, active: false, reward: 843.56 },
+]

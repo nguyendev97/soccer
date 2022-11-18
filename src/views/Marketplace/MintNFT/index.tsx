@@ -1,18 +1,16 @@
-import { SearchIcon, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { Flex, SearchIcon, useMatchBreakpoints } from '@pancakeswap/uikit'
 import CountDown from 'components/CountDown'
 import SearchInput from 'components/SearchInput'
-import VariousKickers from 'components/VariousKickers'
 import Image from 'next/image'
+import { EffectCoverflow, Navigation, Autoplay } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { coin2xImage } from 'views/Marketplace/images'
-import CompetitionTable from './CompetitionTable'
+import CompetitionTable from '../Airdrop/CompetitionTable'
 import {
   AirdropContent,
   AirdropTitle,
   AirdropWrapper,
   AirdropWrapperData,
-  BoxContent,
-  BoxShowCase,
-  BoxWrapper,
   CountDownWrapper,
   DataItem,
   DataTitle,
@@ -23,23 +21,69 @@ import {
   SectionWrapper,
   StyledNotify,
   Wrapper,
-} from './styles'
+} from '../Airdrop/styles'
+import 'swiper/css/bundle'
 
-const Airdrop = () => {
+import 'swiper/css'
+import 'swiper/css/effect-coverflow'
+import 'swiper/css/navigation'
+
+const CARDS_LEGEND = [
+  'legend/SoccerCrypto-player-Pogba.png',
+  'legend/SoccerCrypto-player-messi.png',
+  'legend/SoccerCrypto-player-neymar.png',
+  'legend/SoccerCrypto-player-ronaldo.png',
+]
+const CARDS_COMMON = [
+  'common/SoccerCrypto-player-1.png',
+  'common/SoccerCrypto-player-2.png',
+  'common/SoccerCrypto-player-Ahmed Zain.png',
+  'common/SoccerCrypto-player-Alejandro Brand.png',
+  'common/SoccerCrypto-player-Alphonso Davies.png',
+  'common/SoccerCrypto-player-Chicharito.png',
+  'common/SoccerCrypto-player-Hannibal Mejbri.png',
+  'common/SoccerCrypto-player-Harry Wilson.png',
+  'common/SoccerCrypto-player-Layer 39.png',
+  'common/SoccerCrypto-player-Luka Jovic.png',
+  'common/SoccerCrypto-player-Thomas Partey.png',
+  'common/SoccerCrypto-player-bdessamad Ezzalzouli.png',
+  'common/SoccerCrypto-player-carcelen.png',
+  'common/SoccerCrypto-player-eisa ahmed palangi.png',
+]
+const CARDS_RARE = [
+  'rare/Shahab Zahedi.png',
+  'rare/SoccerCrypto-player-Christian Pulisic.png',
+  'rare/SoccerCrypto-player-Mbabu.png',
+  'rare/SoccerCrypto-player-cavani.png',
+  'rare/SoccerCrypto-player-lewandowski.png',
+  'rare/SoccerCrypto-player-minamino.png',
+  'rare/SoccerCrypto-player-sadio mane.png',
+  'rare/SoccerCrypto-player-son heung min.png',
+]
+const CARDS_EPIC = [
+  'epic/SoccerCrypto-player-Frenkie de Jong.png',
+  'epic/SoccerCrypto-player-Lukaku.png',
+  'epic/SoccerCrypto-player-Toni kroos.png',
+  'epic/SoccerCrypto-player-harry kane.png',
+  'epic/SoccerCrypto-player-luka modric.png',
+  'epic/SoccerCrypto-player-sergio ramos.png',
+]
+
+const MintNFT = () => {
   return (
     <Wrapper>
       <StyledNotify>Claim box Successfully!</StyledNotify>
 
       {/* Section */}
       <AirdropSection />
-      <QuestBoxSection />
+      <MintNFTSection />
       <SearchSection />
       <CompetitionSection />
     </Wrapper>
   )
 }
 
-export default Airdrop
+export default MintNFT
 
 const AirdropSection = () => {
   const { isMobile } = useMatchBreakpoints()
@@ -105,28 +149,36 @@ const AirdropSection = () => {
   )
 }
 
-const QuestBoxSection = () => {
+const MintNFTSection = () => {
+  const { isMobile } = useMatchBreakpoints()
   return (
     <SectionWrapper style={{ maxWidth: '900px', margin: '0 auto 40px' }}>
-      <SectionTitle>QUEST BOX</SectionTitle>
+      <SectionTitle>MINT NFT</SectionTitle>
       <SectionDesc>Use quest points to unlock quest box and earn amazing rewards!</SectionDesc>
-      <BoxContent>
-        <BoxShowCase>
-          <BoxWrapper>
-            <img src="/images/quest-box.png" alt="" style={{ paddingRight: '10px' }} />
-          </BoxWrapper>
-          <img src="/images/shelf.png" alt="" />
-        </BoxShowCase>
-        <VariousKickers
-          rarities={[
-            { rarity: 'Common kicker', background: 'rgba(68, 243, 107, 0.7)', percent: '17' },
-            { rarity: 'Rare kicker', background: 'rgba(44, 66, 228, 0.7)', percent: '43' },
-            { rarity: 'Epic kicker', background: 'rgba(118, 23, 183, 0.7)', percent: '30' },
-            { rarity: 'Legendary kicker', background: 'rgba(255, 210, 59, 0.5)', percent: '10' },
-          ]}
-        />
-      </BoxContent>
-      <GradientButton>Claim Box</GradientButton>
+
+      <Flex maxWidth={['350px', null, '750px']} mt="12px">
+        <Swiper
+          autoplay={{
+            delay: 1000,
+            disableOnInteraction: false,
+          }}
+          grabCursor
+          navigation
+          spaceBetween={8}
+          modules={[EffectCoverflow, Navigation, Autoplay]}
+          slidesPerView={isMobile ? 2.1 : 4.1}
+        >
+          {[...CARDS_LEGEND, ...CARDS_EPIC, ...CARDS_RARE, ...CARDS_COMMON].map((card) => {
+            return (
+              <SwiperSlide key={card}>
+                <img style={{ height: 250 }} src={`/images/cards/${card}`} alt="card" />
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
+      </Flex>
+
+      <GradientButton>Mint NFT</GradientButton>
     </SectionWrapper>
   )
 }
