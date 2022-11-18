@@ -1,10 +1,37 @@
-import { Button } from '@pancakeswap/uikit'
-
 import VariousKickers from 'components/VariousKickers'
 import Image from 'next/image'
-import styled from 'styled-components'
 import { coin2xImage } from 'views/Marketplace/images'
-import { Wrapper } from '../Airdrop/styles'
+import {
+  BoxContent,
+  BoxShowCase,
+  BoxWrapper,
+  GradientButton,
+  SectionDesc,
+  SectionTitle,
+  SectionWrapper,
+  StyledNotify,
+  Wrapper,
+} from '../Airdrop/styles'
+import {
+  Day,
+  DayWrapper,
+  DeadlineWrapper,
+  GradientBox,
+  LineTitle,
+  Number,
+  Point,
+  QuestContent,
+  QuestImageWrapper,
+  QuestReward,
+  QuestStage,
+  QuestWrapper,
+  RangeInput,
+  RangeInputWrapper,
+  Reward,
+  Timeline,
+  TimelineWrapper,
+  Timer,
+} from './styles'
 
 const DailyQuest = () => {
   return (
@@ -152,284 +179,3 @@ const questArray = [
   { position: 2, active: false, reward: 843.56 },
   { position: 3, active: false, reward: 843.56 },
 ]
-const StyledNotify = styled.div`
-  width: 100%;
-  padding: 20px 0;
-  background: #1d018d;
-  text-align: center;
-
-  line-height: 160%;
-  color: #e5e5e5;
-`
-const SectionWrapper = styled.section`
-  background-color: #160461;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 0;
-  margin-bottom: 40px;
-  color: #fff;
-`
-const SectionTitle = styled.h2`
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 160%;
-  color: #ffffff;
-  text-align: center;
-`
-const SectionDesc = styled.p`
-  color: #9197ba;
-  text-align: center;
-  margin-bottom: 30px;
-`
-const DataItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #fff;
-`
-const DataTitle = styled.span`
-  color: #9197ba;
-`
-const CountDownWrapper = styled.div`
-  height: 103px;
-  padding: 12px;
-  background: #1d018d;
-  border-radius: 10px;
-  * {
-    margin: 0;
-  }
-`
-const GradientButton = styled(Button)`
-  background: linear-gradient(103.59deg, #00cc83 26.67%, #36dbff 74.7%);
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-weight: 700;
-  height: 44px;
-  width: 220px;
-  margin: 20px auto;
-`
-const BoxContent = styled.div`
-  max-width: 700px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-
-  @media (max-width: 576px) {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    padding: 0 20px;
-  }
-`
-const BoxShowCase = styled.div`
-  width: 100%;
-`
-const BoxWrapper = styled.div`
-  animation-delay: 2s;
-  animation: floating-y 7s ease-in-out infinite;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`
-const SearchWrapper = styled.div`
-  margin-top: 10px;
-  position: relative;
-  .search-icon {
-    position: absolute;
-    top: 10px;
-    right: 4px;
-  }
-`
-
-const GradientBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 0;
-  width: 289px;
-  height: 98px;
-  border: 1px solid #00cc83;
-  filter: drop-shadow(1px 2px 4px rgba(0, 0, 0, 0.25));
-  border-radius: 10px;
-
-  text-align: center;
-  color: #ccd3ff;
-  p {
-    font-weight: 700;
-    font-size: 40px;
-    line-height: 160%;
-  }
-`
-
-const TimelineWrapper = styled.div`
-  position: relative;
-  width: 348px;
-  height: 6px;
-  background: #0e0049;
-  border-radius: 10px;
-  margin: 30px 0;
-  @media (max-width: 576px) {
-    width: 290px;
-  }
-`
-
-const Timeline = styled.div<{ position: number }>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 6px;
-  background: #36dbff;
-  border-radius: 10px;
-  width: calc(${({ position }) => position * 100}%);
-`
-const DayWrapper = styled.div<{ position: number }>`
-  position: absolute;
-  top: -1px;
-  left: calc(${({ position }) => position * 100}% - 4px);
-`
-const Day = styled.p`
-  font-size: 14px;
-  line-height: 160%;
-  color: #ccd3ff;
-  white-space: nowrap;
-  margin-left: -10px;
-`
-const Point = styled.div<{ active: boolean }>`
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background-color: ${({ active }) => (active ? '#36DBFF' : '#9197BA')};
-  transform: scale(${({ active }) => (active ? 1.3 : 1)});
-`
-const Number = styled.p`
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 160%;
-  color: #ccd3ff;
-`
-const Reward = styled.div`
-  position: absolute;
-  width: 60px;
-  height: 46px;
-  bottom: 40px;
-  left: 5px;
-  transform: translateX(-50%);
-  background: #1d018d;
-  border-radius: 6px;
-  text-align: center;
-`
-const DeadlineWrapper = styled.div`
-  padding: 4px 12px;
-  width: 239px;
-  height: 37px;
-  background: #0e0049;
-  border-radius: 6px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-const Timer = styled.span`
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 160%;
-  color: #00cc83;
-`
-const LineTitle = styled.div`
-  position: relative;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 160%;
-  color: #ffffff;
-  margin: 40px 0 30px;
-
-  ::before,
-  ::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 184.5px;
-    height: 0px;
-    border-top: 0.5px solid #9197ba;
-
-    @media (max-width: 576px) {
-      width: 80px;
-    }
-  }
-  ::before {
-    right: calc(100% + 20px);
-  }
-  ::after {
-    left: calc(100% + 20px);
-  }
-`
-const QuestReward = styled.div`
-  display: flex;
-  align-items: flex-end;
-  gap: 20px;
-  @media (max-width: 576px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`
-const QuestStage = styled.div`
-  display: flex;
-  gap: 30px;
-
-  @media (max-width: 576px) {
-    flex-direction: column;
-  }
-`
-
-const QuestWrapper = styled.div`
-  display: flex;
-  padding: 10px 30px 10px 10px;
-  gap: 12px;
-  /* width: 407px; */
-  height: 110px;
-  background: #1d018d;
-  border-radius: 10px;
-`
-const QuestImageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  width: 90px;
-  height: 90px;
-  background: linear-gradient(205.65deg, #263192 2.69%, #1d096b 47.14%, #0046cd 93.07%);
-  border-radius: 10px;
-`
-const QuestContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  gap: 4px;
-
-  h4 {
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 160%;
-    color: #ffffff;
-  }
-  p {
-    font-size: 12px;
-    line-height: 160%;
-    color: #9197ba;
-  }
-`
-
-const RangeInputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`
-const RangeInput = styled.input`
-  &[type='range'] {
-    height: 6px;
-    border-radius: 10px;
-    background: #130355;
-  }
-`
