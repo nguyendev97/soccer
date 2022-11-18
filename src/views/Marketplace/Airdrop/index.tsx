@@ -131,7 +131,7 @@ const QuestBoxSection = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
 
-  console.log({sLegendBoxAmount})
+  console.log({sLegendBoxAmount, sLegendBoxContract})
 
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
     onRequiresApproval: async () => {
@@ -152,7 +152,7 @@ const QuestBoxSection = () => {
       )
     },
     onConfirm: () => {
-      return callWithEstimateGas(openSLegendContract, 'open', [Date.now(), [SLEGEND], [sLegendBoxAmount]], null, sLegendBoxAmount * 10000)
+      return callWithEstimateGas(openSLegendContract, 'open', [Date.now(), [[SLEGEND]], [[sLegendBoxAmount > 5 ? 5 : sLegendBoxAmount]]], null, sLegendBoxAmount * 10000)
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
