@@ -294,7 +294,7 @@ export const getAnniversaryAchievementContract = (signer?: Signer | Provider) =>
 }
 
 export const getNftMarketContract = (signer?: Signer | Provider, chainId?: number) => {
-  return getContract({ abi: nftMarketAbi, address: getNftMarketAddress(chainId), signer, chainId }) as NftMarket
+  return getContract({ abi: nftMarketAbi, address: getNftMarketAddress(chainId), signer, chainId })
 }
 export const getNftSaleContract = (signer?: Signer | Provider) => {
   return getContract({ abi: nftSaleAbi, address: getNftSaleAddress(), signer }) as NftSale
