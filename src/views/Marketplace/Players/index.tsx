@@ -4,10 +4,9 @@ import { Flex, Skeleton } from '@pancakeswap/uikit'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { useERC721 } from 'hooks/useContract'
 import { getPlayersAddress } from 'utils/addressHelpers'
-import cloneDeep from 'lodash/cloneDeep'
-// import GradientButton from 'components/GradientButton'
+import keyBy from 'lodash/keyBy'
+import { API_NFT } from 'config/constants/endpoints'
 import NextLink from 'next/link'
-import useNfts, { STAGE } from 'hooks/useNfts'
 import ReactPaginate from 'react-paginate'
 import MarketItem from '../components/MarketItem'
 // import SellingModal from '../components/SellingModal'
@@ -49,6 +48,17 @@ const StyledReactPaginate = styled(ReactPaginate)`
   }
 `
 
+export const fetchNfts = async (address, typeItem) => {
+  const res = await fetch(`${API_NFT}/inventories/${address}?typeItem=${typeItem}`)
+  if (res.ok) {
+    const json = await res.json()
+    console.log({json})
+    return json.nfts
+  }
+  console.error('Failed to fetchNfts', res.statusText)
+  return []
+}
+
 const PAGE_SIZE = 10
 const Kickers = () => {
   const { account, chainId } = useWeb3React()
@@ -57,10 +67,11 @@ const Kickers = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(0)
   const [tokenIds, setTokenIds] = useState([])
+  const [nfts, setNfts] = useState([])
   const [tokenIdsSelected, setTokenIdsSelected] = useState([])
   const currentSize = page * PAGE_SIZE
 
-  const { nfts, stage } = useNfts({ collectionAddress: playersAddress, tokenIds: tokenIdsSelected  })
+  // const { nfts, stage } = useNfts({ collectionAddress: playersAddress, tokenIds: tokenIdsSelected  })
   // const [onPresentSellingModal] = useModal(<SellingModal />)
   
   useEffect(() => {
@@ -76,48 +87,30 @@ const Kickers = () => {
   useEffect(() => {
     if (account) {
       setIsLoading(true)
-      playersContract
-        .balanceOf(account)
-        .then((res) => {
-          const balance = res.toNumber()
-          let balanceCloned = cloneDeep(balance)
-          // eslint-disable-next-line prefer-const
-          let newIds = []
-          while (balanceCloned > 0) {
-            balanceCloned--
-            newIds.push(balanceCloned)
-          }
-          return newIds
-        })
-        .then(async (newIds) => {
-          // eslint-disable-next-line prefer-const
-          let tasks = []
-          newIds.forEach((id) => {
-            tasks.push(playersContract.tokenOfOwnerByIndex(account, id))
-          })
-          const res = await Promise.all(tasks)
-          setTokenIds(res.map((tokenId) => tokenId.toNumber()))
-          setIsLoading(false)
-        })
+      fetchNfts(account, 'kicker').then(res => {
+        setNfts(res)
+        setIsLoading(false)
+      })
     }
   }, [account])
   return (
     <>
       <StyledFlexWrapper>
         <StyledFlexContent>
-          {isLoading || stage === STAGE.LOADING && (
+          {isLoading && (
             <Flex flexDirection="column" mb="12px">
               <Skeleton height="100px" />
             </Flex>
           )}
           {!isLoading &&
-            nfts.map(({ image, meta, tokenId }) => {
+            nfts.slice(page * PAGE_SIZE, PAGE_SIZE * (page + 1)).map(({ image, attributes, token_id: tokenId }) => {
+              const meta: any = keyBy(attributes, 'key')
               return (
                 <NextLink href={`/nfts/collections/${playersAddress}/${tokenId}`}>
                   <MarketItem
                     tokenId={tokenId}
                     key={tokenId}
-                    avatar={image.thumbnail}
+                    avatar={image}
                     code={`#${tokenId}`}
                     ratity={meta.Rarity.value as string}
                     level={`level ${meta.Level.value as string}`}
@@ -137,7 +130,7 @@ const Kickers = () => {
             onClick={handlePageClick}
             pageRangeDisplayed={5}
             forcePage={page}
-            pageCount={Math.ceil(tokenIds.length / PAGE_SIZE)}
+            pageCount={Math.ceil(nfts.length / PAGE_SIZE)}
             previousLabel="<"
             renderOnZeroPageCount={null}
           />
