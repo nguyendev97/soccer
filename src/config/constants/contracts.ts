@@ -184,7 +184,7 @@ export default {
   },
   openSLegend: {
     56: '0x3C5D0aA8671C6a6EEef2FcaD745bcE55c3ADa445',
-    97: '0x3C5D0aA8671C6a6EEef2FcaD745bcE55c3ADa445'
+    97: '0xD6483440cf018100e1dC2FF875D95Ee68c7Cc94F'
   },
   sLegendBox: {
     56: '0x1C529E1910AdC5a397E59CeB3f55ce85f81C9885',

@@ -2,14 +2,12 @@ import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import { Flex, Skeleton } from '@pancakeswap/uikit'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import { useERC721 } from 'hooks/useContract'
 import { getPlayersAddress } from 'utils/addressHelpers'
 import keyBy from 'lodash/keyBy'
 import { API_NFT } from 'config/constants/endpoints'
 import NextLink from 'next/link'
 import ReactPaginate from 'react-paginate'
 import MarketItem from '../components/MarketItem'
-// import SellingModal from '../components/SellingModal'
 
 const StyledFlexWrapper = styled(Flex)`
   width: 100%;
@@ -52,7 +50,6 @@ export const fetchNfts = async (address, typeItem) => {
   const res = await fetch(`${API_NFT}/inventories/${address}?typeItem=${typeItem}`)
   if (res.ok) {
     const json = await res.json()
-    console.log({json})
     return json.nfts
   }
   console.error('Failed to fetchNfts', res.statusText)
@@ -63,22 +60,9 @@ const PAGE_SIZE = 10
 const Kickers = () => {
   const { account, chainId } = useWeb3React()
   const playersAddress = getPlayersAddress(chainId)
-  const playersContract = useERC721(playersAddress)
   const [isLoading, setIsLoading] = useState(false)
   const [page, setPage] = useState(0)
-  const [tokenIds, setTokenIds] = useState([])
   const [nfts, setNfts] = useState([])
-  const [tokenIdsSelected, setTokenIdsSelected] = useState([])
-  const currentSize = page * PAGE_SIZE
-
-  // const { nfts, stage } = useNfts({ collectionAddress: playersAddress, tokenIds: tokenIdsSelected  })
-  // const [onPresentSellingModal] = useModal(<SellingModal />)
-  
-  useEffect(() => {
-    const tempEnd = PAGE_SIZE * (page + 1)
-    const endSlice = Math.min(tempEnd, tokenIds.length)
-    setTokenIdsSelected([...tokenIds].slice(currentSize, endSlice))
-  }, [page, tokenIds, currentSize])
 
   const handlePageClick = (event) => {
     setPage(event.nextSelectedPage)
@@ -93,6 +77,7 @@ const Kickers = () => {
       })
     }
   }, [account])
+
   return (
     <>
       <StyledFlexWrapper>

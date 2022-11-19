@@ -152,7 +152,7 @@ const QuestBoxSection = () => {
       )
     },
     onConfirm: () => {
-      return callWithEstimateGas(openSLegendContract, 'open', [Date.now(), [[SLEGEND]], [[sLegendBoxAmount > 5 ? 5 : sLegendBoxAmount]]], null, sLegendBoxAmount * 10000)
+      return callWithEstimateGas(openSLegendContract, 'open', [Date.now(), [[SLEGEND]], [[sLegendBoxAmount > 5 ? 5 : sLegendBoxAmount]]])
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
@@ -181,7 +181,7 @@ const QuestBoxSection = () => {
           ]}
         />
       </BoxContent>
-      <GradientButton disabled={sLegendBoxAmount < 1 || isApproving || isConfirming} onClick={!isApproved ? handleApprove : handleConfirm}>{isApproving || isConfirming ? 'Loading ...' : isApproved ? `Open now! [${sLegendBoxAmount}]` : 'Approve'}</GradientButton>
+      <GradientButton disabled={isApproving || isConfirming} onClick={!isApproved ? handleApprove : handleConfirm}>{isApproving || isConfirming ? 'Loading ...' : isApproved ? `Open now! [${sLegendBoxAmount}]` : 'Approve'}</GradientButton>
     </SectionWrapper>
   )
 }
