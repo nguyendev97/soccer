@@ -255,8 +255,8 @@ export const getNftApi = async (
       description,
       collectionAddress,
       image: {
-        original: image,
-        thumbnail: image
+        original: image.replace('.io', '.net'),
+        thumbnail: image.replace('.io', '.net')
       },
       meta
     }
