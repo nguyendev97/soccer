@@ -79,7 +79,7 @@ export const useCompleteNft = (collectionAddress: string, tokenId: string, chain
       const [uri] = callsResult[0]
       const hash = uri.split('/').at(-1)
       const fetchMeta = async () => {
-        const uriRes = await fetch(uri)
+        const uriRes = await fetch(uri.replace('.io', '.net'))
         if (uriRes.ok) {
           const json = await uriRes.json()
           return json
@@ -98,8 +98,8 @@ export const useCompleteNft = (collectionAddress: string, tokenId: string, chain
         collectionName: COLLECTIONS_NAME[collectionAddress] || '',
         collectionAddress,
         image: {
-          original: image,
-          thumbnail: imagePlayer
+          original: image.replace('.io', '.net'),
+          thumbnail: imagePlayer.replace('.io', '.net')
         },
         meta
       }
