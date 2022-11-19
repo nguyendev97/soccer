@@ -235,7 +235,7 @@ export const getNftApi = async (
   let tasks = []
   callsResult.forEach(([uri]) => {
     const fetchMeta = async () => {
-      const uriRes = await fetch(uri)
+      const uriRes = await fetch(uri.replace('.io', '.net'))
       if (uriRes.ok) {
         const json = await uriRes.json()
         return json
