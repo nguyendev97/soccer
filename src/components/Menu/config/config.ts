@@ -33,7 +33,7 @@ const config: (
       label: t('Home'),
       icon: HomeIcon,
       fillIcon: HomeIcon,
-      href: '/nfts/collections/0xFDBcAF35b55c0B8969b7B1265a405f87896380c1',
+      href: '/',
       items: [],
     },
     {
@@ -51,22 +51,32 @@ const config: (
       items: [],
     },
     {
-      label: t('IDO Token'),
-      href: 'https://www.pinksale.finance/launchpad/0x377E188f42e3ea6C34b58924dB9daCEE848F5828?chain=BSC',
+      label: t('Boxes'),
+      href: '/boxes',
       icon: SwapIcon,
       fillIcon: SwapFillIcon,
-      items: [],
-    },
-    {
-      label: t('Halloween box'),
-      href: '/boxes/halloween',
-      icon: SwapIcon,
-      fillIcon: SwapFillIcon,
-      items: [],
+      items: [
+        {
+          label: t('Halloween Box'),
+          href: '/boxes/halloween',
+        },
+        {
+          label: t('Golden Box'),
+          href: '/boxes',
+        },
+        {
+          label: t('Silver Box'),
+          href: '/boxes',
+        },
+        {
+          label: t('Common Box'),
+          href: '/boxes',
+        },
+      ],
     },
     {
       label: t('Marketplace'),
-      href: '/boxes/halloween',
+      href: '/nfts/collections/0xFDBcAF35b55c0B8969b7B1265a405f87896380c1',
       icon: SwapIcon,
       fillIcon: SwapFillIcon,
       items: [
