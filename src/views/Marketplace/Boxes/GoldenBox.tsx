@@ -1,49 +1,73 @@
 import { useState, useEffect } from 'react'
-import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@pancakeswap/wagmi'
-import Page from 'components/Layout/Page'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css/bundle'
-import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper'
-import { Flex, Heading, Text, useToast, Input, useModal, AutoRenewIcon, Grid } from '@pancakeswap/uikit'
-import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
+import { Flex, Text, useToast, useModal, AutoRenewIcon, Grid } from '@pancakeswap/uikit'
 import GradientButton from 'components/GradientButton'
-import CountDown from 'components/CountDown'
 import Image from 'next/image'
 import { requiresApproval } from 'utils/requiresApproval'
 import BigNumber from 'bignumber.js'
 import { BUSD } from '@pancakeswap/tokens'
 import { ChainId } from '@pancakeswap/sdk'
+import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { ethers } from 'ethers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { getBalanceAmount, formatAmount } from 'utils/formatBalance'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
-import { useHalloweenBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
+import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import { getRefferalOwnerAddress } from 'utils/addressHelpers'
 import Video from 'components/Video'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import VariousKickers from 'components/VariousKickers'
-import { dateDiffIndays, fromDate } from '../SpecialBox'
+import 'swiper/css/bundle'
+import { EffectCoverflow, Navigation, Autoplay } from 'swiper'
 import RegisterModal from '../components/RegisterModal'
 import { backgroundSoccerImage, borderImage, busdImage } from '../images'
 
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
-import 'swiper/css/pagination'
 import 'swiper/css/navigation'
-import { EQUIPS_COMMON, EQUIPS_EPIC, EQUIPS_LEGEND, EQUIPS_RARE } from '../Boxes/constants'
+import {
+  BannerSoccer,
+  HeadingBorder,
+  InputAmout,
+  PapeStyled,
+  StyledFlexWrapper,
+  StyledSoccerBox,
+  TextCount,
+  TextInfo,
+} from './styles'
+import {
+  CARDS_COMMON,
+  CARDS_EPIC,
+  CARDS_LEGEND,
+  CARDS_RARE,
+  EQUIPS_COMMON,
+  EQUIPS_EPIC,
+  EQUIPS_LEGEND,
+  EQUIPS_RARE,
+} from './constants'
 
-const CARDS_RARE = ['halloween/MBABE.png', 'halloween/HALLAND.png']
-// const EQUIPS_COMMON = ["halloween/equipments/epic common/Layer 33.png","halloween/equipments/epic common/Layer 47 copy 5.png","halloween/equipments/epic common/Layer 52 copy.png","halloween/equipments/epic common/Layer 63 copy.png","halloween/equipments/epic common/Layer 68 copy 2.png","halloween/equipments/epic common/Layer 802.png","halloween/equipments/epic common/Layer 805.png","halloween/equipments/epic common/Layer 806.png","halloween/equipments/epic common/Layer 809.png","halloween/equipments/epic common/Layer 812 copy.png","halloween/equipments/epic common/Layer 814 copy.png","halloween/equipments/epic common/Layer 816.png","halloween/equipments/epic common/Layer 818.png","halloween/equipments/epic common/Layer 82.png","halloween/equipments/epic common/Layer 820.png","halloween/equipments/epic common/Layer 822.png","halloween/equipments/epic common/Layer 824.png","halloween/equipments/epic common/Layer 826.png","halloween/equipments/epic common/Layer 828.png","halloween/equipments/epic common/Layer 83.png","halloween/equipments/epic common/Layer 830.png","halloween/equipments/epic common/Layer 831.png","halloween/equipments/epic common/Layer 833.png","halloween/equipments/epic common/Layer 835.png","halloween/equipments/epic common/Layer 837.png","halloween/equipments/epic common/Layer 839 copy.png","halloween/equipments/epic common/Layer 84 copy.png","halloween/equipments/epic common/Layer 84.png","halloween/equipments/epic common/Layer 841.png","halloween/equipments/epic common/Layer 843 copy.png","halloween/equipments/epic common/Layer 845.png","halloween/equipments/epic common/Layer 847.png","halloween/equipments/epic common/Layer 849.png","halloween/equipments/epic common/Layer 851.png","halloween/equipments/epic common/Layer 853.png","halloween/equipments/epic common/Layer 855.png","halloween/equipments/epic common/Layer 857.png","halloween/equipments/epic common/Layer 859.png","halloween/equipments/epic common/Layer 861 copy.png","halloween/equipments/epic common/Layer 863.png","halloween/equipments/epic common/Layer 865.png","halloween/equipments/epic common/Layer 867.png","halloween/equipments/epic common/Layer 870 copy.png","halloween/equipments/epic common/Layer 872.png"]
-// const EQUIPS_EPIC =["halloween/equipments/rare legend/Layer 100.png","halloween/equipments/rare legend/Layer 102.png","halloween/equipments/rare legend/Layer 104.png","halloween/equipments/rare legend/Layer 106.png","halloween/equipments/rare legend/Layer 108.png","halloween/equipments/rare legend/Layer 110.png","halloween/equipments/rare legend/Layer 112.png","halloween/equipments/rare legend/Layer 114.png","halloween/equipments/rare legend/Layer 116.png","halloween/equipments/rare legend/Layer 118.png","halloween/equipments/rare legend/Layer 120.png","halloween/equipments/rare legend/Layer 122.png","halloween/equipments/rare legend/Layer 124.png","halloween/equipments/rare legend/Layer 126.png","halloween/equipments/rare legend/Layer 129.png","halloween/equipments/rare legend/Layer 29 copy 2.png","halloween/equipments/rare legend/Layer 47 copy 7.png","halloween/equipments/rare legend/Layer 47 copy 9.png","halloween/equipments/rare legend/Layer 60.png","halloween/equipments/rare legend/Layer 62.png","halloween/equipments/rare legend/Layer 64.png","halloween/equipments/rare legend/Layer 66.png","halloween/equipments/rare legend/Layer 68.png","halloween/equipments/rare legend/Layer 70.png","halloween/equipments/rare legend/Layer 72.png","halloween/equipments/rare legend/Layer 74.png","halloween/equipments/rare legend/Layer 76.png","halloween/equipments/rare legend/Layer 78.png","halloween/equipments/rare legend/Layer 80 copy.png","halloween/equipments/rare legend/Layer 812 copy.png","halloween/equipments/rare legend/Layer 82.png","halloween/equipments/rare legend/Layer 839 copy.png","halloween/equipments/rare legend/Layer 84.png","halloween/equipments/rare legend/Layer 86.png","halloween/equipments/rare legend/Layer 863 copy 2.png","halloween/equipments/rare legend/Layer 88.png","halloween/equipments/rare legend/Layer 90.png","halloween/equipments/rare legend/Layer 92.png","halloween/equipments/rare legend/Layer 94.png","halloween/equipments/rare legend/Layer 97.png"]
-
-const HALLOWEEN_TYPE = 5
+const SPECIAL_TYPE = 1
 const refferalOwnerAddress = getRefferalOwnerAddress()
 
-const Halloween = () => {
+export const dateDiffIndays = (date) => {
+  const now = new Date()
+  const fromDate = new Date(date)
+  return (
+    -1 *
+    Math.floor(
+      (Date.UTC(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()) -
+        Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())) /
+        (1000 * 60 * 60 * 24),
+    )
+  )
+}
+
+export const fromDate = '2022/11/12'
+const GoldenBox = () => {
   const { isMobile } = useMatchBreakpoints()
   const router = useRouter()
   const { account, chainId } = useWeb3React()
@@ -52,7 +76,7 @@ const Halloween = () => {
   const [remain, setRemain] = useState(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [priceOfBox, setPriceOfBox] = useState<number>(0)
-  const boxSaleContract = useHalloweenBoxSaleContract()
+  const boxSaleContract = useBoxSaleContract()
   const refferalContract = useRefferalContract()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()
@@ -70,15 +94,15 @@ const Halloween = () => {
 
   useEffect(() => {
     // Get Price of each box
-    boxSaleContract.prices(HALLOWEEN_TYPE).then((price) => {
+    boxSaleContract.prices(SPECIAL_TYPE).then((price) => {
       const busdBalance = getBalanceAmount(new BigNumber(price._hex))
       setPriceOfBox(busdBalance.toNumber())
     })
 
     // Get amount of remaining boxes
-    boxSaleContract.remains(HALLOWEEN_TYPE).then((res) => {
+    boxSaleContract.remains(SPECIAL_TYPE).then((res) => {
       const diff = dateDiffIndays(fromDate)
-      const fakeBought = 4000
+      const fakeBought = 4000 + 5000 + 261
       setRemain(res.toNumber() - fakeBought)
     })
 
@@ -106,7 +130,7 @@ const Halloween = () => {
       )
     },
     onConfirm: () => {
-      return callWithGasPrice(boxSaleContract, 'buy', [HALLOWEEN_TYPE, amount])
+      return callWithGasPrice(boxSaleContract, 'buy', [SPECIAL_TYPE, amount])
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
@@ -123,14 +147,14 @@ const Halloween = () => {
       <BannerSoccer src={backgroundSoccerImage?.src} isMobile={isMobile}>
         <PapeStyled>
           <HeadingBorder mt="32px" width="100%" src={borderImage?.src} isMobile={isMobile}>
-            Halloween box
+            Golden box
           </HeadingBorder>
           <Grid my="30px" gridGap="24px" gridTemplateColumns={['1fr', null, null, '3fr 2fr']}>
             <StyledFlexWrapper>
               <StyledSoccerBox p={['30px 0px', null, '30px']}>
-                <CountDown date="2022/11/29" />
-                <Video maxWidth="300px" maxHeight="300px" src="/videos/halloween.mp4" />
-                <Flex style={{ marginTop: '20px', marginBottom: '30px' }}>
+                {/* <CountDown date="2022/11/18" /> */}
+                <Video maxWidth="300px" maxHeight="300px" src="/videos/Golden.mp4" />
+                <Flex style={{ marginTop: '15px', marginBottom: '20px' }}>
                   <TextInfo style={{ marginRight: '20px' }}>
                     Amount:{' '}
                     <InputAmout type="number" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} />
@@ -144,7 +168,7 @@ const Halloween = () => {
                   <Flex flexDirection="column">
                     <GradientButton
                       endIcon={isApproving || isConfirming ? <AutoRenewIcon spin color="currentColor" /> : undefined}
-                      disabled={isApproving || isConfirming || isNotEnoughBalance}
+                      disabled
                       onClick={isApproved ? handleConfirm : handleApprove}
                       fontSize="16px"
                       fontWeight="700"
@@ -198,10 +222,10 @@ const Halloween = () => {
                 </Text>
                 <VariousKickers
                   rarities={[
-                    { rarity: 'Common kicker', background: 'rgba(68, 243, 107, 0.7)', percent: '37' },
-                    { rarity: 'Rare kicker', background: 'rgba(44, 66, 228, 0.7)', percent: '33' },
-                    { rarity: 'Epic kicker', background: 'rgba(118, 23, 183, 0.7)', percent: '25' },
-                    { rarity: 'Legendary kicker', background: 'rgba(255, 210, 59, 0.5)', percent: '5' },
+                    { rarity: 'Common', background: 'rgba(68, 243, 107, 0.7)', percent: '19' },
+                    { rarity: 'Rare', background: 'rgba(44, 66, 228, 0.7)', percent: '34' },
+                    { rarity: 'Epic', background: 'rgba(118, 23, 183, 0.7)', percent: '39' },
+                    { rarity: 'Legendary', background: 'rgba(255, 210, 59, 0.5)', percent: '8' },
                   ]}
                 />
               </Flex>
@@ -216,13 +240,21 @@ const Halloween = () => {
                       disableOnInteraction: false,
                     }}
                     grabCursor
-                    // pagination
                     navigation
                     spaceBetween={8}
-                    modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
+                    modules={[EffectCoverflow, Navigation, Autoplay]}
                     slidesPerView={isMobile ? 2.1 : 2.3}
                   >
-                    {[...CARDS_RARE, ...EQUIPS_LEGEND, ...EQUIPS_EPIC, ...EQUIPS_RARE, ...EQUIPS_COMMON].map((card) => {
+                    {[
+                      ...CARDS_LEGEND,
+                      ...CARDS_EPIC,
+                      ...CARDS_RARE,
+                      ...CARDS_COMMON,
+                      ...EQUIPS_LEGEND,
+                      ...EQUIPS_EPIC,
+                      ...EQUIPS_RARE,
+                      ...EQUIPS_COMMON,
+                    ].map((card) => {
                       return (
                         <SwiperSlide key={card}>
                           <img style={{ height: 250 }} src={`/images/cards/${card}`} alt="card" />
@@ -240,76 +272,4 @@ const Halloween = () => {
   )
 }
 
-export default Halloween
-
-const BannerSoccer = styled.div<{ src: string; isMobile: boolean }>`
-  padding-top: 30px;
-  padding-bottom: 90px;
-  background-image: url('${({ src }) => src}');
-  background-color: ${({ theme }) => theme.colors.backgroundAlt3};
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-size: cover;
-`
-const StyledFlexWrapper = styled.div`
-  width: 100%;
-`
-const StyledSoccerBox = styled(Flex)`
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(164.38deg, rgb(29 1 141 / 70%) 10.92%, rgba(29, 9, 107, 0) 134.72%);
-  border-radius: 10px;
-  margin: auto;
-`
-const HeadingBorder = styled(Heading)<{ src: string; isMobile: boolean }>`
-  font-weight: 700;
-  text-align: center;
-  font-size: ${({ isMobile }) => (isMobile ? '24px' : '36px')};
-  color: #fff;
-  text-transform: uppercase;
-  display: inline-block;
-  padding-left: ${({ isMobile }) => (isMobile ? '60px' : '150px')};
-  padding-right: ${({ isMobile }) => (isMobile ? '60px' : '150px')};
-  padding-bottom: 30px;
-  background-image: url('${({ src }) => src}');
-  background-position: center bottom;
-  background-repeat: no-repeat;
-`
-const TextInfo = styled(Text)`
-  border: 1.5px solid #0a4db6;
-  border-radius: 6px;
-  font-size: 16px;
-  padding: 10px;
-  font-weight: 600;
-  display: flex;
-  align-items: baseline;
-  color: #ccd3ff;
-`
-const TextCount = styled(Text)`
-  font-size: 18px;
-  font-weight: 700;
-  color: #ccd3ff;
-  margin-left: 10px;
-`
-const InputAmout = styled(Input)`
-  font-size: 18px;
-  font-weight: 700;
-  color: #ccd3ff;
-  margin-left: 10px;
-  width: 70px;
-  background-color: transparent;
-  border: 0;
-  height: 30px;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.secondary};
-  }
-
-  &:focus:not(:disabled) {
-    box-shadow: none;
-  }
-`
-
-const PapeStyled = styled(Page)`
-  min-height: calc(100vh - 364px);
-`
+export default GoldenBox
