@@ -57,10 +57,6 @@ const config: (
       fillIcon: SwapFillIcon,
       items: [
         {
-          label: t('Halloween Box'),
-          href: '/boxes/halloween',
-        },
-        {
           label: t('Golden Box'),
           href: '/boxes',
         },
@@ -72,6 +68,10 @@ const config: (
           label: t('Common Box'),
           href: '/boxes',
         },
+        {
+          label: t('Halloween Box'),
+          href: '/boxes/halloween',
+        }
       ],
     },
     {

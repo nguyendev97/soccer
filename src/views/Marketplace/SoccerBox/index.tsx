@@ -61,20 +61,7 @@ const SoccerBox = () => {
       <StyledFlexWrapper>
         <Container>
           <Grid gridTemplateColumns={["repeat(2, 1fr)", null, "repeat(3, 1fr)"]} gridColumnGap="16px" gridRowGap="16px">
-            <BoxItem
-              disabled={amountHalloweenBox < 1}
-              totalBox={amountHalloweenBox}
-              avatar="/videos/halloween.mp4"
-              boxName="Halloween box"
-              onClick={onPresentOpenHalloweenBoxesModal}
-            />
-            <BoxItem
-              disabled={amountBox < 1}
-              totalBox={amountBox}
-              avatar="/videos/special.mp4"
-              boxName="Special box"
-              onClick={onPresentOpenBoxesModal}
-            />
+            
             <BoxItem
               disabled={amountGoldenBox < 1}
               totalBox={amountGoldenBox}
@@ -95,6 +82,20 @@ const SoccerBox = () => {
               avatar="/videos/common.mp4"
               boxName="Common box"
               onClick={null}
+            />
+            <BoxItem
+              disabled={amountHalloweenBox < 1}
+              totalBox={amountHalloweenBox}
+              avatar="/videos/halloween.mp4"
+              boxName="Halloween box"
+              onClick={onPresentOpenHalloweenBoxesModal}
+            />
+            <BoxItem
+              disabled={amountBox < 1}
+              totalBox={amountBox}
+              avatar="/videos/special.mp4"
+              boxName="Special box"
+              onClick={onPresentOpenBoxesModal}
             />
           </Grid>
         </Container>

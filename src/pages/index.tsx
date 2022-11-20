@@ -1,4 +1,4 @@
-import Boxes from 'views/Marketplace/Boxes'
+import Boxes from './boxes/index'
 
 const BoxesPage = () => {
   return <Boxes />
