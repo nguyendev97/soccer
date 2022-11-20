@@ -146,7 +146,7 @@ const SilverBox = () => {
     <>
       <BannerSoccer src={backgroundSoccerImage?.src} isMobile={isMobile}>
         <PapeStyled>
-          <HeadingBorder mt="32px" width="100%" src={borderImage?.src} isMobile={isMobile}>
+          <HeadingBorder mt="32px" width="100%" src={borderImage?.src} isMobile={isMobile} style={{ color: '#c0c0c0' }}>
             Silver box
           </HeadingBorder>
           <Grid my="30px" gridGap="24px" gridTemplateColumns={['1fr', null, null, '3fr 2fr']}>
