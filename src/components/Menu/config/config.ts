@@ -33,7 +33,7 @@ const config: (
       label: t('Home'),
       icon: HomeIcon,
       fillIcon: HomeIcon,
-      href: '/',
+      href: '/nfts/collections/0xFDBcAF35b55c0B8969b7B1265a405f87896380c1',
       items: [],
     },
     {
