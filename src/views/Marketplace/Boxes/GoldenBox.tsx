@@ -157,7 +157,7 @@ const GoldenBox = () => {
                   <Flex flexDirection="column">
                     <GradientButton
                       endIcon={isApproving || isConfirming ? <AutoRenewIcon spin color="currentColor" /> : undefined}
-                      disabled
+                      disabled={isApproving || isConfirming || isNotEnoughBalance}
                       onClick={isApproved ? handleConfirm : handleApprove}
                       fontSize="16px"
                       fontWeight="700"
