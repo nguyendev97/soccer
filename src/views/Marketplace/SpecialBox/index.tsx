@@ -20,7 +20,7 @@ import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
-import { getRefferalOwnerAddress } from 'utils/addressHelpers'
+import { getRefferalOwnerAddress, getBoxSaleAddress } from 'utils/addressHelpers'
 import Video from 'components/Video'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import VariousKickers from 'components/VariousKickers'
@@ -57,7 +57,8 @@ const SpecialBox = () => {
   const [remain, setRemain] = useState(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [priceOfBox, setPriceOfBox] = useState<number>(0)
-  const boxSaleContract = useBoxSaleContract()
+  const boxSaleAddress = getBoxSaleAddress(chainId)
+  const boxSaleContract = useBoxSaleContract(boxSaleAddress)
   const refferalContract = useRefferalContract()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()

@@ -233,10 +233,10 @@ export function useBCakeProxyContract(proxyContractAddress: string, withSignerIf
   )
 }
 
-export const useBoxSaleContract = (withSignerIfPossible = true) => {
+export const useBoxSaleContract = (address: string, withSignerIfPossible = true) => {
   const { chainId } = useActiveWeb3React()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getBoxSaleContract(chainId, providerOrSigner), [providerOrSigner, chainId])
+  return useMemo(() => getBoxSaleContract(address, chainId, providerOrSigner), [providerOrSigner, chainId, address])
 }
 
 export const useHalloweenBoxSaleContract = (withSignerIfPossible = true) => {

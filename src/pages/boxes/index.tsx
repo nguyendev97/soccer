@@ -5,9 +5,9 @@ import CommonBox from 'views/Marketplace/Boxes/CommonBox'
 const IndexPage = () => {
   return (
     <>
-      {/* <GoldenBox />
+      <GoldenBox />
       <SilverBox />
-      <CommonBox /> */}
+      <CommonBox />
     </>
   )
 }

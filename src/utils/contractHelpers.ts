@@ -318,8 +318,8 @@ export const getBCakeProxyContract = (proxyContractAddress: string, signer?: Sig
   return getContract({ abi: bCakeProxyAbi, address: proxyContractAddress, signer }) as BCakeProxy
 }
 
-export const getBoxSaleContract = (chainId?: number, signer?: Signer | Provider) => {
-  return getContract({ abi: boxSaleAbi, address: getBoxSaleAddress(chainId), signer })
+export const getBoxSaleContract = (address, chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: boxSaleAbi, address, signer })
 }
 
 export const getHalloweenBoxSaleContract = (chainId?: number, signer?: Signer | Provider) => {

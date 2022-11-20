@@ -17,7 +17,7 @@ import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
-import { getRefferalOwnerAddress } from 'utils/addressHelpers'
+import { getRefferalOwnerAddress, getBoxSaleAddress } from 'utils/addressHelpers'
 import Video from 'components/Video'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import VariousKickers from 'components/VariousKickers'
@@ -50,21 +50,8 @@ import {
   EQUIPS_RARE,
 } from './constants'
 
-const SPECIAL_TYPE = 1
+const BOX_TYPE = 3
 const refferalOwnerAddress = getRefferalOwnerAddress()
-
-export const dateDiffIndays = (date) => {
-  const now = new Date()
-  const fromDate = new Date(date)
-  return (
-    -1 *
-    Math.floor(
-      (Date.UTC(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()) -
-        Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())) /
-        (1000 * 60 * 60 * 24),
-    )
-  )
-}
 
 export const fromDate = '2022/11/12'
 const SilverBox = () => {
@@ -76,7 +63,8 @@ const SilverBox = () => {
   const [remain, setRemain] = useState(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [priceOfBox, setPriceOfBox] = useState<number>(0)
-  const boxSaleContract = useBoxSaleContract()
+  const boxSaleAddress = getBoxSaleAddress(chainId)
+  const boxSaleContract = useBoxSaleContract(boxSaleAddress)
   const refferalContract = useRefferalContract()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()
@@ -94,16 +82,14 @@ const SilverBox = () => {
 
   useEffect(() => {
     // Get Price of each box
-    boxSaleContract.prices(SPECIAL_TYPE).then((price) => {
+    boxSaleContract.prices(BOX_TYPE).then((price) => {
       const busdBalance = getBalanceAmount(new BigNumber(price._hex))
       setPriceOfBox(busdBalance.toNumber())
     })
 
     // Get amount of remaining boxes
-    boxSaleContract.remains(SPECIAL_TYPE).then((res) => {
-      const diff = dateDiffIndays(fromDate)
-      const fakeBought = 4000 + 5000 + 261
-      setRemain(res.toNumber() - fakeBought)
+    boxSaleContract.remains(BOX_TYPE).then((res) => {
+      setRemain(res.toNumber())
     })
 
     // Check if registered yet
@@ -130,7 +116,7 @@ const SilverBox = () => {
       )
     },
     onConfirm: () => {
-      return callWithGasPrice(boxSaleContract, 'buy', [SPECIAL_TYPE, amount])
+      return callWithGasPrice(boxSaleContract, 'buy', [BOX_TYPE, amount])
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
