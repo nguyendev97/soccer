@@ -50,7 +50,7 @@ const WalletCard: React.FC<React.PropsWithChildren<Props<any>>> = ({ login, wall
     },
   };
 
-  alert(JSON.stringify({isMobile, installed, title, walletConfig: walletConfig.connectorId, ether: window.ethereum}))
+  // alert(JSON.stringify({isMobile, installed, title, walletConfig: walletConfig.connectorId, ether: window.ethereum}))
 
   if (installed === false && isDesktop && downloadLink?.desktop) {
     linkAction = {
