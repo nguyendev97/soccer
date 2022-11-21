@@ -88,7 +88,7 @@ const Kickers = () => {
             </Flex>
           )}
           {!isLoading &&
-            nfts.slice(page * PAGE_SIZE, PAGE_SIZE * (page + 1)).map(({ image, attributes, token_id: tokenId }) => {
+            nfts.slice(page * PAGE_SIZE, PAGE_SIZE * (page + 1)).map(({ image, attributes, tokenId }) => {
               const meta: any = keyBy(attributes, 'key')
               return (
                 <NextLink href={`/nfts/collections/${playersAddress}/${tokenId}`}>
