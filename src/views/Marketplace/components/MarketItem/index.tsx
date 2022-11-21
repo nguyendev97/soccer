@@ -225,7 +225,7 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
         <Flex>
           <Avatar>
             <PlayerInfo rarity={ratity}>
-              <PlayerAvatar avatar={avatar} />
+              <PlayerAvatar avatar={avatar.replace('.io', '.net')} />
               {/* <img style={{height: 100, width: 'fit-content'}} src={avatar} alt={code} className="avatar-img" /> */}
             </PlayerInfo>
           </Avatar>
