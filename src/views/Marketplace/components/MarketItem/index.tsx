@@ -94,7 +94,7 @@ export const register = async (data) => {
   return null
 }
 
-export const importNfts = async (data) => {
+export const importNfts = async (data, toastErr) => {
   const authorization = localStorage.getItem(TOKEN_KEY)
   const res = await fetch(`${API_NFT}/import`, {
     body: JSON.stringify(data),
@@ -108,11 +108,12 @@ export const importNfts = async (data) => {
     const json = await res.json()
     return json
   }
+  toastErr('Failed to post importNfts')
   console.error('Failed to fetch importNfts', res.statusText)
   return null
 }
 
-export const updateImportNfts = async (requestId) => {
+export const updateImportNfts = async (requestId, toastErr) => {
   const authorization = localStorage.getItem(TOKEN_KEY)
   const res = await fetch(`${API_NFT}/import/${requestId}`, {
     method: 'PUT', // or 'PUT'
@@ -125,6 +126,7 @@ export const updateImportNfts = async (requestId) => {
     const json = await res.json()
     return json
   }
+  toastErr('Failed to update importNfts')
   console.error('Failed to fetch updateImportNfts', res.statusText)
   return null
 }
@@ -177,12 +179,12 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
     
     const resImport = await importNfts({
       tokenIds: [tokenId]
-    }).catch(err => toastError(err.message))
+    }, toastError).catch(err => toastError(err.message))
     console.log({resImport})
     // importNFT.
     const tx = await callWithEstimateGas(importNFTContract, 'importNFT', [tokenId, resImport.importRequestId])
     await tx.wait()
-    const resUpdate = updateImportNfts(resImport.importRequestId).catch(err => toastError(err.message))
+    const resUpdate = updateImportNfts(resImport.importRequestId, toastError).catch(err => toastError(err.message))
     console.log({resUpdate})
     if (resUpdate) {
       setIsImported(true)
@@ -209,7 +211,7 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
       )
     },
     onConfirm: () => {
-      return handleImport()
+      return handleImport(toastError)
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
