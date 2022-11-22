@@ -8,7 +8,7 @@ import { Box } from "../../components/Box";
 import Flex from "../../components/Box/Flex";
 import Footer from "../../components/Footer";
 import MenuItems from "../../components/MenuItems/MenuItems";
-import { SubMenuItems } from "../../components/SubMenuItems";
+// import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../contexts";
 import Logo from "./components/Logo";
 import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
@@ -112,7 +112,6 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   toggleTheme,
   currentLang,
   setLang,
-  cakePriceUsd,
   links,
   subLinks,
   footerLinks,
@@ -171,8 +170,8 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   // Find the home link if provided
   const homeLink = links.find((link) => link.label === "Home");
 
-  const subLinksWithoutMobile = subLinks?.filter((subLink) => !subLink.isMobileOnly);
-  const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
+  // const subLinksWithoutMobile = subLinks?.filter((subLink) => !subLink.isMobileOnly);
+  // const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
 
   return (
     <MenuContext.Provider value={{ linkComponent }}>
@@ -229,7 +228,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
               langs={langs}
               setLang={setLang}
               currentLang={currentLang}
-              cakePriceUsd={cakePriceUsd}
+              // cakePriceUsd={cakePriceUsd}
               buyCakeLabel={buyCakeLabel}
               mb={[`${MOBILE_MENU_HEIGHT}px`, null, "0px"]}
             />

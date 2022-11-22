@@ -8,9 +8,10 @@ import { Menu as UikitMenu, Flex, Text } from '@pancakeswap/uikit'
 import { useTranslation, languageList } from '@pancakeswap/localization'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { useAccount } from 'wagmi'
-// import { NetworkSwitcher } from 'components/NetworkSwitcher'
+// import { useGetCakeBalance } from 'hooks/useTokenBalance'
 import useTheme from 'hooks/useTheme'
 import ReferralBox from 'views/Profile/components/ReferralBox'
+// import { formatBigNumber } from 'utils/formatBalance'
 import UserMenu from './UserMenu'
 import { useMenuItems } from './hooks/useMenuItems'
 import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
@@ -58,6 +59,8 @@ const Menu = (props) => {
   const { pathname } = router
   const { address: account } = useAccount()
 
+  // const { balance } = useGetCakeBalance()
+  // const sotBalance = formatBigNumber(balance)
   const menuItems = useMenuItems()
   const activeMenuItem = getActiveMenuItem({ menuConfig: menuItems, pathname })
   const activeSubMenuItem = getActiveSubMenuItem({ menuItem: activeMenuItem, pathname })
@@ -124,13 +127,13 @@ const Menu = (props) => {
         currentLang={currentLanguage.code}
         langs={languageList}
         setLang={setLanguage}
-        cakePriceUsd={0}
+        // sotBalance={sotBalance}
         links={menuItems}
         subLinks={activeMenuItem?.hideSubNav || activeSubMenuItem?.hideSubNav ? [] : activeMenuItem?.items}
         footerLinks={getFooterLinks}
         activeItem={activeMenuItem?.href}
         activeSubItem={activeSubMenuItem?.href}
-        buyCakeLabel={t('Buy CAKE')}
+        buyCakeLabel={t('Buy SOT')}
         {...props}
       />
     </>

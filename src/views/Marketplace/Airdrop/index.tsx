@@ -1,35 +1,25 @@
 import { useState, useEffect } from 'react'
 import { SearchIcon, useToast } from '@pancakeswap/uikit'
-import CountDown from 'components/CountDown'
 import SearchInput from 'components/SearchInput'
 import VariousKickers from 'components/VariousKickers'
-import Image from 'next/image'
 import { useWeb3React } from '@pancakeswap/wagmi'
 import { useOpenSLegendContract, useERC1155 } from 'hooks/useContract'
 import { getSLegendBoxAddress } from 'utils/addressHelpers'
-import { coin2xImage } from 'views/Marketplace/images'
 import { callWithEstimateGas } from 'utils/calls'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import { ToastDescriptionWithTx } from 'components/Toast'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import CompetitionTable from './CompetitionTable'
 import {
-  AirdropContent,
-  AirdropTitle,
-  AirdropWrapper,
-  AirdropWrapperData,
   BoxContent,
   BoxShowCase,
   BoxWrapper,
-  CountDownWrapper,
-  DataItem,
-  DataTitle,
   GradientButton,
   SearchWrapper,
   SectionDesc,
   SectionTitle,
   SectionWrapper,
-  StyledNotify,
+  // StyledNotify,
   Wrapper,
 } from './styles'
 
@@ -131,7 +121,7 @@ const QuestBoxSection = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
 
-  console.log({sLegendBoxAmount, sLegendBoxContract})
+  // console.log({sLegendBoxAmount, sLegendBoxContract})
 
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
     onRequiresApproval: async () => {
@@ -152,7 +142,7 @@ const QuestBoxSection = () => {
       )
     },
     onConfirm: () => {
-      return callWithEstimateGas(openSLegendContract, 'open', [Date.now(), [[SLEGEND]], [[sLegendBoxAmount > 5 ? 5 : sLegendBoxAmount]]])
+      return callWithEstimateGas(openSLegendContract, 'open', [Date.now(), [[SLEGEND]], [[1]]])
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
@@ -192,7 +182,7 @@ const SearchSection = () => {
       <SectionTitle>SEARCH</SectionTitle>
       <SectionDesc>Complete quests to increase your rank!</SectionDesc>
       <SearchWrapper>
-        <SearchInput onChange={() => console.log('')} />
+        <SearchInput onChange={} />
         <SearchIcon className="search-icon" />
       </SearchWrapper>
     </SectionWrapper>

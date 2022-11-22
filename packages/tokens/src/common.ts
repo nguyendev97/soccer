@@ -2,7 +2,7 @@ import { ChainId, Token, WBNB as WBNB_SDK } from '@pancakeswap/sdk'
 
 export const CAKE_MAINNET = new Token(
   ChainId.BSC,
-  '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',
+  '0xde1a0f6c7078c5da0a6236eeb04261f4699905c5',
   18,
   'CAKE',
   'PancakeSwap Token',

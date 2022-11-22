@@ -79,7 +79,7 @@ const SoccerBox = () => {
             <BoxItem
               disabled={amountCommonBox < 1}
               totalBox={amountCommonBox}
-              avatar="/videos/common.mp4"
+              avatar="/videos/Common.mp4"
               boxName="Common box"
               onClick={null}
             />

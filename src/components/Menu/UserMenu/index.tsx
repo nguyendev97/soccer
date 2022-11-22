@@ -13,12 +13,14 @@ import {
 } from '@pancakeswap/uikit'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import Trans from 'components/Trans'
+import { useGetCakeBalance } from 'hooks/useTokenBalance'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import useAuth from 'hooks/useAuth'
 import { useEffect, useState } from 'react'
 import { useProfile } from 'state/profile/hooks'
 import { usePendingTransactions } from 'state/transactions/hooks'
 import { useAccount } from 'wagmi'
+import { formatBigNumber } from 'utils/formatBalance'
 import ProfileUserMenuItem from './ProfileUserMenuItem'
 import WalletModal, { WalletView } from './WalletModal'
 import WalletUserMenuItem from './WalletUserMenuItem'
@@ -28,6 +30,8 @@ const UserMenu = () => {
   const { address: account } = useAccount()
   const { chainId, isWrongNetwork } = useActiveChainId()
   const { logout } = useAuth()
+  const { balance } = useGetCakeBalance()
+  const sotBalance = formatBigNumber(balance)
   const { hasPendingTransactions, pendingNumber } = usePendingTransactions()
   const { isInitialized, isLoading, profile } = useProfile()
   const [onPresentWalletModal] = useModal(<WalletModal initialView={WalletView.WALLET_INFO} />)
@@ -90,7 +94,7 @@ const UserMenu = () => {
 
   if (account) {
     return (
-      <UIKitUserMenu account={account} avatarSrc={avatarSrc} text={userMenuText} variant={userMenuVariable}>
+      <UIKitUserMenu sotBalance={sotBalance} account={account} avatarSrc={avatarSrc} text={userMenuText} variant={userMenuVariable}>
         {({ isOpen }) => (isOpen ? <UserMenuItems /> : null)}
       </UIKitUserMenu>
     )
@@ -98,7 +102,7 @@ const UserMenu = () => {
 
   if (isWrongNetwork) {
     return (
-      <UIKitUserMenu text={t('Network')} variant="danger">
+      <UIKitUserMenu sotBalance={sotBalance} text={t('Network')} variant="danger">
         {({ isOpen }) => (isOpen ? <UserMenuItems /> : null)}
       </UIKitUserMenu>
     )

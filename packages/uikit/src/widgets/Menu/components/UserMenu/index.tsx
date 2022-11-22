@@ -92,7 +92,7 @@ export const Avatar = styled.div`
 const UserMenu: React.FC<UserMenuProps> = ({
   account,
   text,
-  avatarSrc,
+  sotBalance,
   variant = variants.DEFAULT,
   children,
   disabled,
@@ -144,7 +144,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
               {text || accountEllipsis}
             </LabelText>
             <WrapperTextAmount>
-              <TextAmount>0 SOT</TextAmount>
+              <TextAmount>{sotBalance} SOT</TextAmount>
               <Image src={coin2xImage} width="20px" height="20px" alt="coin" />
             </WrapperTextAmount>
           </AccountWallet>
