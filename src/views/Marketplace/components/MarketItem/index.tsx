@@ -211,7 +211,7 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
       )
     },
     onConfirm: () => {
-      return handleImport(toastError)
+      return handleImport()
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
