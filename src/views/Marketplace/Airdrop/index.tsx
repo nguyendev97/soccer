@@ -182,7 +182,7 @@ const SearchSection = () => {
       <SectionTitle>SEARCH</SectionTitle>
       <SectionDesc>Complete quests to increase your rank!</SectionDesc>
       <SearchWrapper>
-        <SearchInput onChange={} />
+        <SearchInput onChange={null} />
         <SearchIcon className="search-icon" />
       </SearchWrapper>
     </SectionWrapper>
