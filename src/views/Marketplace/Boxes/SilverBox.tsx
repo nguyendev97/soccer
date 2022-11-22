@@ -6,12 +6,12 @@ import GradientButton from 'components/GradientButton'
 import Image from 'next/image'
 import { requiresApproval } from 'utils/requiresApproval'
 import BigNumber from 'bignumber.js'
-import { BUSD } from '@pancakeswap/tokens'
+import { CAKE } from '@pancakeswap/tokens'
 import { ChainId } from '@pancakeswap/sdk'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { ethers } from 'ethers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { getBalanceAmount, formatAmount } from 'utils/formatBalance'
+import { getBalanceAmount, formatAmount, getBalanceNumber } from 'utils/formatBalance'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
@@ -24,7 +24,7 @@ import VariousKickers from 'components/VariousKickers'
 import 'swiper/css/bundle'
 import { EffectCoverflow, Navigation, Autoplay } from 'swiper'
 import RegisterModal from '../components/RegisterModal'
-import { backgroundSoccerImage, borderImage, busdImage } from '../images'
+import { backgroundSoccerImage, borderImage, sotIcon } from '../images'
 
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
@@ -68,9 +68,9 @@ const SilverBox = () => {
   const refferalContract = useRefferalContract()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()
-  const busdContract = useERC20(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address)
-  const { balance } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, false)
-  const userBusdBalance = getBalanceAmount(new BigNumber(balance)).toNumber()
+  const busdContract = useERC20(CAKE[chainId]?.address || CAKE[ChainId.BSC]?.address)
+  const { balance } = useTokenBalance(CAKE[chainId]?.address || CAKE[ChainId.BSC]?.address, false)
+  const userBusdBalance = getBalanceNumber(balance)
 
   useEffect(() => {
     if (router.query.ref) {
@@ -160,13 +160,13 @@ const SilverBox = () => {
                       fontWeight="700"
                     >
                       <Flex style={{ alignItems: 'center' }}>
-                        <Image src={busdImage} width="26px" />
+                        <Image src={sotIcon} width="26px" />
                         <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
                           {isApproving && 'Approving'}
                           {isConfirming && 'Confirming'}
                           {!isApproving &&
                             !isConfirming &&
-                            (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
+                            (`${formatAmount(priceOfBox * amount)} SOT` || 'loading...')}
                         </Text>
                       </Flex>
                     </GradientButton>
@@ -193,7 +193,7 @@ const SilverBox = () => {
 
                 <Flex alignItems="center" mt="12px">
                   <Text mr="8px">Your balance: </Text>
-                  <Image src={busdImage} width="20px" height="20px" />
+                  <Image src={sotIcon} width="20px" height="20px" />
                   <Text bold color="#fff" ml="4px">
                     {formatAmount(userBusdBalance)}
                   </Text>

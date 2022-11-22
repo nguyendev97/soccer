@@ -150,7 +150,7 @@ export default {
     97: '0x1c529e1910adc5a397e59ceb3f55ce85f81c9885',
   },
   boxesOpen: {
-    56: '0xdBfcEe104d8C8df2f45661D17A18D75a9Ed2894D',
+    56: '0x9e9802E36D7E9221Ecd239E06FBb30c2FB1BF9D4',
     97: '0x00c376468CA10dAEfFc4F1EAe31b35843Ebc128E',
   },
   halloweenBoxesOpen: {
@@ -180,7 +180,7 @@ export default {
   },
   importNFT: {
     56: '0xe87c10452b14BFC3Bf7dF867dE35323A93bbc5c9',
-    97: '0xbbF02F674f6941aadF807D5449b93B821732503e'
+    97: '0xAC65221705019308214d7004E02d2c9B6C729955'
   },
   openSLegend: {
     56: '0x3C5D0aA8671C6a6EEef2FcaD745bcE55c3ADa445',
