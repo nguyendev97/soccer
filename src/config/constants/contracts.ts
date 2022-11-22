@@ -142,7 +142,7 @@ export default {
     97: '0xd07C4e6Fc6a8da6b086e750E94A2679E2f158BAB',
   },
   boxSale: {
-    56: '0xecce07eca0149a6d78dd47024202093987f2e54c',
+    56: '0x9e9802E36D7E9221Ecd239E06FBb30c2FB1BF9D4',
     97: '0xecce07eca0149a6d78dd47024202093987f2e54c',
   },
   boxes: {
