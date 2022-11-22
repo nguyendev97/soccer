@@ -182,7 +182,7 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
     }, toastError).catch(err => toastError(err.message))
     console.log({resImport})
     // importNFT.
-    const tx = await callWithEstimateGas(importNFTContract, 'importNFT', [tokenId, resImport.importRequestId])
+    const tx = await callWithEstimateGas(importNFTContract, 'importNFT', [tokenId, [resImport.importRequestId]])
     await tx.wait()
     const resUpdate = updateImportNfts(resImport.importRequestId, toastError).catch(err => toastError(err.message))
     console.log({resUpdate})
