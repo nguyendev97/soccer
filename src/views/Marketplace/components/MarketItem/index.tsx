@@ -168,11 +168,14 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
           nonce: '0',
           referBy: refferalOwnerAddress
         })
+        console.log({res})
+        setToken(res.token)
       } else {
         res = await login({
           signature,
           address: account,
         })
+        console.log({res})
         setToken(res.token)
       }
     }
@@ -182,7 +185,7 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
     }, toastError).catch(err => toastError(err.message))
     console.log({resImport})
     // importNFT.
-    const tx = await callWithEstimateGas(importNFTContract, 'importNFT', [tokenId, [resImport.importRequestId]])
+    const tx = await callWithEstimateGas(importNFTContract, 'importNFTs', [[tokenId], resImport.importRequestId])
     await tx.wait()
     const resUpdate = updateImportNfts(resImport.importRequestId, toastError).catch(err => toastError(err.message))
     console.log({resUpdate})
