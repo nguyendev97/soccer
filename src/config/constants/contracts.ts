@@ -180,7 +180,7 @@ export default {
   },
   importNFT: {
     56: '0xe87c10452b14BFC3Bf7dF867dE35323A93bbc5c9',
-    97: '0xfA4A43BCD6Eab9A08F923Bd25a4e6D54bB8886a5'
+    97: '0xbbF02F674f6941aadF807D5449b93B821732503e'
   },
   openSLegend: {
     56: '0x3C5D0aA8671C6a6EEef2FcaD745bcE55c3ADa445',
