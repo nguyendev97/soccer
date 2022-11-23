@@ -61,6 +61,7 @@ const SilverBox = () => {
   const [refAddress, setRefAddress] = useState('')
   const [amount, setAmount] = useState(1)
   const [remain, setRemain] = useState(0)
+  const [priceOfSot, setPriceOfSot] = useState<number>(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [priceOfBox, setPriceOfBox] = useState<number>(0)
   const boxSaleAddress = getBoxSaleAddress(chainId)
@@ -96,6 +97,13 @@ const SilverBox = () => {
     if (account) {
       refferalContract.isReferrer(account).then(setIsRegistered)
     }
+    boxSaleContract
+      // eslint-disable-next-line no-restricted-properties
+      .busd2Token(CAKE[chainId]?.address, '1000000000000000000')
+      .then(res => {
+        const sot = getBalanceAmount(new BigNumber(res._hex))
+        setPriceOfSot(sot.toNumber())
+      })
   }, [amount, boxSaleContract, account, refferalContract])
 
   const [onPresentRegisterModal] = useModal(
@@ -126,7 +134,7 @@ const SilverBox = () => {
     },
   })
 
-  const isNotEnoughBalance = userBusdBalance < priceOfBox * amount
+  const isNotEnoughBalance = userBusdBalance < priceOfBox * amount * priceOfSot
 
   return (
     <>
@@ -166,7 +174,7 @@ const SilverBox = () => {
                           {isConfirming && 'Confirming'}
                           {!isApproving &&
                             !isConfirming &&
-                            (`${formatAmount(priceOfBox * amount)} SOT` || 'loading...')}
+                            (`${formatAmount(priceOfBox * amount * priceOfSot)} SOT` || 'loading...')}
                         </Text>
                       </Flex>
                     </GradientButton>

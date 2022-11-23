@@ -4,14 +4,15 @@ import { useWeb3React } from '@pancakeswap/wagmi'
 import { Flex, Text, useToast, useModal, AutoRenewIcon, Grid } from '@pancakeswap/uikit'
 import GradientButton from 'components/GradientButton'
 import Image from 'next/image'
+import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import { requiresApproval } from 'utils/requiresApproval'
 import BigNumber from 'bignumber.js'
-import { CAKE } from '@pancakeswap/tokens'
+import { CAKE, BUSD } from '@pancakeswap/tokens'
 import { ChainId } from '@pancakeswap/sdk'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { ethers } from 'ethers'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { getBalanceAmount, formatAmount, getBalanceNumber } from 'utils/formatBalance'
+import { getBalanceAmount, formatAmount, getBalanceNumber, formatBigNumber } from 'utils/formatBalance'
 import useTokenBalance from 'hooks/useTokenBalance'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { useBoxSaleContract, useERC20, useRefferalContract } from 'hooks/useContract'
@@ -53,6 +54,7 @@ const CommonBox = () => {
   const [remain, setRemain] = useState(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [priceOfBox, setPriceOfBox] = useState<number>(0)
+  const [priceOfSot, setPriceOfSot] = useState<number>(0)
   const boxSaleAddress = getBoxSaleAddress(chainId)
   const boxSaleContract = useBoxSaleContract(boxSaleAddress)
   const refferalContract = useRefferalContract()
@@ -86,7 +88,14 @@ const CommonBox = () => {
     if (account) {
       refferalContract.isReferrer(account).then(setIsRegistered)
     }
-  }, [amount, boxSaleContract, account, refferalContract])
+    boxSaleContract
+      // eslint-disable-next-line no-restricted-properties
+      .busd2Token(CAKE[chainId]?.address, '1000000000000000000')
+      .then(res => {
+        const sot = getBalanceAmount(new BigNumber(res._hex))
+        setPriceOfSot(sot.toNumber())
+      })
+  }, [amount, boxSaleContract, account, refferalContract, chainId])
 
   const [onPresentRegisterModal] = useModal(
     <RegisterModal refAddress={refAddress} rootRef={refferalOwnerAddress} onDone={() => setIsRegistered(true)} />,
@@ -116,7 +125,7 @@ const CommonBox = () => {
     },
   })
 
-  const isNotEnoughBalance = userBusdBalance < priceOfBox * amount
+  const isNotEnoughBalance = userBusdBalance < priceOfBox * amount * priceOfSot
 
   return (
     <>
@@ -156,7 +165,7 @@ const CommonBox = () => {
                           {isConfirming && 'Confirming'}
                           {!isApproving &&
                             !isConfirming &&
-                            (`${formatAmount(priceOfBox * amount)} SOT` || 'loading...')}
+                            (`${formatAmount(priceOfSot * priceOfBox * amount)} SOT` || 'loading...')}
                         </Text>
                       </Flex>
                     </GradientButton>
