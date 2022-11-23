@@ -274,7 +274,7 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
       </ItemProperties>
       {!isMobile && (
         <ItemPrice>
-          {chainId === 97 ? isImported
+          {isImported
             ? <ButtonSelling disabled>Imported</ButtonSelling>
             :<ButtonSelling onClick={event => {
               event.preventDefault()
@@ -284,9 +284,8 @@ const MarketItem: React.FC<React.PropsWithChildren<ItemProps>> = ({
                 handleApprove()
               }
             }}>{isApproving || isConfirming ? 'Loading ...' : isApproved ? 'Import' : 'Approve'}</ButtonSelling>
-            : null
           }
-          {chainId === 56 && <ButtonSelling disabled>In Wallet</ButtonSelling>}
+          {/* {chainId === 56 && <ButtonSelling disabled>In Wallet</ButtonSelling>} */}
         </ItemPrice>
       )}
     </FlexRowItem>
