@@ -124,6 +124,9 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       )
     },
     onConfirm: () => {
+      console.log('open', {
+        type
+      })
       return callWithEstimateGas(boxesOpenContract, 'open', [Date.now(), [type], [amountBoxes]], null, amountBoxes * 10000)
     },
     onSuccess: async ({ receipt }) => {
@@ -135,7 +138,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
           .then((res) => {
             let amountCloned = cloneDeep(previousBalance)
             const balance = res.toNumber()
-            // console.log({contract, previousBalance, balance})
+            console.log({contract, previousBalance, balance})
             // eslint-disable-next-line prefer-const
             let newIds = []
             while (amountCloned < balance) {
