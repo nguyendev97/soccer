@@ -28,10 +28,15 @@ import { useTranslation } from '@pancakeswap/localization'
 import GradientButton from 'components/GradientButton'
 import styled from 'styled-components'
 import SuccessModal from 'views/Marketplace/components/SuccessModal'
-import { specialSellBoxImage, halloweenBoxImage } from '../images'
+import { specialSellBoxImage, halloweenBoxImage, goldBoxImage, silverBoxImage, commonBoxImage, } from '../images'
 
-const SPECIAL_TYPE = 1
-const HALLOWEEN_TYPE = 5
+const IMAGE_MAP = {
+  1: specialSellBoxImage,
+  5: halloweenBoxImage,
+  2: goldBoxImage,
+  3: silverBoxImage,
+  4: commonBoxImage
+}
 
 const ModalContainer = styled(UIKitModalContainer)`
   background: ${({ theme }) => theme.colors.modalBackground};
@@ -63,14 +68,13 @@ const RegisterButton = styled(GradientButton)`
 
 interface OpenBoxesModalProps extends InjectedModalProps {
   maxAmount: number
-  type?: string
+  type: number
+  address: string
 }
-
-const HALLOWEEN = 'halloween'
 
 const MAX_AMOUNT = 5
 
-const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = ({ onDismiss, maxAmount, type }) => {
+const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = ({ onDismiss, maxAmount, type, address }) => {
   const { t } = useTranslation()
   const [metaDatas, setMetaDatas] = useState([])
   const [playerBalances, setPlayerBalances] = useState(0)
@@ -85,10 +89,10 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
   const boxesContract = useERC1155(boxesAddress)
   const playersContract = useERC721(playersAddress)
   const equipmentsContract = useERC721(equipmentsAddress)
-  const boxesOpenContract = useBoxesOpenContract()
-  const halloweenBoxesOpenContract = useHalloweenBoxesOpenContract()
+  const boxesOpenContract = useBoxesOpenContract(address)
+  // const halloweenBoxesOpenContract = useHalloweenBoxesOpenContract()
   const [onPresentSuccessModal] = useModal(<SuccessModal type={type} metaDatas={metaDatas} />)
-  const selectedBoxesOpenContract = type === HALLOWEEN ? halloweenBoxesOpenContract : boxesOpenContract
+  // const selectedBoxesOpenContract = type === HALLOWEEN ? halloweenBoxesOpenContract : boxesOpenContract
 
   useEffect(() => {
     playersContract
@@ -104,14 +108,14 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
   const { isApproving, isApproved, isConfirming, handleApprove, handleConfirm } = useApproveConfirmTransaction({
     onRequiresApproval: async () => {
       try {
-        const approvedForContract = await boxesContract.isApprovedForAll(account, selectedBoxesOpenContract.address)
+        const approvedForContract = await boxesContract.isApprovedForAll(account, boxesOpenContract.address)
         return !approvedForContract
       } catch (error) {
         return true
       }
     },
     onApprove: () => {
-      return callWithGasPrice(boxesContract, 'setApprovalForAll', [selectedBoxesOpenContract.address, true])
+      return callWithGasPrice(boxesContract, 'setApprovalForAll', [boxesOpenContract.address, true])
     },
     onApproveSuccess: async ({ receipt }) => {
       toastSuccess(
@@ -120,7 +124,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       )
     },
     onConfirm: () => {
-      return callWithEstimateGas(selectedBoxesOpenContract, 'open', [Date.now(), [type === HALLOWEEN ? HALLOWEEN_TYPE : SPECIAL_TYPE], [amountBoxes]], null, amountBoxes * 10000)
+      return callWithEstimateGas(boxesOpenContract, 'open', [Date.now(), [type], [amountBoxes]], null, amountBoxes * 10000)
     },
     onSuccess: async ({ receipt }) => {
 
@@ -201,7 +205,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
     <ModalContainer title={t('Open special box(es)!')} $minWidth="440px">
       <ModalHeader>
         <ModalTitle>
-          <Heading style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>{`Open ${type === HALLOWEEN ? 'halloween' : 'special'} box(es) !`}</Heading>
+          <Heading style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>Open box(es) !</Heading>
         </ModalTitle>
         <IconButton variant="text" onClick={onDismiss}>
           <CloseIcon width="24px" color="#fff" />
@@ -211,7 +215,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
         <ModalBodyContent>
           <Flex flexDirection="column" alignItems="center">
             <Box width="50%" mb="8px">
-              <Image src={type === HALLOWEEN ? halloweenBoxImage : specialSellBoxImage} alt="Box" className="box-image" />
+              <Image src={IMAGE_MAP[type] || commonBoxImage} alt="Box" className="box-image" />
             </Box>
             <CodeInput
               max={5}

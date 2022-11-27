@@ -4,7 +4,7 @@ import { useWeb3React } from '@pancakeswap/wagmi'
 import { useModal, Grid } from '@pancakeswap/uikit'
 import { useERC1155 } from 'hooks/useContract'
 import { useCurrentBlock } from 'state/block/hooks'
-import { getBoxesAddress } from 'utils/addressHelpers'
+import { getBoxesAddress, getBoxesGSCOpenAddress, getHalloweenBoxesOpenAddress, getBoxesOpenAddress } from 'utils/addressHelpers'
 import OpenBoxesModal from '../components/OpenBoxesModal'
 import BoxItem from '../components/BoxItem'
 
@@ -16,11 +16,11 @@ export const Container = styled.div`
   margin: 0 auto;
 `
 
-const SPECIAL_TYPE = 1
-const HALLOWEEN_TYPE = 5
-const COMMON_TYPE = 4
-const GOLDEN_TYPE = 2
-const SILVER_TYPE = 3
+export const SPECIAL_TYPE = 1
+export const HALLOWEEN_TYPE = 5
+export const COMMON_TYPE = 4
+export const GOLDEN_TYPE = 2
+export const SILVER_TYPE = 3
 
 const SoccerBox = () => {
   const { account, chainId } = useWeb3React()
@@ -30,6 +30,9 @@ const SoccerBox = () => {
   const [amountCommonBox, setAmountCommonBox] = useState(0)
   const [amountHalloweenBox, setAmountHalloweenBox] = useState(0)
   const boxesAddress = getBoxesAddress(chainId)
+  const boxesSpecialOpenAddress = getBoxesOpenAddress(chainId)
+  const boxesGSCOpenAddress = getBoxesGSCOpenAddress(chainId)
+  const boxesHalloweenOpenAddress = getHalloweenBoxesOpenAddress(chainId)
   const boxesContract = useERC1155(boxesAddress)
   const currentBlock = useCurrentBlock()
   
@@ -53,8 +56,11 @@ const SoccerBox = () => {
     }
   }, [account, boxesContract, currentBlock])
 
-  const [onPresentOpenBoxesModal] = useModal(<OpenBoxesModal maxAmount={amountBox} />)
-  const [onPresentOpenHalloweenBoxesModal] = useModal(<OpenBoxesModal type="halloween" maxAmount={amountHalloweenBox} />)
+  const [onPresentOpenBoxesModal] = useModal(<OpenBoxesModal address={boxesSpecialOpenAddress} type={SPECIAL_TYPE} maxAmount={amountBox} />)
+  const [onPresentOpenHalloweenBoxesModal] = useModal(<OpenBoxesModal address={boxesHalloweenOpenAddress} type={HALLOWEEN_TYPE} maxAmount={amountHalloweenBox} />)
+  const [onPresentOpenGoldenBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={GOLDEN_TYPE} maxAmount={amountGoldenBox} />)
+  const [onPresentOpenSilverBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={SILVER_TYPE} maxAmount={amountGoldenBox} />)
+  const [onPresentOpenCommonBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={COMMON_TYPE} maxAmount={amountSilverBox} />)
 
   return (
     <>
@@ -67,21 +73,21 @@ const SoccerBox = () => {
               totalBox={amountGoldenBox}
               avatar="/videos/Golden.mp4"
               boxName="Golden box"
-              onClick={null}
+              onClick={onPresentOpenGoldenBoxesModal}
             />
             <BoxItem
               disabled={amountSilverBox < 1}
               totalBox={amountSilverBox}
               avatar="/videos/Silver.mp4"
               boxName="Silver box"
-              onClick={null}
+              onClick={onPresentOpenSilverBoxesModal}
             />
             <BoxItem
               disabled={amountCommonBox < 1}
               totalBox={amountCommonBox}
               avatar="/videos/Common.mp4"
               boxName="Common box"
-              onClick={null}
+              onClick={onPresentOpenCommonBoxesModal}
             />
             <BoxItem
               disabled={amountHalloweenBox < 1}

@@ -184,10 +184,16 @@ const ButtonStyled = styled(GradientButton)`
 
 interface SuccessModalProps extends InjectedModalProps {
   metaDatas: any[]
-  type?: string
+  type: number
 }
 
-const HALLOWEEN = 'halloween'
+const IMAGE_MAP = {
+  1: "/videos/open-successfully.mp4",
+  5: '/videos/open-halloween-successfully.mp4',
+  2: "/videos/open-golden-box.mp4",
+  3: "/videos/open-silver-box.mp4",
+  4: "/videos/open-common-box.mp4"
+}
 
 const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ onDismiss, metaDatas, type }) => {
   const { isMobile } = useMatchBreakpoints()
@@ -210,7 +216,7 @@ const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ on
       <ModalBody p="24px" width="100%">
         <ModalBodyContent numItems={metaDatas.length}>
           {shownVideo
-            ? <Flex width="100%" height="fit-content"><Video src={type === HALLOWEEN ? "/videos/open-halloween-successfully.mp4" : "/videos/open-successfully.mp4"} /></Flex>
+            ? <Flex width="100%" height="fit-content"><Video src={IMAGE_MAP[type]} /></Flex>
             : <>
                 <Swiper
                   effect="flip"

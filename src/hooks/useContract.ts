@@ -245,10 +245,10 @@ export const useHalloweenBoxSaleContract = (withSignerIfPossible = true) => {
   return useMemo(() => getHalloweenBoxSaleContract(chainId, providerOrSigner), [providerOrSigner, chainId])
 }
 
-export const useBoxesOpenContract = (withSignerIfPossible = true) => {
+export const useBoxesOpenContract = (address: string, withSignerIfPossible = true) => {
   const { chainId } = useActiveWeb3React()
   const providerOrSigner = useProviderOrSigner(withSignerIfPossible)
-  return useMemo(() => getBoxesOpenContract(chainId, providerOrSigner), [providerOrSigner, chainId])
+  return useMemo(() => getBoxesOpenContract(address, chainId, providerOrSigner), [providerOrSigner, chainId, address])
 }
 
 export const useHalloweenBoxesOpenContract = (withSignerIfPossible = true) => {

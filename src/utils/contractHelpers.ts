@@ -322,12 +322,16 @@ export const getBoxSaleContract = (address, chainId?: number, signer?: Signer | 
   return getContract({ abi: boxSaleAbi, address, signer })
 }
 
+// export const getBoxesOpenContract = (address, chainId?: number, signer?: Signer | Provider) => {
+//   return getContract({ abi: boxesOpenAbi, address, signer })
+// }
+
 export const getHalloweenBoxSaleContract = (chainId?: number, signer?: Signer | Provider) => {
   return getContract({ abi: boxSaleAbi, address: getHalloweenBoxSaleAddress(chainId), signer })
 }
 
-export const getBoxesOpenContract = (chainId?: number, signer?: Signer | Provider) => {
-  return getContract({ abi: boxesOpenAbi, address: getBoxesOpenAddress(chainId), signer })
+export const getBoxesOpenContract = (address, chainId?: number, signer?: Signer | Provider) => {
+  return getContract({ abi: boxesOpenAbi, address: address || getBoxesOpenAddress(chainId), signer })
 }
 
 export const getHalloweenBoxesOpenContract = (chainId?: number, signer?: Signer | Provider) => {
