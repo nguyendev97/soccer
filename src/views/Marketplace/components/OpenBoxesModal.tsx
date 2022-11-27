@@ -176,9 +176,13 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
             return metas
           })
       }
+      console.log({
+        playersContract,
+        playerBalances
+      })
       const resMetas = await Promise.all([
         fetchMetas(playersContract, playerBalances),
-        fetchMetas(equipmentsContract, equipmentBalances)
+        // fetchMetas(equipmentsContract, equipmentBalances)
       ])
       setMetaDatas(resMetas.flat())
       toastSuccess(
