@@ -127,7 +127,7 @@ const OpenBoxesModal: React.FC<React.PropsWithChildren<OpenBoxesModalProps>> = (
       console.log('open', {
         type
       })
-      return callWithEstimateGas(boxesOpenContract, 'open', [Date.now(), [type], [amountBoxes]], null, amountBoxes * 10000)
+      return callWithEstimateGas(boxesOpenContract, 'open', [Date.now(), [type], [amountBoxes]], null, amountBoxes * 20000)
     },
     onSuccess: async ({ receipt }) => {
 
