@@ -59,8 +59,8 @@ const SoccerBox = () => {
   const [onPresentOpenBoxesModal] = useModal(<OpenBoxesModal address={boxesSpecialOpenAddress} type={SPECIAL_TYPE} maxAmount={amountBox} />)
   const [onPresentOpenHalloweenBoxesModal] = useModal(<OpenBoxesModal address={boxesHalloweenOpenAddress} type={HALLOWEEN_TYPE} maxAmount={amountHalloweenBox} />)
   const [onPresentOpenGoldenBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={GOLDEN_TYPE} maxAmount={amountGoldenBox} />)
-  const [onPresentOpenSilverBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={SILVER_TYPE} maxAmount={amountGoldenBox} />)
-  const [onPresentOpenCommonBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={COMMON_TYPE} maxAmount={amountSilverBox} />)
+  const [onPresentOpenSilverBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={SILVER_TYPE} maxAmount={amountSilverBox} />)
+  const [onPresentOpenCommonBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={COMMON_TYPE} maxAmount={amountCommonBox} />)
 
   return (
     <>
