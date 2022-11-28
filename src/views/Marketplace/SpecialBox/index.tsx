@@ -9,7 +9,7 @@ import Page from 'components/Layout/Page'
 import Image from 'next/image'
 import { requiresApproval } from 'utils/requiresApproval'
 import BigNumber from 'bignumber.js'
-import { BUSD } from '@pancakeswap/tokens'
+import { CAKE } from '@pancakeswap/tokens'
 import { ChainId } from '@pancakeswap/sdk'
 import { useMatchBreakpoints } from '@pancakeswap/uikit/src/contexts'
 import { ethers } from 'ethers'
@@ -27,13 +27,13 @@ import VariousKickers from 'components/VariousKickers'
 import 'swiper/css/bundle'
 import { EffectCoverflow, Navigation, Autoplay } from "swiper"
 import RegisterModal from '../components/RegisterModal'
-import { backgroundSoccerImage, borderImage, busdImage } from '../images'
+import { backgroundSoccerImage, borderImage, sotIcon } from '../images'
 
 import "swiper/css"
 import "swiper/css/effect-coverflow"
 import "swiper/css/navigation"
 
-const SPECIAL_TYPE = 1
+const BOX_TYPE = 1
 const refferalOwnerAddress = getRefferalOwnerAddress()
 
 export const dateDiffIndays = (date) => {
@@ -57,13 +57,14 @@ const SpecialBox = () => {
   const [remain, setRemain] = useState(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [priceOfBox, setPriceOfBox] = useState<number>(0)
+  const [priceOfSot, setPriceOfSot] = useState<number>(0)
   const boxSaleAddress = getBoxSaleAddress(chainId)
   const boxSaleContract = useBoxSaleContract(boxSaleAddress)
   const refferalContract = useRefferalContract()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()
-  const busdContract = useERC20(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address)
-  const { balance } = useTokenBalance(BUSD[chainId]?.address || BUSD[ChainId.BSC]?.address, false)
+  const busdContract = useERC20(CAKE[chainId]?.address || CAKE[ChainId.BSC]?.address)
+  const { balance } = useTokenBalance(CAKE[chainId]?.address || CAKE[ChainId.BSC]?.address, false)
   const userBusdBalance = getBalanceAmount(new BigNumber(balance)).toNumber()
 
   useEffect(() => {
@@ -76,24 +77,28 @@ const SpecialBox = () => {
   
   useEffect(() => {
     // Get Price of each box
-    boxSaleContract.prices(SPECIAL_TYPE).then((price) => {
+    boxSaleContract.prices(BOX_TYPE).then((price) => {
       const busdBalance = getBalanceAmount(new BigNumber(price._hex))
       setPriceOfBox(busdBalance.toNumber())
     })
 
     // Get amount of remaining boxes
-    boxSaleContract.remains(SPECIAL_TYPE).then((res) => {
-      const diff = dateDiffIndays(fromDate)
-      const fakeBought = 4000 + 5000 + 261
-      setRemain(res.toNumber() - fakeBought)
+    boxSaleContract.remains(BOX_TYPE).then((res) => {
+      setRemain(res.toNumber())
     })
 
     // Check if registered yet
     if (account) {
       refferalContract.isReferrer(account).then(setIsRegistered)
     }
-    
-  }, [amount, boxSaleContract, account, refferalContract])
+    boxSaleContract
+      // eslint-disable-next-line no-restricted-properties
+      .busd2Token(CAKE[chainId]?.address, '1000000000000000000')
+      .then(res => {
+        const sot = getBalanceAmount(new BigNumber(res._hex))
+        setPriceOfSot(sot.toNumber())
+      })
+  }, [amount, boxSaleContract, account, refferalContract, chainId])
 
   const [onPresentRegisterModal] = useModal(<RegisterModal refAddress={refAddress} rootRef={refferalOwnerAddress} onDone={() => setIsRegistered(true)} />)
 
@@ -111,7 +116,7 @@ const SpecialBox = () => {
       )
     },
     onConfirm: () => {
-      return callWithGasPrice(boxSaleContract, 'buy', [SPECIAL_TYPE, amount])
+      return callWithGasPrice(boxSaleContract, 'buy', [BOX_TYPE, amount])
     },
     onSuccess: async ({ receipt }) => {
       toastSuccess(
@@ -121,7 +126,7 @@ const SpecialBox = () => {
     },
   })
 
-  const isNotEnoughBalance = userBusdBalance < priceOfBox * amount
+  const isNotEnoughBalance = userBusdBalance < priceOfSot * priceOfBox * amount
 
   return (
     <>
@@ -154,11 +159,11 @@ const SpecialBox = () => {
                       fontWeight="700"
                     >
                       <Flex style={{ alignItems: 'center' }}>
-                        <Image src={busdImage} width="26px" />
+                        <Image src={sotIcon} width="26px" />
                         <Text bold fontSize="20px" color="#fff" style={{ marginLeft: '10px' }}>
                           {isApproving && 'Approving'}
                           {isConfirming && 'Confirming'}
-                          {!isApproving && !isConfirming && (`${formatAmount(priceOfBox * amount)} BUSD` || 'loading...')}
+                          {!isApproving && !isConfirming && (`${formatAmount(priceOfSot * priceOfBox * amount)} SOT` || 'loading...')}
                         </Text>
                       </Flex>
                     </GradientButton>
@@ -177,7 +182,7 @@ const SpecialBox = () => {
 
                 <Flex alignItems="center" mt="12px">
                   <Text mr="8px">Your balance: </Text>
-                  <Image src={busdImage} width="20px" height="20px" />
+                  <Image src={sotIcon} width="20px" height="20px" />
                   <Text bold color="#fff" ml="4px">{formatAmount(userBusdBalance)}</Text>
                 </Flex>
               </StyledSoccerBox>
