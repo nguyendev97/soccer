@@ -165,3 +165,7 @@ export const getSLegendBoxAddress = (chainId?: number) => {
 export const getBoxesGSCOpenAddress = (chainId?: number) => {
   return getAddress(addresses.boxesGSCOpen, chainId)
 }
+
+export const getBoxSLegendOpenAddress = (chainId?: number) => {
+  return getAddress(addresses.boxSLegendOpen, chainId)
+}

@@ -28,14 +28,15 @@ import { useTranslation } from '@pancakeswap/localization'
 import GradientButton from 'components/GradientButton'
 import styled from 'styled-components'
 import SuccessModal from 'views/Marketplace/components/SuccessModal'
-import { specialSellBoxImage, halloweenBoxImage, goldBoxImage, silverBoxImage, commonBoxImage, } from '../images'
+import { specialSellBoxImage, halloweenBoxImage, goldBoxImage, silverBoxImage, commonBoxImage, slegendImage } from '../images'
 
 const IMAGE_MAP = {
   1: specialSellBoxImage,
   5: halloweenBoxImage,
   2: goldBoxImage,
   3: silverBoxImage,
-  4: commonBoxImage
+  4: commonBoxImage,
+  6: slegendImage
 }
 
 const ModalContainer = styled(UIKitModalContainer)`

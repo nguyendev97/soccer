@@ -16,6 +16,7 @@ import commonBoxImage from './common-box.png'
 import cardItemImage from './card-item.png'
 import halloweenBoxImage from './halloween-box.png'
 import sotIcon from './coin.png'
+import slegendImage from './slegend.png'
 
 export {
   powImage,
@@ -35,4 +36,5 @@ export {
   commonBoxImage,
   cardItemImage,
   halloweenBoxImage,
+  slegendImage
 }

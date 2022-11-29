@@ -192,7 +192,8 @@ const IMAGE_MAP = {
   5: '/videos/open-halloween-successfully.mp4',
   2: "/videos/open-golden-box.mp4",
   3: "/videos/open-silver-box.mp4",
-  4: "/videos/open-common-box.mp4"
+  4: "/videos/open-common-box.mp4",
+  6: "/videos/open-slegend-box.mp4",
 }
 
 const SuccessModal: React.FC<React.PropsWithChildren<SuccessModalProps>> = ({ onDismiss, metaDatas, type }) => {

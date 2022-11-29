@@ -4,7 +4,7 @@ import { useWeb3React } from '@pancakeswap/wagmi'
 import { useModal, Grid } from '@pancakeswap/uikit'
 import { useERC1155 } from 'hooks/useContract'
 import { useCurrentBlock } from 'state/block/hooks'
-import { getBoxesAddress, getBoxesGSCOpenAddress, getHalloweenBoxesOpenAddress, getBoxesOpenAddress } from 'utils/addressHelpers'
+import { getBoxesAddress, getBoxesGSCOpenAddress, getHalloweenBoxesOpenAddress, getBoxesOpenAddress, getBoxSLegendOpenAddress } from 'utils/addressHelpers'
 import OpenBoxesModal from '../components/OpenBoxesModal'
 import BoxItem from '../components/BoxItem'
 
@@ -21,6 +21,7 @@ export const HALLOWEEN_TYPE = 5
 export const COMMON_TYPE = 4
 export const GOLDEN_TYPE = 2
 export const SILVER_TYPE = 3
+export const SLEGEND_TYPE = 6
 
 const SoccerBox = () => {
   const { account, chainId } = useWeb3React()
@@ -28,11 +29,13 @@ const SoccerBox = () => {
   const [amountGoldenBox, setAmountGoldenBox] = useState(0)
   const [amountSilverBox, setAmountSilverBox] = useState(0)
   const [amountCommonBox, setAmountCommonBox] = useState(0)
+  const [amountSLegendBox, setAmountSLegendBox] = useState(0)
   const [amountHalloweenBox, setAmountHalloweenBox] = useState(0)
   const boxesAddress = getBoxesAddress(chainId)
   const boxesSpecialOpenAddress = getBoxesOpenAddress(chainId)
   const boxesGSCOpenAddress = getBoxesGSCOpenAddress(chainId)
   const boxesHalloweenOpenAddress = getHalloweenBoxesOpenAddress(chainId)
+  const boxesSLegendOpenAddress = getBoxSLegendOpenAddress(chainId)
   const boxesContract = useERC1155(boxesAddress)
   const currentBlock = useCurrentBlock()
   
@@ -53,6 +56,9 @@ const SoccerBox = () => {
       boxesContract.balanceOf(account, COMMON_TYPE).then((res) => {
         setAmountCommonBox(res.toNumber())
       })
+      boxesContract.balanceOf(account, SLEGEND_TYPE).then((res) => {
+        setAmountSLegendBox(res.toNumber())
+      })
     }
   }, [account, boxesContract, currentBlock])
 
@@ -61,6 +67,7 @@ const SoccerBox = () => {
   const [onPresentOpenGoldenBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={GOLDEN_TYPE} maxAmount={amountGoldenBox} />)
   const [onPresentOpenSilverBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={SILVER_TYPE} maxAmount={amountSilverBox} />)
   const [onPresentOpenCommonBoxesModal] = useModal(<OpenBoxesModal address={boxesGSCOpenAddress} type={COMMON_TYPE} maxAmount={amountCommonBox} />)
+  const [onPresentOpenSLegendBoxesModal] = useModal(<OpenBoxesModal address={boxesSLegendOpenAddress} type={SLEGEND_TYPE} maxAmount={amountSLegendBox} />)
 
   return (
     <>
@@ -102,6 +109,13 @@ const SoccerBox = () => {
               avatar="/videos/special.mp4"
               boxName="Special box"
               onClick={onPresentOpenBoxesModal}
+            />
+            <BoxItem
+              disabled={amountBox < 1}
+              totalBox={amountBox}
+              avatar="/videos/slegend.mp4"
+              boxName="Slegend box"
+              onClick={onPresentOpenSLegendBoxesModal}
             />
           </Grid>
         </Container>
