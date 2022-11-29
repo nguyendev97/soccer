@@ -111,8 +111,8 @@ const SoccerBox = () => {
               onClick={onPresentOpenBoxesModal}
             />
             <BoxItem
-              disabled={amountBox < 1}
-              totalBox={amountBox}
+              disabled={amountSLegendBox < 1}
+              totalBox={amountSLegendBox}
               avatar="/videos/slegend.mp4"
               boxName="Slegend box"
               onClick={onPresentOpenSLegendBoxesModal}
