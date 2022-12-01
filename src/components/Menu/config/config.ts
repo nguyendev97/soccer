@@ -71,10 +71,6 @@ const config: (
         {
           label: t('Common Box'),
           href: '/boxes',
-        },
-        {
-          label: t('Halloween Box'),
-          href: '/boxes/halloween',
         }
       ],
     },
